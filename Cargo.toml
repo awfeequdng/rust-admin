@@ -12,3 +12,4 @@ actix-rt = "1.0"
 fluffy = { git = "https://github.com/bignut1688/fluffy.git", branch = "V0.2" }
 tera = "1.0"
 env_logger = "0.6"
+mysql = "17.0"

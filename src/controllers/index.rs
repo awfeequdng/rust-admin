@@ -1,5 +1,10 @@
-use actix_web::{HttpResponse, get};
+use actix_web::{HttpResponse, get, Responder};
 use fluffy::{tmpl::Tpl};
+
+#[get("/hello")]
+pub async fn hello() -> impl Responder { 
+    "hello world"
+}
 
 /// 后台首页登录
 #[get("/")]

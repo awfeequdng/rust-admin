@@ -1,10 +1,14 @@
-use fluffy::{model::Model};
+use fluffy::{
+    DbRow,
+    model::Model, 
+};
 use super::Backend;
 
+#[derive(Default, Debug)]
 pub struct Admins { 
     pub id: usize, //编号
     pub name: String, //用户名称
-    pub password: String, //密码
+    //pub password: String, //密码
     pub last_ip: String, //最后登录ip
     pub state: u32, //状态, 是否可用, 0: 不可用, 1:可用
     pub login_count: u32, //登录次数
@@ -13,21 +17,29 @@ pub struct Admins {
     pub updated: u32, //更新时间
 }
 
-impl Backend for Admins { 
+type Row = (usize, String, String, u32, u32, u32, u32, u32);
 
-    type  M = Self;
+impl Model<Admins> for Admins { 
+    
+    fn get_table_name() -> &'static str { 
+        "admins"
+    }
+}
 
-    fn get_headers() -> Vec<&str> { 
-        vec![
-            "用户名称",
-            "状态",
-            "状态",
-            "加入时间",
-            "最后更新"
-        ]
+impl Backend<Admins> for Admins { 
+
+    fn get_headers() -> Vec<&'static str> { 
+        vec!["編號", "用户名称", "上次登錄IP", "状态", "登錄次數", "最後登錄時間", "加入时间", "最后更新"]
     }
 
-    fn get_records() -> Vec<Self::M> { 
-        vec![]
+    fn get_fields() -> &'static str { 
+        "id, name, last_ip, state, login_count, last_login, created, updated"
+    }
+
+    fn get_record(r: DbRow) -> Admins { 
+        let (id, name, last_ip, state, login_count, last_login, created, updated): Row = from_row!(r);
+        Self { 
+            id, name, last_ip, state, login_count, last_login, created, updated,
+        }
     }
 }

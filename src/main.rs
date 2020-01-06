@@ -4,6 +4,7 @@ use actix_web::{App, HttpServer, middleware};
 use tera::Tera;
 
 mod config;
+mod models;
 mod controllers;
 
 use controllers::{index};

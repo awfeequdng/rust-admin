@@ -2,7 +2,7 @@ use fluffy::{
     DbRow,
     model::Model, 
 };
-use super::Backend;
+use super::ModelBackend;
 
 #[derive(Default, Debug)]
 pub struct Admins { 
@@ -26,7 +26,9 @@ impl Model<Admins> for Admins {
     }
 }
 
-impl Backend<Admins> for Admins { 
+impl ModelBackend<Admins> for Admins { 
+
+    type This = Admins;
 
     fn get_headers() -> Vec<&'static str> { 
         vec!["編號", "用户名称", "上次登錄IP", "状态", "登錄次數", "最後登錄時間", "加入时间", "最后更新"]

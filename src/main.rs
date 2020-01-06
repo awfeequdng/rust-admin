@@ -10,7 +10,7 @@ mod models;
 mod controllers;
 
 use controllers::{index};
-use models::{Backend, Admins};
+use models::{ModelBackend, Admins};
 
 #[actix_rt::main]
 async fn main() -> std::io::Result<()> {

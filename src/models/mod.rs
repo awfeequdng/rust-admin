@@ -63,5 +63,9 @@ pub trait ModelBackend: Model {
 
 /// 後臺用戶
 mod admins;
+mod menus;
+mod admin_roles;
 
 pub use admins::Admins;
+pub use menus::Menus;
+pub use admin_roles::AdminRoles;

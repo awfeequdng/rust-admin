@@ -45,6 +45,8 @@ pub trait Controller {
 
 pub mod index;
 pub mod admins;
+pub mod admin_roles;
+pub mod menus;
 
 //pub use index::Index;
 //pub use admins::Admins;

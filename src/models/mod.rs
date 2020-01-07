@@ -1,12 +1,13 @@
 use std::default::Default;
 use fluffy::{
-    db, DbRow,
+    db, DbRow, Pager,
     model::Model, 
     query_builder::QueryBuilder,
 };
+use serde::ser::Serialize;
 
 /// 數據列表操作選項
-#[derive(Default)]
+#[derive(Debug, Default)]
 pub struct RowOption { 
     pub create: bool, //是否允許添加記錄
     pub update: bool, //是否允許修改記錄
@@ -14,10 +15,17 @@ pub struct RowOption {
     pub dleete_all: bool, //是否允許一次刪除全部記錄
 }
 
-pub trait ModelBackend<M: Default> { 
+#[derive(Debug, Default)]
+pub struct DataGrid<M: Model + Serialize> { 
+    pub headers: Vec<&'static str>,
+    pub records: Vec<M>,
+    pub pager: Pager,
+}
 
-    type This : Model<M>;
-    
+pub trait ModelBackend: Model { 
+
+    type M: Model + Serialize;
+
     /// 得到後臺可用操作選項
     fn get_option() -> RowOption { 
         RowOption::default()
@@ -30,21 +38,26 @@ pub trait ModelBackend<M: Default> {
     fn get_fields() -> &'static str;
 
     /// 得到單條記錄
-    fn get_record(_: DbRow) -> M;
+    fn get_record(_: DbRow) -> Self::M;
 
-    /// 得到所有記錄
-    fn get_records() -> Vec<M> { 
+    /// 得到所有記錄-帶分頁信息
+    fn get_records() -> DataGrid<Self::M> { 
         let fields = Self::get_fields();
         let query = query![
             fields => fields,
         ];
         let mut conn = db::get_conn();
-        let rows = Self::This::fetch_rows(&mut conn, &query, None);
-        let mut rs: Vec<M> = vec![];
+        let rows = Self::M::fetch_rows(&mut conn, &query, None);
+        let mut rs: Vec<Self::M> = vec![];
         for r in rows { 
             rs.push(Self::get_record(r));
         }
-        rs
+        let pager = Self::M::get_pager(&mut conn, &query, None);
+        DataGrid { 
+            headers: Self::get_headers(),
+            records: rs,
+            pager: pager,
+        }
     }
 }
 

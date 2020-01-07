@@ -1,10 +1,10 @@
 use fluffy::{
-    DbRow,
-    model::Model, 
+    DbRow, model::Model, 
 };
 use super::ModelBackend;
+use serde_derive::{Serialize};
 
-#[derive(Default, Debug)]
+#[derive(Default, Debug, Serialize)]
 pub struct Admins { 
     pub id: usize, //编号
     pub name: String, //用户名称
@@ -19,16 +19,16 @@ pub struct Admins {
 
 type Row = (usize, String, String, u32, u32, u32, u32, u32);
 
-impl Model<Admins> for Admins { 
+impl Model for Admins { 
     
     fn get_table_name() -> &'static str { 
         "admins"
     }
 }
 
-impl ModelBackend<Admins> for Admins { 
+impl ModelBackend for Admins { 
 
-    type This = Admins;
+    type M = Admins;
 
     fn get_headers() -> Vec<&'static str> { 
         vec!["編號", "用户名称", "上次登錄IP", "状态", "登錄次數", "最後登錄時間", "加入时间", "最后更新"]

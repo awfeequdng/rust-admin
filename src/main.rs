@@ -7,7 +7,13 @@ mod config;
 mod models;
 mod controllers;
 
-use controllers::{Controller, index::Index, admins::Admins};
+use controllers::{
+    Controller, 
+    index::Index, 
+    admins::Admins,
+    admin_roles::AdminRoles,
+    menus::Menus,
+};
 
 #[actix_rt::main]
 async fn main() -> std::io::Result<()> {
@@ -31,6 +37,8 @@ async fn main() -> std::io::Result<()> {
             .service(get!("/index/right", Index::right))
             .service(get!("/index/right", Index::right))
             .service(get!("/admins", Admins::index))
+            .service(get!("/admin_roles", AdminRoles::index))
+            .service(get!("/menus", Menus::index))
     })
     .bind(host_port)?
     .run()

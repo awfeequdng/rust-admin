@@ -1,8 +1,6 @@
 #[macro_use] extern crate fluffy;
 
 use actix_web::{App, HttpServer, middleware};
-//use actix_web::{App, HttpServer};
-//use tera::Tera;
 use fluffy::{db};
 
 mod config;
@@ -19,7 +17,7 @@ async fn main() -> std::io::Result<()> {
 
     db::init_connections(config::MYSQL_CONN_STR); //資料庫初始化
     let host_port = &format!("{}:{}", config::BIND_HOST, config::BIND_PORT); //地址/端口
-    printlnt!("Started At: {}", host_port);
+    println!("Started At: {}", host_port);
 
     HttpServer::new(|| {
 

@@ -2,15 +2,14 @@
 
 //use actix_web::{App, HttpServer, middleware};
 use actix_web::{App, HttpServer};
-use tera::Tera;
+//use tera::Tera;
 use fluffy::{db};
 
 mod config;
 mod models;
 mod controllers;
 
-use controllers::{index};
-use models::{ModelBackend, Admins};
+use controllers::{Controller, index::Index, admins::Admins};
 
 #[actix_rt::main]
 async fn main() -> std::io::Result<()> {
@@ -21,9 +20,6 @@ async fn main() -> std::io::Result<()> {
     db::init_connections(config::MYSQL_CONN_STR); //資料庫初始化
     let host_port = &format!("{}:{}", config::BIND_HOST, config::BIND_PORT); //地址/端口
 
-    let rs = Admins::get_records();
-    println!("{:?}", rs);
-
     HttpServer::new(|| {
 
         let tpl = tmpl!("/templates/**/*"); //模板引擎
@@ -31,10 +27,11 @@ async fn main() -> std::io::Result<()> {
         App::new()
             .data(tpl)
             //.wrap(middleware::Logger::default()) // enable logger
-            .service(index::hello)
-            .service(index::index)
-            .service(index::manage)
-            .service(index::right)
+            .service(get!("/", Index::index))
+            .service(get!("/index/manage", Index::manage))
+            .service(get!("/index/right", Index::right))
+            .service(get!("/index/right", Index::right))
+            .service(get!("/admins", Admins::index))
     })
     .bind(host_port)?
     .run()

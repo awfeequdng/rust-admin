@@ -1,25 +1,22 @@
-use actix_web::{HttpResponse, get, Responder};
+use actix_web::{HttpResponse};
 use fluffy::{tmpl::Tpl};
 
-#[get("/hello")]
-pub async fn hello() -> impl Responder { 
-    "hello world"
-}
+pub struct Index {}
 
-/// 后台首页登录
-#[get("/")]
-pub async fn index(tpl: Tpl) -> HttpResponse { 
-    render!(tpl, "index")
-}
+impl Index { 
 
-/// 后台管理主界面
-#[get("/index/manage")]
-pub async fn manage(tpl: Tpl) -> HttpResponse { 
-    render!(tpl, "manage")
-}
+    /// 后台首页登录
+    pub async fn index(tpl: Tpl) -> HttpResponse { 
+        render!(tpl, "index")
+    }
 
-#[get("/index/right")]
-pub async fn right(tpl: Tpl) -> HttpResponse { 
-    render!(tpl, "right")
+    /// 后台管理主界面
+    pub async fn manage(tpl: Tpl) -> HttpResponse { 
+        render!(tpl, "manage")
+    }
+
+    pub async fn right(tpl: Tpl) -> HttpResponse { 
+        render!(tpl, "right")
+    }
 }
 

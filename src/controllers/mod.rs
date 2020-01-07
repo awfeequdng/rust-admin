@@ -14,13 +14,16 @@ pub trait Controller {
     
     /// 主頁
     fn index(tpl: Tpl) -> HttpResponse { 
+        let paths: Vec<&str> = Self::name().rsplit("::").collect();
+        let controller_name = paths[0].to_lowercase(); //控制器名称
         let info = Self::M::get_records();
         let data = tmpl_data![
+            "action_name" => &"index",
+            "controller_name" => &controller_name,
             "records" => &info.records,
             "headers" => &info.headers,
         ];
-        let paths: Vec<&str> = Self::name().rsplit("::").collect();
-        let view_file =  &format!("{}/index.html", paths[0].to_lowercase());
+        let view_file =  &format!("{}/index.html", controller_name);
         render!(tpl, view_file, &data)
     }
     

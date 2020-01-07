@@ -26,7 +26,7 @@
         <!-- 顶部开始 -->
         <div class="container">
             <div class="logo">
-                <a href="./index.html">X-admin v2.2</a></div>
+                <a href="./index.html">后台管理系统</a></div>
             <div class="left_open">
                 <a><i title="展开左侧栏" class="iconfont">&#xe699;</i></a>
             </div>
@@ -96,29 +96,14 @@
                     </li>
                     <li>
                         <a href="javascript:;">
-                            <i class="iconfont left-nav-li" lay-tips="管理员管理">&#xe726;</i>
-                            <cite>管理员管理</cite>
-                            <i class="iconfont nav_right">&#xe697;</i></a>
+                            <i class="iconfont left-nav-li" lay-tips="管理员管理">&#xe726;</i> <cite>管理员管理</cite>
+                            <i class="iconfont nav_right">&#xe697;</i>
+                        </a>
                         <ul class="sub-menu">
                             <li>
-                                <a onclick="xadmin.add_tab('管理员列表','admin-list.html')">
-                                    <i class="iconfont">&#xe6a7;</i>
-                                    <cite>管理员列表</cite></a>
-                            </li>
-                            <li>
-                                <a onclick="xadmin.add_tab('角色管理','admin-role.html')">
-                                    <i class="iconfont">&#xe6a7;</i>
-                                    <cite>角色管理</cite></a>
-                            </li>
-                            <li>
-                                <a onclick="xadmin.add_tab('权限分类','admin-cate.html')">
-                                    <i class="iconfont">&#xe6a7;</i>
-                                    <cite>权限分类</cite></a>
-                            </li>
-                            <li>
-                                <a onclick="xadmin.add_tab('权限管理','admin-rule.html')">
-                                    <i class="iconfont">&#xe6a7;</i>
-                                    <cite>权限管理</cite></a>
+                                <a href="javascript:;" title="后台用户列表" url="/admins">
+                                    <i class="iconfont">&#xe6a7;</i><cite>后台用户列表</cite>
+                                </a>
                             </li>
                         </ul>
                     </li>
@@ -153,3 +138,14 @@
         <!-- 中部结束 -->
     </body>
 </html>
+<script type="text/javascript">
+    layui.use('jquery', function() { 
+        var $ = layui.jquery;
+        $(".sub-menu a").click(function() { 
+            var that = $(this);
+            var title = that.attr("title");
+            var url = that.attr("url");
+            xadmin.add_tab(title, url);
+        });
+    });
+</script>

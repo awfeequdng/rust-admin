@@ -80,7 +80,8 @@
                         <a href="javascript:;">
                             <i class="iconfont left-nav-li" lay-tips="订单管理">&#xe723;</i>
                             <cite>订单管理</cite>
-                            <i class="iconfont nav_right">&#xe697;</i></a>
+                            <i class="iconfont nav_right">&#xe697;</i>
+                        </a>
                         <ul class="sub-menu">
                             <li>
                                 <a onclick="xadmin.add_tab('订单列表','order-list.html')">
@@ -107,6 +108,23 @@
                             </li>
                         </ul>
                     </li>
+                    {% for menu in menus %}
+                    <li>
+                        <a href="javascript:;">
+                            <i class="iconfont left-nav-li" lay-tips="{{ menu.name }}">&#xe726;</i> <cite>{{ menu.name }}</cite>
+                            <i class="iconfont nav_right">&#xe697;</i>
+                        </a>
+                        <ul class="sub-menu">
+                            {% for sub in menu.menus %}
+                            <li>
+                                <a href="javascript:;" title="{{ sub.name }}" url="{{ sub.url }}">
+                                    <i class="iconfont">&#xe6a7;</i><cite>{{ sub.name }}</cite>
+                                </a>
+                            </li>
+                            {% endfor -%}
+                        </ul>
+                    </li>
+                    {% endfor -%}
                 </ul>
             </div>
         </div>

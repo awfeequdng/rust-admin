@@ -26,10 +26,6 @@ impl ModelBackend for Admins {
 
     type M = Self;
 
-    fn get_headers() -> Vec<&'static str> { 
-        vec!["編號", "用户名称", "上次登錄IP", "状态", "登錄次數", "最後登錄時間", "加入时间", "最后更新"]
-    }
-
     fn get_fields() -> &'static str { 
         "id, name, last_ip, state, login_count, last_login, created, updated"
     }

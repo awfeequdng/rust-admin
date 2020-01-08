@@ -6,18 +6,8 @@ use fluffy::{
 };
 use serde::ser::Serialize;
 
-/// 數據列表操作選項
-#[derive(Debug, Default)]
-pub struct RowOption { 
-    pub create: bool, //是否允許添加記錄
-    pub update: bool, //是否允許修改記錄
-    pub delete: bool, //是否允許刪除記錄
-    pub dleete_all: bool, //是否允許一次刪除全部記錄
-}
-
 #[derive(Debug, Default)]
 pub struct DataGrid<M: Model + Serialize> { 
-    pub headers: Vec<&'static str>,
     pub records: Vec<M>,
     pub pager: Pager,
 }
@@ -25,14 +15,6 @@ pub struct DataGrid<M: Model + Serialize> {
 pub trait ModelBackend: Model { 
 
     type M: Model + Serialize;
-
-    /// 得到後臺可用操作選項
-    fn get_option() -> RowOption { 
-        RowOption::default()
-    }
-
-    /// 得到頭部信息
-    fn get_headers() -> Vec<&'static str>;
 
     /// 得到要從資料庫中提取的列頭
     fn get_fields() -> &'static str;
@@ -54,7 +36,6 @@ pub trait ModelBackend: Model {
         }
         let pager = Self::M::get_pager(&mut conn, &query, None);
         DataGrid { 
-            headers: Self::get_headers(),
             records: rs,
             pager: pager,
         }

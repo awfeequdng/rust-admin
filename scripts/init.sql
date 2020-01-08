@@ -14,8 +14,8 @@ CREATE TABLE IF NOT EXISTS admins (
     INDEX(name),
     PRIMARY KEY(id)
 );
-INSERT INTO admins (name, last_ip, state, login_count, last_login, role_id, created, updated) VALUES 
-('admin', '127.0.0.1', 1, 1, UNIX_TIMESTAMP(), 1, UNIX_TIMESTAMP(), UNIX_TIMESTAMP());
+INSERT INTO admins (name, password, last_ip, state, login_count, last_login, role_id, created, updated) VALUES 
+('admin', md5('qwe123'), '127.0.0.1', 1, 1, UNIX_TIMESTAMP(), 1, UNIX_TIMESTAMP(), UNIX_TIMESTAMP());
 
 /** 菜单管理 **/
 DROP TABLE IF EXISTS menus;

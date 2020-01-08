@@ -26,13 +26,8 @@
         <tr>
             <th style="width: 40px"> <input type="checkbox" name=""  lay-skin="primary"> </th>
             <th>编号</th>
-            <th>用户名称</th>
-            <th>上次登录IP</th>
-            <th>状态</th>
-            <th>登录次数</th>
-            <th>最后登录时间</th>
-            <th>加入时间</th>
-            <th>最后更新</th>
+            <th>角色名称</th>
+            <th>备注</th>
             <th>操作</th>
         </tr>
         <tbody>
@@ -41,12 +36,7 @@
             <td> <input type="checkbox" name=""  lay-skin="primary"> </td>
             <td>{{ r.id }}</td>
             <td>{{ r.name }}</td>
-            <td>{{ r.last_ip }}</td>
-            <td>{{ r.state }}</td>
-            <td>{{ r.login_count }}</td>
-            <td>{{ r.last_login|date(format="%Y-%m-%d %H:%M") }}</td>
-            <td>{{ r.created|date(format="%Y-%m-%d %H:%M") }}</td>
-            <td>{{ r.updated|date(format="%Y-%m-%d %H:%M") }}</td>
+            <td>{{ r.remark }}</td>
             <td class="td-manage">
                 <a href="javascript:;"  title="启用"><i class="layui-icon">&#xe601;</i></a>
                 <a title="编辑" href="javascript:;"><i class="layui-icon">&#xe642;</i></a>

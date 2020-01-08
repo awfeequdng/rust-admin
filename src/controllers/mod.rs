@@ -8,14 +8,14 @@ pub trait Controller {
 
     type M: ModelBackend;
 
-    fn name() -> &'static str { 
-        std::any::type_name::<Self>()
+    fn get_controller_name() -> &'static str { 
+        let paths: Vec<&'static str> = std::any::type_name::<Self>().rsplit("::").collect();
+        paths[0]
     }
     
     /// 主頁
     fn index(tpl: Tpl) -> HttpResponse { 
-        let paths: Vec<&str> = Self::name().rsplit("::").collect();
-        let controller_name = paths[0].to_lowercase(); //控制器名称
+        let controller_name = Self::get_controller_name(); //控制器名称
         let info = Self::M::get_records();
         let data = tmpl_data![
             "action_name" => &"index",

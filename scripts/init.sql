@@ -27,12 +27,15 @@ CREATE TABLE IF NOT EXISTS menus (
     state TINYINT NOT NULL DEFAULT 0 COMMENT '状态,0:隐藏;1:显示',
     url VARCHAR(50) NOT NULL DEFAULT '' COMMENT '链接地址',
     is_blank TINYINT NOT NULL DEFAULT 0 COMMENT '是否外链,0:否,1:是',
+    seq INT NOT NULL DEFAULT 0 COMMENT '排序',
     PRIMARY KEY(id),
     INDEX(parent_id)
 );
 INSERT INTO menus (parent_id, name, level_id, state, url) VALUES 
-(0, '后台用户管理', 1, 1, '#'),
-(1, '后台用户列表', 2, 1, '/admins');
+(0, '后台权限管理', 1, 1, '#'),
+(1, '后台用户列表', 2, 1, '/admins'),
+(1, '菜单列表', 2, 1, '/menus'),
+(1, '用户角色列表', 2, 1, '/admin_roles');
 
 /** 角色管理 **/
 DROP TABLE IF EXISTS admin_roles;
@@ -41,6 +44,7 @@ CREATE TABLE IF NOT EXISTS admin_roles (
     name VARCHAR(20) NOT NULL DEFAULT '' COMMENT '角色名称',
     remark VARCHAR(50) NOT NULL DEFAULT '' COMMENT '备注',
     menu_ids JSON COMMENT '菜单编号',
+    seq INT NOT NULL DEFAULT 0 COMMENT '排序',
     PRIMARY KEY(id)
 );
 INSERT INTO admin_roles (name, remark, menu_ids) VALUES 

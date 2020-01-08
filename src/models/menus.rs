@@ -16,9 +16,7 @@ pub struct Menus {
 type Row = (usize, usize, String, u32, u32, u32, String);
 
 impl Model for Menus { 
-    fn get_table_name() -> &'static str { 
-        "admins"
-    }
+    fn get_table_name() -> &'static str { "menus" }
 }
 
 impl ModelBackend for Menus { 

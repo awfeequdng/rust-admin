@@ -17,9 +17,7 @@ pub struct Admins {
 type Row = (usize, String, String, u32, u32, u32, u32, u32);
 
 impl Model for Admins { 
-    fn get_table_name() -> &'static str { 
-        "admins"
-    }
+    fn get_table_name() -> &'static str { "admins" }
 }
 
 impl ModelBackend for Admins { 

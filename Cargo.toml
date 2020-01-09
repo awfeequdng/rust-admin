@@ -9,10 +9,10 @@ edition = "2018"
 [dependencies]
 actix-web = "2.0"
 actix-rt = "1.0"
-fluffy = { git = "https://github.com/bignut1688/fluffy.git", branch = "V0.2" }
-#fluffy = { git = "https://github.com/bignut1688/fluffy.git" }
+fluffy = { git = "https://github.com/bignut1688/fluffy.git" }
 tera = "1.0"
 env_logger = "0.6"
 mysql = "17.0"
 serde = "1.0"
 serde_derive = "1.0"
+lazy_static = "1.4"

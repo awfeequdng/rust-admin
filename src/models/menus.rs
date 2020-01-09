@@ -23,10 +23,6 @@ impl ModelBackend for Menus {
 
     type M = Self;
 
-    //fn get_headers() -> Vec<&'static str> { 
-    //    vec!["编号", "上级编号", "名称", "菜单级别", "状态", "链接地址", "是否外链"]
-    //}
-
     fn get_fields() -> &'static str { 
         "id, parent_id, name, level_id, state, is_blank, url"
     }

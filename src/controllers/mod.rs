@@ -21,6 +21,7 @@ pub trait Controller {
             "action_name" => &"index",
             "controller_name" => &controller_name,
             "records" => &info.records,
+            "pager" => &info.pager,
         ];
         let view_file =  &format!("{}/index.html", controller_name);
         render!(tpl, view_file, &data)

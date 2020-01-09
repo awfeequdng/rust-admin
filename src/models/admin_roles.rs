@@ -19,10 +19,6 @@ impl ModelBackend for AdminRoles {
 
     type M = Self;
 
-    //fn get_headers() -> Vec<&'static str> { 
-    //    vec!["編號", "名称", "备注"]
-    //}
-
     fn get_fields() -> &'static str { 
         "id, name, remark"
     }

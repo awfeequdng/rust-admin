@@ -1,8 +1,7 @@
-use fluffy::{
-    tmpl::Tpl,
-};
+use std::collections::HashMap;
+use fluffy::{ tmpl::Tpl, response };
 use crate::models::ModelBackend;
-use actix_web::{HttpResponse};
+use actix_web::{HttpResponse, web};
 
 pub trait Controller { 
 
@@ -28,8 +27,9 @@ pub trait Controller {
     }
     
     /// 添加
-    fn create() { 
-
+    fn create(post: web::Form<HashMap<String, String>>) -> HttpResponse { 
+        println!("{:?}", post);
+        response::ok()
     }
     
     /// 修改

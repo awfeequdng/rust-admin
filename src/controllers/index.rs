@@ -1,5 +1,6 @@
 use actix_web::{HttpResponse};
-use fluffy::{tmpl::Tpl};
+use fluffy::{tmpl::Tpl,};
+use crate::models::Menus;
 
 pub struct Index {}
 
@@ -12,7 +13,11 @@ impl Index {
 
     /// 后台管理主界面
     pub async fn manage(tpl: Tpl) -> HttpResponse { 
-        render!(tpl, "Index/manage.html")
+        let related_menus = Menus::get_related();
+        let data = tmpl_data![
+            "menus" => &related_menus,
+        ];
+        render!(tpl, "Index/manage.html", &data)
     }
 
     pub async fn right(tpl: Tpl) -> HttpResponse { 

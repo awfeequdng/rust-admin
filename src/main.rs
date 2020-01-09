@@ -1,4 +1,5 @@
 #[macro_use] extern crate fluffy;
+#[macro_use] extern crate lazy_static;
 
 use actix_web::{App, HttpServer, middleware};
 use fluffy::{db};
@@ -6,6 +7,7 @@ use fluffy::{db};
 mod config;
 mod models;
 mod controllers;
+mod caches;
 
 use controllers::{
     Controller, 
@@ -21,10 +23,12 @@ async fn main() -> std::io::Result<()> {
     std::env::set_var("RUST_LOG", "actix_web=info");
     env_logger::init();
 
-    db::init_connections(config::MYSQL_CONN_STR); //資料庫初始化
+    let conn_string = config::get_conn_string();
+    db::init_connections(&conn_string); //資料庫初始化
     let host_port = &format!("{}:{}", config::BIND_HOST, config::BIND_PORT); //地址/端口
     println!("Started At: {}", host_port);
 
+    //let table_fields = caches::TABLE_FIELDS.lock().unwrap();
     HttpServer::new(|| {
 
         let tpl = tmpl!("/templates/**/*"); //模板引擎

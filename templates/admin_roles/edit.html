@@ -2,13 +2,13 @@
 {% block body %}
 <div class="layui-fluid">
     <div class="layui-row">
-        <form class="layui-form" method="post" action="{{ controller_name }}/create">
+        <form class="layui-form" id="edit_form">
           <div class="layui-form-item">
               <label for="username" class="layui-form-label">
                   <span class="x-red">*</span>角色名称
               </label>
               <div class="layui-input-inline">
-                  <input type="text" id="name" name="name" required="" lay-verify="required" autocomplete="off" class="layui-input" />
+                  <input type="text" id="name" name="name" required="" lay-verify="required" autocomplete="off" class="layui-input" value="{{ row.name }}" />
               </div>
               <div class="layui-form-mid layui-word-aux">
                   <span class="x-red">*</span>
@@ -19,7 +19,7 @@
                   <span class="x-red">*</span>角色备注
               </label>
               <div class="layui-input-inline">
-                  <input type="text" id="remark" name="remark" required="" lay-verify="required" autocomplete="off" class="layui-input" />
+                  <input type="text" id="remark" name="remark" required="" lay-verify="required" autocomplete="off" class="layui-input" value="{{ row.remark }}" />
               </div>
               <div class="layui-form-mid layui-word-aux">
                   <span class="x-red">*</span>
@@ -55,20 +55,20 @@ layui.use(['form', 'layer'], function() {
 
     //监听提交
     form.on('submit(add)', function() {
-        var action = "{{ controller_name }}/create";
-        var form = $("#form");
+        var action = "/{{ controller_name }}/save/0";
+        var form = $("#edit_form");
         $.ajax({
 			url: action,
 			type: "post",
 			dataType: "json",
 			//data: JSON.stringify(data.field),
             data: form.serializeArray(),
+            headers: {"content-type": "application/x-www-form-urlencoded"},
 			success: function(res) {
-				console.log(res);
-				if (res.code === 200) {
+				if (res.code === 0) {
 					layer.alert('保存成功', { icon: 6 }, function() {
-						xadmin.close();
-						xadmin.father_reload();
+						xadmin.close(); //关闭当前frame
+						xadmin.father_reload(); //刷新父窗口
 					});
 					return;
 				}

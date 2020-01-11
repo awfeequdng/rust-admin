@@ -2,7 +2,6 @@ use std::default::Default;
 use fluffy::{
     db, DbRow, Pager,
     model::Model, 
-    query_builder::QueryBuilder,
 };
 use serde::ser::Serialize;
 

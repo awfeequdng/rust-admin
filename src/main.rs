@@ -17,6 +17,12 @@ use controllers::{
     menus::Menus,
 };
 
+#[derive(Default, Debug)]
+struct Test { 
+    id: u32,
+    name: String,
+}
+
 #[actix_rt::main]
 async fn main() -> std::io::Result<()> {
 

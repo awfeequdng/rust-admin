@@ -1,5 +1,6 @@
 use crate::models::AdminRoles as ThisModel;
 use super::Controller;
+use fluffy::{ model::Model, };
 
 pub struct AdminRoles { }
 
@@ -9,5 +10,12 @@ impl Controller for AdminRoles {
 
     fn get_controller_name() -> &'static str { 
         "admin_roles"
+    }
+
+    fn edit_for_update(id: usize) -> Self::M { 
+        row_for_update!(ThisModel, id, [
+            name => String, 
+            remark => String,
+        ])
     }
 }

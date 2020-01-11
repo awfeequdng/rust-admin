@@ -20,5 +20,6 @@ lazy_static = "1.4"
 
 [dependencies.fluffy]
 git = "https://github.com/bignut1688/fluffy.git" 
+#branch = "V0.2"
 #fluffy = { git = "https://github.com/bignut1688/fluffy.git", branch = "V0.2" }
 features = ["debug"]

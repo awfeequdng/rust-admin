@@ -1,13 +1,31 @@
 use std::collections::HashMap;
-use fluffy::{ tmpl::Tpl, response, model::Model, model::Db, data_set::DataSet, db, cond_builder::CondBuilder };
+use std::fmt::Debug;
+use fluffy::{ tmpl::Tpl, response, model::Model, model::Db, data_set::DataSet, db, };
 use crate::models::ModelBackend;
 use actix_web::{HttpResponse, web};
 use crate::caches;
 use serde::ser::{Serialize};
 
+#[macro_export]
+macro_rules! row_for_update {
+    ($struct: ident, $id: expr, [$($field: ident => $type: ident,)+]) => ({
+        let mut row = $struct::default();
+        let fields = concat!("id", $(",", stringify!($field)),+);
+        let query = query![fields => &fields, ];
+        let cond = cond!["id" => &$id, ];
+        let mut conn = fluffy::db::get_conn();
+        if let Some(r) = $struct::fetch_row(&mut conn, &query, Some(&cond)) { 
+            let (id, $($field),+): (usize, $($type),+) = from_row!(r);
+            row.id = id;
+            $(row.$field = $field;)+
+        }
+        row
+    })
+}
+
 pub trait Controller { 
 
-    type M: ModelBackend + Default + Serialize;
+    type M: ModelBackend + Default + Serialize + Debug;
 
     fn get_controller_name() -> &'static str;
     
@@ -29,16 +47,17 @@ pub trait Controller {
         Self::M::default()
     }
 
-    fn edit_for_update(_id: u32) -> Self::M { 
+    fn edit_for_update(_id: usize) -> Self::M { 
         Self::M::default()
     }
 
     /// 編輯
-    fn edit(info: web::Path<u32>, tpl: Tpl) -> HttpResponse { 
+    fn edit(info: web::Path<usize>, tpl: Tpl) -> HttpResponse { 
         let controller_name = Self::get_controller_name(); //控制器名称
         let id = info.into_inner();
         let is_update = id > 0;
         let row = if is_update { Self::edit_for_update(id) } else { Self::edit_for_create() };
+        println!("row = {:?}", row);
         let button_text = if is_update { "保存记录" } else { "添加记录" };
         let data = tmpl_data![
             "controller_name" => controller_name,
@@ -51,7 +70,7 @@ pub trait Controller {
     }
 
     /// 編輯
-    fn save(info: web::Path<u32>, post: web::Form<HashMap<String, String>>) -> HttpResponse { 
+    fn save(info: web::Path<usize>, post: web::Form<HashMap<String, String>>) -> HttpResponse { 
         let id = info.into_inner();
         if id == 0 { Self::save_for_create(post) } else { Self::save_for_update(id, post) }
     }
@@ -75,7 +94,7 @@ pub trait Controller {
     }
     
     /// 修改
-    fn save_for_update(id: u32, post: web::Form<HashMap<String, String>>) -> HttpResponse { 
+    fn save_for_update(id: usize, post: web::Form<HashMap<String, String>>) -> HttpResponse { 
         let table_name = Self::M::get_table_name();
         let table_fields = caches::TABLE_FIELDS.lock().unwrap();
         let post_fields = post.into_inner();

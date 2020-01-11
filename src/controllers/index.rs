@@ -8,7 +8,7 @@ impl Index {
 
     /// 后台首页登录
     pub async fn index(tpl: Tpl) -> HttpResponse { 
-        render!(tpl, "Index/index.html")
+        render!(tpl, "index/index.html")
     }
 
     /// 后台管理主界面
@@ -17,11 +17,11 @@ impl Index {
         let data = tmpl_data![
             "menus" => &related_menus,
         ];
-        render!(tpl, "Index/manage.html", &data)
+        render!(tpl, "index/manage.html", &data)
     }
 
     pub async fn right(tpl: Tpl) -> HttpResponse { 
-        render!(tpl, "Index/right.html")
+        render!(tpl, "index/right.html")
     }
 }
 

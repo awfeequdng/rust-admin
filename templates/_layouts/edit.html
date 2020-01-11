@@ -54,7 +54,7 @@ layui.use(['form', 'layer'], function() {
 
     //监听提交
     form.on('submit(add)', function() {
-        var action = "/{{ controller_name }}/save/0";
+        var action = "/{{ controller_name }}/save/{{id}}";
         var edit_form = $("#edit_form");
         $.ajax({
 			url: action,

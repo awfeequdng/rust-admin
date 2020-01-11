@@ -44,6 +44,7 @@ pub trait Controller {
             "controller_name" => controller_name,
             "row" => &row,
             "button_text" => button_text,
+            "id" => &id,
         ];
         let view_file = &format!("{}/edit.html", controller_name);
         render!(tpl, view_file, &data)

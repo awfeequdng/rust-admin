@@ -4,5 +4,10 @@ use super::Controller;
 pub struct Admins { }
 
 impl Controller for Admins { 
+
     type M = ThisModel;
+
+    fn get_controller_name() -> &'static str { 
+        "admins"
+    }
 }

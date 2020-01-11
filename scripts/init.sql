@@ -35,7 +35,7 @@ INSERT INTO menus (parent_id, name, level_id, state, url) VALUES
 (0, '后台权限管理', 1, 1, '#'),
 (1, '后台用户列表', 2, 1, '/admins'),
 (1, '菜单列表', 2, 1, '/menus'),
-(1, '用户角色列表', 2, 1, '/admin_roles');
+(1, '用户角色列表', 2, 1, '/adminRoles');
 
 /** 角色管理 **/
 DROP TABLE IF EXISTS admin_roles;

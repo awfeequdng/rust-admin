@@ -37,10 +37,13 @@ pub trait Controller {
     fn edit(info: web::Path<u32>, tpl: Tpl) -> HttpResponse { 
         let controller_name = Self::get_controller_name(); //控制器名称
         let id = info.into_inner();
-        let row = if id > 0 { Self::edit_for_update(id) } else { Self::edit_for_create() };
+        let is_update = id > 0;
+        let row = if is_update { Self::edit_for_update(id) } else { Self::edit_for_create() };
+        let button_text = if is_update { "保    存" } else { "添    加" };
         let data = tmpl_data![
-            "controller_name" => &controller_name,
+            "controller_name" => controller_name,
             "row" => &row,
+            "button_text" => button_text,
         ];
         let view_file = &format!("{}/edit.html", controller_name);
         render!(tpl, view_file, &data)

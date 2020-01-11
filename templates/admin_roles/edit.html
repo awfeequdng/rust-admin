@@ -1,19 +1,8 @@
 {% extends "_layouts/edit.html" -%}
+{% import "_macros/form_input.html" as form -%}
 {% block body %}
-<div class="layui-form-item">
-    <label for="username" class="layui-form-label"> <span class="x-red">*</span>角色名称 </label>
-    <div class="layui-input-inline">
-        <input type="text" id="name" name="name" required="" lay-verify="required" autocomplete="off" class="layui-input" value="{{ row.name }}" />
-    </div>
-    <div class="layui-form-mid layui-word-aux"> <span class="x-red">*</span> </div>
-</div>
-<div class="layui-form-item">
-    <label for="phone" class="layui-form-label"> <span class="x-red">*</span>角色备注 </label>
-    <div class="layui-input-inline">
-        <input type="text" id="remark" name="remark" required="" lay-verify="required" autocomplete="off" class="layui-input" value="{{ row.remark }}" />
-    </div>
-    <div class="layui-form-mid layui-word-aux"> <span class="x-red">*</span> </div>
-</div>
+{{ form::input(name="name", title="角色名称", value=row.name) }}
+{{ form::input(name="remark", title="备注", value=row.remark) }}
 <script>
 layui.validators = { 
     name: function(value) { 
@@ -23,4 +12,4 @@ layui.validators = {
     }
 };
 </script>
-{% endblock body %}
+{% endblock body -%}

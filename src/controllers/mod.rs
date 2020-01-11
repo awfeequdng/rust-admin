@@ -39,7 +39,7 @@ pub trait Controller {
         let id = info.into_inner();
         let is_update = id > 0;
         let row = if is_update { Self::edit_for_update(id) } else { Self::edit_for_create() };
-        let button_text = if is_update { "保    存" } else { "添    加" };
+        let button_text = if is_update { "保存记录" } else { "添加记录" };
         let data = tmpl_data![
             "controller_name" => controller_name,
             "row" => &row,
@@ -52,7 +52,7 @@ pub trait Controller {
     /// 編輯
     fn save(info: web::Path<u32>, post: web::Form<HashMap<String, String>>) -> HttpResponse { 
         let id = info.into_inner();
-        if id > 0 { Self::save_for_create(post) } else { Self::save_for_update(id, post) }
+        if id == 0 { Self::save_for_create(post) } else { Self::save_for_update(id, post) }
     }
 
     /// 添加

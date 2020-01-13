@@ -50,7 +50,7 @@ async fn main() -> std::io::Result<()> {
             .service(get!("/admin_roles", AdminRoles::index))
             .service(get!("/admin_roles/edit/{id}", AdminRoles::edit))
             .service(post!("/admin_roles/save/{id}", AdminRoles::save))
-            .service(post!("/admin_roles/delete/{id}", AdminRoles::save))
+            .service(get!("/admin_roles/delete/{ids}", AdminRoles::delete))
             .service(get!("/menus", Menus::index))
     })
     .bind(host_port)?

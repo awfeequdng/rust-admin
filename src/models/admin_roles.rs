@@ -15,16 +15,12 @@ impl Model for AdminRoles {
     fn get_table_name() -> &'static str { "admin_roles" }
 }
 
-impl ModelBackend for AdminRoles { 
+impl ModelBackend<AdminRoles> for AdminRoles { 
 
     type M = Self;
 
-    fn get_fields() -> &'static str { 
-        "id, name, remark"
-    }
-
-    fn get_record(r: DbRow) -> Self { 
-        let (id, name, remark): Row = from_row!(r);
-        Self { id, name, remark }
-    }
+    get_fields!(Self, [
+        name => String,
+        remark => String,
+    ]);
 }

@@ -3,11 +3,7 @@ use super::Controller;
 
 pub struct Admins { }
 
-impl Controller for Admins { 
+impl Controller<ThisModel> for Admins { 
 
     type M = ThisModel;
-
-    fn get_controller_name() -> &'static str { 
-        "admins"
-    }
 }

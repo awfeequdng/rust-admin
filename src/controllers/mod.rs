@@ -6,28 +6,30 @@ use actix_web::{HttpResponse, web::{Path, Form}};
 use crate::caches;
 use serde::ser::{Serialize};
 
-#[macro_export]
-macro_rules! row_for_update {
-    ($struct: ident, $id: expr, [$($field: ident => $type: ident,)+]) => ({
-        let mut row = $struct::default();
-        let fields = concat!("id", $(",", stringify!($field)),+);
-        let query = query![fields => &fields, ];
-        let cond = cond![eq => ["id" => &$id,], ];
-        let mut conn = fluffy::db::get_conn();
-        if let Some(r) = $struct::fetch_row(&mut conn, &query, Some(&cond)) { 
-            let (id, $($field),+): (usize, $($type),+) = from_row!(r);
-            row.id = id;
-            $(row.$field = $field;)+
-        }
-        row
-    })
-}
+//#[macro_export]
+//macro_rules! row_for_update {
+//    ($struct: ident, $id: expr, [$($field: ident => $type: ident,)+]) => ({
+//        let mut row = $struct::default();
+//        let fields = concat!("id", $(",", stringify!($field)),+);
+//        let query = query![fields => &fields, ];
+//        let cond = cond![eq => ["id" => &$id,], ];
+//        let mut conn = fluffy::db::get_conn();
+//        if let Some(r) = $struct::fetch_row(&mut conn, &query, Some(&cond)) { 
+//            let (id, $($field),+): (usize, $($type),+) = from_row!(r);
+//            row.id = id;
+//            $(row.$field = $field;)+
+//        }
+//        row
+//    })
+//}
 
-pub trait Controller { 
+pub trait Controller<T: Model + Default + Serialize + Debug> { 
 
-    type M: ModelBackend + Default + Serialize + Debug;
+    type M: ModelBackend<T> + Default + Serialize + Debug;
 
-    fn get_controller_name() -> &'static str;
+    fn get_controller_name() -> &'static str { 
+        Self::M::get_table_name()
+    }
     
     /// 主頁
     fn index(tpl: Tpl) -> HttpResponse { 
@@ -47,8 +49,16 @@ pub trait Controller {
         Self::M::default()
     }
 
-    fn edit_for_update(_id: usize) -> Self::M { 
-        Self::M::default()
+    fn edit_for_update(id: usize) -> Self::M { 
+        let mut row = Self::M::default();
+        let fields = Self::M::get_fields();
+        let query = query![fields => &fields, ];
+        let cond = cond!["id" => id,];
+        let mut conn = fluffy::db::get_conn();
+        if let Some(r) = Self::M::fetch_row(&mut conn, &query, Some(&cond)) { 
+            return Self::M::get_record(r);
+        }
+        row
     }
 
     /// 編輯

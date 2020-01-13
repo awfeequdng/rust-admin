@@ -12,7 +12,7 @@ macro_rules! row_for_update {
         let mut row = $struct::default();
         let fields = concat!("id", $(",", stringify!($field)),+);
         let query = query![fields => &fields, ];
-        let cond = cond!["id" => &$id, ];
+        let cond = cond![eq => ["id" => &$id,], ];
         let mut conn = fluffy::db::get_conn();
         if let Some(r) = $struct::fetch_row(&mut conn, &query, Some(&cond)) { 
             let (id, $($field),+): (usize, $($type),+) = from_row!(r);
@@ -113,9 +113,21 @@ pub trait Controller {
     }
     
     /// 刪除
-    fn delete(ids: Path<Vec<usize>>) -> HttpResponse { 
-        println!("ids = {:?}", ids);
-        response::ok()
+    fn delete(id_strings: Path<String>) -> HttpResponse { 
+        let mut ids_string = String::new();
+        for (index, value) in id_strings.split(",").enumerate() { 
+            let _ = if let Ok(v) = value.parse::<usize>() { v } else { return response::error("错误的参数"); };
+            if index > 0 { 
+                ids_string.push_str(",");
+            }
+            ids_string.push_str(value);
+        }
+        let cond = cond![
+            in_range => ["id" => &ids_string,],
+        ];
+        let mut conn = db::get_conn();
+        let affected_rows = Self::M::delete(&mut conn, &cond);
+        if affected_rows == 0 { response::error("未删除任何记录") } else { response::ok() }
     }
 }
 

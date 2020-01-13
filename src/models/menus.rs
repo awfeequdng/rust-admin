@@ -33,7 +33,7 @@ impl Model for Menus {
     fn get_table_name() -> &'static str { "menus" }
 }
 
-impl ModelBackend<Menus> for Menus { 
+impl ModelBackend for Menus { 
 
     type M = Self;
 

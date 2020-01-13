@@ -9,13 +9,11 @@ pub struct AdminRoles {
     pub remark: String, //备注
 }
 
-type Row = (usize, String, String);
-
 impl Model for AdminRoles { 
     fn get_table_name() -> &'static str { "admin_roles" }
 }
 
-impl ModelBackend<AdminRoles> for AdminRoles { 
+impl ModelBackend for AdminRoles { 
 
     type M = Self;
 

@@ -21,7 +21,7 @@ macro_rules! get_fields {
         }
 
         fn get_record(r: DbRow) -> Self { 
-            let mut row = $struct::default();
+            let mut row = Self::default();
             let (id, $($field),+): (usize, $($type),+) = from_row!(r);
             row.id = id;
             $(row.$field = $field;)+
@@ -31,7 +31,7 @@ macro_rules! get_fields {
 }
 
 
-pub trait ModelBackend<T: Model + Serialize + Default + Debug>: Model { 
+pub trait ModelBackend: Model { 
 
     type M: Model + Serialize + Default + Debug;
 
@@ -39,7 +39,11 @@ pub trait ModelBackend<T: Model + Serialize + Default + Debug>: Model {
     fn get_fields() -> &'static str;
 
     /// 得到單條記錄
-    fn get_record(_: DbRow) -> Self;
+    fn get_record(_: DbRow) -> Self::M;
+
+    fn get_default() -> Self::M { 
+        Self::M::default()
+    }
 
     /// 得到所有記錄-帶分頁信息
     fn get_records() -> DataGrid<Self::M> { 
@@ -49,7 +53,7 @@ pub trait ModelBackend<T: Model + Serialize + Default + Debug>: Model {
         ];
         let mut conn = db::get_conn();
         let rows = Self::M::fetch_rows(&mut conn, &query, None);
-        let mut rs: Vec<T> = vec![];
+        let mut rs: Vec<Self::M> = vec![];
         for r in rows { 
             rs.push(Self::get_record(r));
         }

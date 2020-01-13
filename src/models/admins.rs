@@ -18,7 +18,7 @@ impl Model for Admins {
     fn get_table_name() -> &'static str { "admins" }
 }
 
-impl ModelBackend<Admins> for Admins { 
+impl ModelBackend for Admins { 
 
     type M = Self;
 

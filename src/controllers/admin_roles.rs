@@ -4,7 +4,7 @@ use super::Controller;
 
 pub struct AdminRoles { }
 
-impl Controller<ThisModel> for AdminRoles { 
+impl Controller for AdminRoles { 
 
     type M = ThisModel;
 

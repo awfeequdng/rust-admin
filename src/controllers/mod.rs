@@ -23,9 +23,9 @@ use serde::ser::{Serialize};
 //    })
 //}
 
-pub trait Controller<T: Model + Default + Serialize + Debug> { 
+pub trait Controller { 
 
-    type M: ModelBackend<T> + Default + Serialize + Debug;
+    type M: ModelBackend + Default + Serialize + Debug;
 
     fn get_controller_name() -> &'static str { 
         Self::M::get_table_name()
@@ -45,28 +45,21 @@ pub trait Controller<T: Model + Default + Serialize + Debug> {
         render!(tpl, view_file, &data)
     }
 
-    fn edit_for_create() -> Self::M { 
-        Self::M::default()
-    }
-
-    fn edit_for_update(id: usize) -> Self::M { 
-        let mut row = Self::M::default();
-        let fields = Self::M::get_fields();
-        let query = query![fields => &fields, ];
-        let cond = cond!["id" => id,];
-        let mut conn = fluffy::db::get_conn();
-        if let Some(r) = Self::M::fetch_row(&mut conn, &query, Some(&cond)) { 
-            return Self::M::get_record(r);
-        }
-        row
-    }
-
     /// 編輯
     fn edit(info: Path<usize>, tpl: Tpl) -> HttpResponse { 
         let controller_name = Self::get_controller_name(); //控制器名称
         let id = info.into_inner();
         let is_update = id > 0;
-        let row = if is_update { Self::edit_for_update(id) } else { Self::edit_for_create() };
+        let row = if !is_update { Self::M::get_default() } else { 
+            //let row = Self::M::get_default();
+            let fields = Self::M::get_fields();
+            let query = query![fields => &fields, ];
+            let cond = cond!["id" => id,];
+            let mut conn = fluffy::db::get_conn();
+            if let Some(r) = Self::M::fetch_row(&mut conn, &query, Some(&cond)) { 
+                Self::M::get_record(r)
+            } else { Self::M::get_default() }
+        };
         println!("row = {:?}", row);
         let button_text = if is_update { "保存记录" } else { "添加记录" };
         let data = tmpl_data![

@@ -3,7 +3,7 @@ use super::Controller;
 
 pub struct Admins { }
 
-impl Controller<ThisModel> for Admins { 
+impl Controller for Admins { 
 
     type M = ThisModel;
 }

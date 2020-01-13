@@ -2,7 +2,7 @@ use std::collections::HashMap;
 use std::fmt::Debug;
 use fluffy::{ tmpl::Tpl, response, model::Model, model::Db, data_set::DataSet, db, };
 use crate::models::ModelBackend;
-use actix_web::{HttpResponse, web};
+use actix_web::{HttpResponse, web::{Path, Form}};
 use crate::caches;
 use serde::ser::{Serialize};
 
@@ -52,7 +52,7 @@ pub trait Controller {
     }
 
     /// 編輯
-    fn edit(info: web::Path<usize>, tpl: Tpl) -> HttpResponse { 
+    fn edit(info: Path<usize>, tpl: Tpl) -> HttpResponse { 
         let controller_name = Self::get_controller_name(); //控制器名称
         let id = info.into_inner();
         let is_update = id > 0;
@@ -70,13 +70,13 @@ pub trait Controller {
     }
 
     /// 編輯
-    fn save(info: web::Path<usize>, post: web::Form<HashMap<String, String>>) -> HttpResponse { 
+    fn save(info: Path<usize>, post: Form<HashMap<String, String>>) -> HttpResponse { 
         let id = info.into_inner();
         if id == 0 { Self::save_for_create(post) } else { Self::save_for_update(id, post) }
     }
 
     /// 添加
-    fn save_for_create(post: web::Form<HashMap<String, String>>) -> HttpResponse { 
+    fn save_for_create(post: Form<HashMap<String, String>>) -> HttpResponse { 
         let table_name = Self::M::get_table_name();
         let table_fields = caches::TABLE_FIELDS.lock().unwrap();
         let post_fields = post.into_inner();
@@ -94,7 +94,7 @@ pub trait Controller {
     }
     
     /// 修改
-    fn save_for_update(id: usize, post: web::Form<HashMap<String, String>>) -> HttpResponse { 
+    fn save_for_update(id: usize, post: Form<HashMap<String, String>>) -> HttpResponse { 
         let table_name = Self::M::get_table_name();
         let table_fields = caches::TABLE_FIELDS.lock().unwrap();
         let post_fields = post.into_inner();
@@ -113,8 +113,9 @@ pub trait Controller {
     }
     
     /// 刪除
-    fn delete() { 
-
+    fn delete(ids: Path<Vec<usize>>) -> HttpResponse { 
+        println!("ids = {:?}", ids);
+        response::ok()
     }
 }
 

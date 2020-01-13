@@ -32,10 +32,14 @@ CREATE TABLE IF NOT EXISTS menus (
     INDEX(parent_id)
 );
 INSERT INTO menus (parent_id, name, level_id, state, url) VALUES 
-(0, '后台权限管理', 1, 1, '#'),
-(1, '后台用户列表', 2, 1, '/admins'),
+(0, '后台权限', 1, 1, '#'),
+(0, '内容管理', 1, 1, '#'),
+(1, '后台用户', 2, 1, '/admins'),
 (1, '菜单列表', 2, 1, '/menus'),
-(1, '用户角色列表', 2, 1, '/adminRoles');
+(1, '用户角色', 2, 1, '/admin_roles'),
+(2, '视频分类', 2, 1, '/video_categories'),
+(2, '视频管理', 2, 1, '/videos'),
+(2, '视频评论', 2, 1, '/video_replies');
 
 /** 角色管理 **/
 DROP TABLE IF EXISTS admin_roles;

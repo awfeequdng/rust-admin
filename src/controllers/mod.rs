@@ -51,7 +51,6 @@ pub trait Controller {
         let id = info.into_inner();
         let is_update = id > 0;
         let row = if !is_update { Self::M::get_default() } else { 
-            //let row = Self::M::get_default();
             let fields = Self::M::get_fields();
             let query = query![fields => &fields, ];
             let cond = cond!["id" => id,];

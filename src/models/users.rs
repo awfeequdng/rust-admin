@@ -3,7 +3,7 @@ use super::ModelBackend;
 use serde_derive::{Serialize};
 
 #[derive(Default, Debug, Serialize)]
-pub struct Admins { 
+pub struct Users { 
     pub id: usize, //编号
     pub name: String, //用户名称
     pub last_ip: String, //最后登录ip
@@ -14,22 +14,21 @@ pub struct Admins {
     pub updated: u32, //更新时间
 }
 
-type Row = (usize, String, String, u32, u32, u32, u32, u32);
-
-impl Model for Admins { 
-    fn get_table_name() -> &'static str { "admins" }
+impl Model for Users { 
+    fn get_table_name() -> &'static str { "users" }
 }
 
-impl ModelBackend for Admins { 
+impl ModelBackend for Users { 
 
     type M = Self;
-
-    fn get_fields() -> &'static str { 
-        "id, name, last_ip, state, login_count, last_login, created, updated"
-    }
-
-    fn get_record(r: DbRow) -> Self { 
-        let (id, name, last_ip, state, login_count, last_login, created, updated): Row = from_row!(r);
-        Self { id, name, last_ip, state, login_count, last_login, created, updated, }
-    }
+    
+    get_fields!(Self, [
+        name => String,
+        last_ip => String,
+        state => u32,
+        login_count => u32,
+        last_login => u32,
+        created => u32,
+        updated => u32,
+    ]);
 }

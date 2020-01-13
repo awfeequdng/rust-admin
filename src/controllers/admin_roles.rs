@@ -7,11 +7,4 @@ pub struct AdminRoles { }
 impl Controller for AdminRoles { 
 
     type M = ThisModel;
-
-    //fn edit_for_update(id: usize) -> Self::M { 
-    //    row_for_update!(ThisModel, id, [
-    //        name => String, 
-    //        remark => String,
-    //    ])
-    //}
 }

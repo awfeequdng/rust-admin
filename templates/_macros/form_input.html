@@ -8,14 +8,13 @@
     </div>
 {% endmacro input -%}
 
-
 {% macro state(name, title, value="", note="") -%}
     <div class="layui-form-item">
         <label for="{{name}}" class="layui-form-label"> <span class="x-red">*</span>{{title}}: </label>
         <div class="layui-input-inline">
             <select name="city" lay-verify="required">
-                <option value="0" {% if value == "0" %}selected="selected"{% endif %}>禁用</option>
-                <option value="1" {% if value == "1" %}selected="selected"{% endif %}>启用</option>
+                <option value="0" {% if value == 0 %}selected="selected"{% endif %}>禁用</option>
+                <option value="1" {% if value == 1 %}selected="selected"{% endif %}>启用</option>
             </select>
         </div>
         <div class="layui-form-mid layui-word-aux"> <span class="x-red">*</span> {{note}} </div>

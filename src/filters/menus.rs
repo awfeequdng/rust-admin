@@ -30,3 +30,6 @@ pub fn menu_name<'r, 's>(val: &'r Value, _data: &'s HashMap<String, Value>) -> R
     }
     Ok(json!("未知名称"))
 }
+
+pub fn breads() { 
+}

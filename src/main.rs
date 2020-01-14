@@ -5,6 +5,7 @@ use actix_web::{App, HttpServer, middleware};
 use fluffy::{db};
 
 mod config;
+mod validations;
 mod models;
 mod controllers;
 mod caches;

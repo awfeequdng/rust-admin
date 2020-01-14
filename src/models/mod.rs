@@ -1,3 +1,4 @@
+use std::collections::HashMap;
 use std::default::Default;
 use std::fmt::Debug;
 use fluffy::{
@@ -43,6 +44,10 @@ pub trait ModelBackend: Model {
 
     fn get_default() -> Self::M { 
         Self::M::default()
+    }
+
+    fn validate(_data: &HashMap<String, String>) -> Result<(), String>{ 
+        Ok(())
     }
 
     /// 得到所有記錄-帶分頁信息

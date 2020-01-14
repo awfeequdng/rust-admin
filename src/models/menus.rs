@@ -7,7 +7,7 @@ pub struct Menus {
     pub id: usize, //编号
     pub parent_id: usize, //上级编号
     pub name: String, //菜单名称
-    pub level_id: String, //菜单级别
+    pub level_id: usize, //菜单级别
     pub state: u32, //状态
     pub is_blank: u32, //是否新窗口
     pub url: String, //链接地址
@@ -38,7 +38,7 @@ impl ModelBackend for Menus {
     get_fields!(Self, [
         parent_id => usize,
         name => String,
-        level_id => String,
+        level_id => usize,
         state => u32,
         is_blank => u32,
         url => String,

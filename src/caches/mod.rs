@@ -1,6 +1,6 @@
-use fluffy::{model::Db, db};
 use std::collections::HashMap;
 use std::sync::Mutex;
+use fluffy::{model::Db, db};
 use crate::config::{MYSQL_DB_NAME};
 
 lazy_static! { 

@@ -1,14 +1,16 @@
 use std::collections::HashMap;
 use serde_json::value::Value;
 use tera::{Result};
+use crate::caches::menus::MENU_LEVELS;
 
-pub fn level_name<'r, 's>(val: &'r Value, data: &'s HashMap<String, Value>) -> Result<Value> { 
+pub fn level_name<'r, 's>(val: &'r Value, _data: &'s HashMap<String, Value>) -> Result<Value> { 
     if let Value::Number(n) = val { 
         let n = n.as_u64().unwrap();
         if n != 0 && n != 1 { 
-            return Ok(val.to_owned());
+            return Ok(json!("未知等级"));
         }
+        
+        return Ok(json!(MENU_LEVELS[n as usize]));
     }
-    println!("val = {:?}, data = {:?}", val, data);
-    Ok(val.to_owned())
+    Ok(json!("错误!!!"))
 }

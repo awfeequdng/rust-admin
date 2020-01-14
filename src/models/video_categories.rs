@@ -11,7 +11,7 @@ pub struct VideoCategories {
 }
 
 impl Model for VideoCategories { 
-    fn get_table_name() -> &'static str { "admin_roles" }
+    fn get_table_name() -> &'static str { "video_categories" }
 }
 
 impl ModelBackend for VideoCategories { 

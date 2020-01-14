@@ -20,6 +20,9 @@ pub fn level_name<'r, 's>(val: &'r Value, _data: &'s HashMap<String, Value>) -> 
 pub fn menu_name<'r, 's>(val: &'r Value, _data: &'s HashMap<String, Value>) -> Result<Value> { 
     if let Value::Number(n)  = val { 
         let id = n.as_u64().unwrap() as usize;
+        if id == 0 { 
+            return Ok(json!(""));
+        }
         let menus = MENUS.lock().unwrap();
         if let Some(v) = menus.get(&id) { 
             return Ok(json!(v));

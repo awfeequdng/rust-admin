@@ -7,7 +7,7 @@ pub struct Menus {
     pub id: usize, //编号
     pub parent_id: usize, //上级编号
     pub name: String, //菜单名称
-    pub level_id: u32, //菜单级别
+    pub level_id: String, //菜单级别
     pub state: u32, //状态
     pub is_blank: u32, //是否新窗口
     pub url: String, //链接地址
@@ -27,8 +27,6 @@ pub struct MainMenu {
     pub menus: Vec<SubMenu>,
 }
 
-type Row = (usize, usize, String, u32, u32, u32, String);
-
 impl Model for Menus { 
     fn get_table_name() -> &'static str { "menus" }
 }
@@ -36,15 +34,15 @@ impl Model for Menus {
 impl ModelBackend for Menus { 
 
     type M = Self;
-
-    fn get_fields() -> &'static str { 
-        "id, parent_id, name, level_id, state, is_blank, url"
-    }
-
-    fn get_record(r: DbRow) -> Self { 
-        let (id, parent_id, name, level_id, state, is_blank, url): Row = from_row!(r);
-        Self { id, parent_id, name, level_id, state, is_blank, url }
-    }
+    
+    get_fields!(Self, [
+        parent_id => usize,
+        name => String,
+        level_id => String,
+        state => u32,
+        is_blank => u32,
+        url => String,
+    ]);
 }
 
 impl Menus { 

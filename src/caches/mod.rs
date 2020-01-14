@@ -10,3 +10,5 @@ lazy_static! {
         Mutex::new(table_fields)
     };
 }
+
+pub mod menus;

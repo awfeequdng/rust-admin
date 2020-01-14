@@ -5,6 +5,7 @@ use actix_web::{App, HttpServer, middleware};
 use fluffy::{db};
 
 mod config;
+mod filters;
 mod validations;
 mod models;
 mod controllers;
@@ -45,7 +46,8 @@ async fn main() -> std::io::Result<()> {
     //let table_fields = caches::TABLE_FIELDS.lock().unwrap();
     HttpServer::new(|| {
 
-        let tpl = tmpl!("/templates/**/*"); //模板引擎
+        let mut tpl = tmpl!("/templates/**/*"); //模板引擎
+        tpl.register_filter("level_name", filters::menus::level_name);
         
         App::new()
             .data(tpl)

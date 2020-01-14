@@ -4,13 +4,13 @@ use serde_derive::{Serialize};
 
 #[derive(Default, Debug, Serialize)]
 pub struct VideoReplies { 
-    pub id: usize, //编号
-    pub video_id: usize, //名称
-    pub reply_id: usize, //备注
-    pub user_id: usize, //备注
-    pub user_name: String, //备注
-    pub content: String, //备注
-    pub created: u32, //备注
+    pub id: usize,
+    pub video_id: usize,
+    pub reply_id: usize,
+    pub user_id: usize, 
+    pub user_name: String,
+    pub content: String,
+    pub created: u32,
 }
 
 impl Model for VideoReplies { 

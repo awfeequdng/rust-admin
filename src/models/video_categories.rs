@@ -4,9 +4,10 @@ use serde_derive::{Serialize};
 
 #[derive(Default, Debug, Serialize)]
 pub struct VideoCategories { 
-    pub id: usize, //编号
-    pub name: String, //名称
-    pub remark: String, //备注
+    pub id: usize,
+    pub name: String,
+    pub remark: String, 
+    pub seq: isize,
 }
 
 impl Model for VideoCategories { 
@@ -20,5 +21,6 @@ impl ModelBackend for VideoCategories {
     get_fields!(Self, [
         name => String,
         remark => String,
+        seq => isize,
     ]);
 }

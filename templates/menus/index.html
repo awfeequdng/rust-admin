@@ -38,13 +38,13 @@
         {% for r in records -%}
         <tr>
             <td> <input type="checkbox" name=""  lay-skin="primary"> </td>
-            <td>{{ r.id }}</td>
-            <td>{{ r.parent_id }}</td>
-            <td>{{ r.name }}</td>
-            <td>{{ r.level_id }}</td>
-            <td>{{ r.state }}</td>
-            <td>{{ r.url }}</td>
-            <td>{{ r.is_blank }}</td>
+            <td>{{r.id }}</td>
+            <td>{{r.parent_id }}</td>
+            <td>{{r.name }}</td>
+            <td>{{r.level_id | level_name}}</td>
+            <td>{{r.state }}</td>
+            <td>{{r.url }}</td>
+            <td>{{r.is_blank }}</td>
             <td class="td-manage">
                 <a href="javascript:;"  title="启用"><i class="layui-icon">&#xe601;</i></a>
                 <a title="编辑" href="javascript:;"><i class="layui-icon">&#xe642;</i></a>

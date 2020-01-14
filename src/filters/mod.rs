@@ -1,9 +1,7 @@
 use std::collections::HashMap;
 use serde_json::value::Value;
 use tera::{Result};
-
-/// 状态说明
-pub const STATES: [&'static str; 2] = ["正常", "禁用"];
+use crate::caches::STATES;
 
 pub fn state_name<'r, 's>(val: &'r Value, _data: &'s HashMap<String, Value>) -> Result<Value> { 
     if let Value::Number(n) = val { 

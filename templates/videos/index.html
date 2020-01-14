@@ -50,11 +50,7 @@
             <td>{{r.state}}</td>
             <td>{{r.created|date(format="%Y-%m-%d %H:%M")}}</td>
             <td>{{r.updated|date(format="%Y-%m-%d %H:%M")}}</td>
-            <td class="td-manage">
-                <a href="javascript:;"  title="启用"><i class="layui-icon">&#xe601;</i></a>
-                <a title="编辑" href="javascript:;"><i class="layui-icon">&#xe642;</i></a>
-                <a title="删除" href="javascript:;"><i class="layui-icon">&#xe640;</i></a>
-            </td>
+            <td class="td-manage"> {{option::update()}} | {{option::delete()}} </td>
         </tr>
         {% endfor -%}
         </tbody>

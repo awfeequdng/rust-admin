@@ -6,3 +6,11 @@
 <button class="layui-btn" onclick="xadmin.open('添加数据', '/{{controller}}/edit/0', {{width}}, {{height}})"><i class="layui-icon"></i>添加</button>
 {% endmacro -%}
 
+{% macro update() -%}
+<a title="编辑" href="javascript:;"><i class="layui-icon">&#xe642;</i></a>
+{% endmacro -%}
+
+{% macro delete() -%}
+<a title="删除" href="javascript:;"><i class="layui-icon">&#xe640;</i></a>
+{% endmacro -%}
+

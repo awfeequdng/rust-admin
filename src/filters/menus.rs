@@ -31,5 +31,10 @@ pub fn menu_name<'r, 's>(val: &'r Value, _data: &'s HashMap<String, Value>) -> R
     Ok(json!("未知名称"))
 }
 
-pub fn breads() { 
-}
+//type GlobalFn = Box<Fn(HashMap<String, Value>) -> tera::Result<Value> + Sync + Send>;
+//pub fn breads() -> GlobalFn { 
+//    Box::new(move |args| -> tera::Result<Value> { 
+//
+//        Ok(json!(" / "))
+//    })
+//}

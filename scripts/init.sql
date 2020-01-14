@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS menus (
     INDEX(parent_id)
 );
 INSERT INTO menus (parent_id, name, level_id, state, url) VALUES 
-(0, '后台权限', 0, 1, '#'),
+(0, '后台管理', 0, 1, '#'),
 (0, '内容管理', 0, 1, '#'),
 (0, '前台用户', 0, 1, '#'),
 (1, '后台用户', 1, 1, '/admins'),

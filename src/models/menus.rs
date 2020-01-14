@@ -51,7 +51,7 @@ impl Menus {
         let mut main_menus: Vec<MainMenu> = vec![];
         let mut conn = db::get_conn();
         let query = query![ fields => "id, name, url", ];
-        let cond = cond![ "level_id" => "1", ];
+        let cond = cond![ "level_id" => "0", ];
         let rs_main = Menus::fetch_rows(&mut conn, &query, Some(&cond));
         for r_main in rs_main { 
             let (id, name, _): (usize, String, String) = from_row!(r_main);

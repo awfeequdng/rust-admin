@@ -1,4 +1,5 @@
 {% extends "_layouts/index.html" -%}
+{% import "_macros/options.html" as option -%}
 {% block content -%}
 <div class="layui-card-body ">
     <form class="layui-form layui-col-space5">
@@ -18,7 +19,7 @@
 </div>
 <div class="layui-card-header">
     <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
-    <button class="layui-btn" onclick="xadmin.open('添加数据', './{{controller_name}}/edit/0', 600, 500)"><i class="layui-icon"></i>添加</button>
+    {{option::add(controller=controller_name, height=500)}}
 </div>
 <div class="layui-card-body ">
     <table class="layui-table layui-form">

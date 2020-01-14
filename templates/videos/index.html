@@ -18,7 +18,7 @@
     </form>
 </div>
 <div class="layui-card-header">
-    <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
+    {{option::delete_all(controller=controller_name)}}
     {{option::add(controller=controller_name, height=500)}}
 </div>
 <div class="layui-card-body ">

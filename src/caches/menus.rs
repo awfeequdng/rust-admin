@@ -7,8 +7,9 @@ lazy_static! {
     pub static ref MENUS: Mutex<HashMap<usize, String>> = {
         let fields = "id, name";
         let mut conn = db::get_conn();
+        let cond = cond!["parent_id" => &"0",];
         let query = query![fields => &fields,];
-        let rs = Menus::fetch_rows(&mut conn, &query, None);
+        let rs = Menus::fetch_rows(&mut conn, &query, Some(&cond));
         let mut menus: HashMap<usize, String> = HashMap::new();
         for r in rs { 
             let (id, name): (usize, String) = from_row!(r);

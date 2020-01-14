@@ -39,7 +39,7 @@
         <tr>
             <td> <input type="checkbox" name=""  lay-skin="primary"> </td>
             <td>{{r.id }}</td>
-            <td>{{r.parent_id }}</td>
+            <td>{{r.parent_id | menu_name}}</td>
             <td>{{r.name }}</td>
             <td>{{r.level_id | level_name}}</td>
             <td>{{r.state | state_name}}</td>

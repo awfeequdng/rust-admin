@@ -50,6 +50,7 @@ async fn main() -> std::io::Result<()> {
         let mut tpl = tmpl!("/templates/**/*"); //模板引擎
         tpl.register_filter("level_name", filters::menus::level_name);
         tpl.register_filter("state_name", filters::state_name);
+        tpl.register_filter("menu_name", filters::menus::menu_name);
         
         App::new()
             .data(tpl)

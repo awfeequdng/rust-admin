@@ -27,19 +27,21 @@
         <tr>
             <th style="width: 40px"> <input type="checkbox" name=""  lay-skin="primary"> </th>
             <th>编号</th>
-            <th>分类名称</th>
-            <th>备注</th>
-            <th>排序</th>
+            <th>用户编号</th>
+            <th>用户名称</th>
+            <th>视频编号</th>
+            <th>观看时间</th>
             <th>操作</th>
         </tr>
         <tbody>
         {% for r in records -%}
         <tr>
             <td> <input type="checkbox" name=""  lay-skin="primary"> </td>
-            <td>{{r.id }}</td>
-            <td>{{r.name }}</td>
-            <td>{{r.remark}}</td>
-            <td>{{r.seq}}</td>
+            <td>{{r.id}}</td>
+            <td>{{r.user_id}}</td>
+            <td>{{r.user_name}}</td>
+            <td>{{r.video_id}}</td>
+            <td>{{r.created}}</td>
             <td class="td-manage"> {{option::update()}} | {{option::delete()}} </td>
         </tr>
         {% endfor -%}

@@ -20,6 +20,9 @@ use controllers::{
     videos::Videos,
     video_categories::VideoCategories,
     video_replies::VideoReplies,
+    video_tags::VideoTags,
+    user_levels::UserLevels,
+    watch_records::WatchRecords,
 };
 
 #[derive(Default, Debug)]
@@ -81,6 +84,21 @@ async fn main() -> std::io::Result<()> {
             .service(get!("/videos/edit/{id}", Videos::edit))
             .service(post!("/videos/save/{id}", Videos::save))
             .service(get!("/videos/delete/{ids}", Videos::delete))
+            //
+            .service(get!("/video_tags", VideoTags::index))
+            .service(get!("/video_tags/edit/{id}", VideoTags::edit))
+            .service(post!("/video_tags/save/{id}", VideoTags::save))
+            .service(get!("/video_tags/delete/{ids}", VideoTags::delete))
+            //
+            .service(get!("/user_levels", UserLevels::index))
+            .service(get!("/user_levels/edit/{id}", UserLevels::edit))
+            .service(get!("/user_levels/delete/{ids}", UserLevels::delete))
+            .service(post!("/user_levels/save/{id}", UserLevels::save))
+            //
+            .service(get!("/watch_records", WatchRecords::index))
+            .service(get!("/watch_records/edit/{id}", WatchRecords::edit))
+            .service(get!("/watch_records/delete/{ids}", WatchRecords::delete))
+            .service(post!("/watch_records/save/{id}", WatchRecords::save))
             //replies
             .service(get!("/video_replies", VideoReplies::index))
             .service(get!("/video_replies/edit/{id}", VideoReplies::edit))

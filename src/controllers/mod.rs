@@ -147,5 +147,8 @@ pub mod users;
 pub mod video_categories;
 pub mod videos;
 pub mod video_replies;
+pub mod video_tags;
+pub mod user_levels;
+pub mod watch_records;
 //pub use index::Index;
 //pub use admins::Admins;

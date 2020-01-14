@@ -78,6 +78,9 @@ mod users;
 mod videos;
 mod video_categories;
 mod video_replies;
+mod video_tags;
+mod user_levels;
+mod watch_records;
 
 pub use admins::Admins;
 pub use menus::Menus;
@@ -86,3 +89,6 @@ pub use videos::Videos;
 pub use video_categories::VideoCategories;
 pub use video_replies::VideoReplies;
 pub use users::Users;
+pub use user_levels::UserLevels;
+pub use video_tags::VideoTags;
+pub use watch_records::WatchRecords;

@@ -1,6 +1,8 @@
+use std::collections::HashMap;
 use fluffy::{DbRow, model::Model,};
 use super::ModelBackend;
 use serde_derive::{Serialize};
+use crate::validations::Validator;
 
 #[derive(Default, Debug, Serialize)]
 pub struct Users { 
@@ -21,7 +23,7 @@ impl Model for Users {
 impl ModelBackend for Users { 
 
     type M = Self;
-    
+
     get_fields!(Self, [
         name => String,
         last_ip => String,
@@ -31,4 +33,10 @@ impl ModelBackend for Users {
         created => u32,
         updated => u32,
     ]);
+
+    fn validate(data: &HashMap<String, String>) -> Result<(), String> { 
+        Validator::load(&data)
+            .is_username("name", "必须是用户名称", true)
+            .validate()
+    }
 }

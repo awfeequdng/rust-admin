@@ -80,6 +80,7 @@ CREATE TABLE IF NOT EXISTS video_categories (
     id INT UNSIGNED NOT NULL AUTO_INCREMENT,
     name VARCHAR(20) NOT NULL DEFAULT '' COMMENT '名称',
     remark VARCHAR(100) NOT NULL DEFAULT '' COMMENT '备注',
+    seq INT NOT NULL DEFAULT 0 COMMENT '排序',
     PRIMARY KEY(id)
 );
 INSERT INTO video_categories (name, remark) VALUES 
@@ -92,18 +93,28 @@ CREATE TABLE IF NOT EXISTS videos (
     title VARCHAR(50) NOT NULL DEFAULT '' COMMENT '标题',
     remark VARCHAR(100) NOT NULL DEFAULT '' COMMENT '备注',
     cover_image VARCHAR(200) NOT NULL DEFAULT '' COMMENT '封面',
-    duration FLOAT NOT NULL DEFAULT 0 COMMENT '时长',
+    duration INT UNSIGNED NOT NULL DEFAULT 0 COMMENT '时长(秒)',
+    seq INT NOT NULL DEFAULT 0 COMMENT '排序',
+    state TINYINT UNSIGNED NOT NULL DEFAULT 0 COMMENT '狀態',
+    created INT UNSIGNED NOT NULL DEFAULT 0 COMMENT '創建時間',
+    updated INT UNSIGNED NOT NULL DEFAULT 0 COMMENT '修改時間',
     content TExT COMMENT '内容',
     PRIMARY KEY(id)
 );
+INSERT videos (title, remark, duration, created, updated) VALUES 
+('aaaa', 'bbbb', 210, UNIX_TIMESTAMP(), UNIX_TIMESTAMP());
 
 /** 评论 **/
 DROP TABLE IF EXISTS video_replies;
 CREATE TABLE IF NOT EXISTS video_replies (
     id INT UNSIGNED NOT NULL AUTO_INCREMENT,
     video_id INT UNSIGNED NOT NULL DEFAULT 0 COMMENT '视频编号',
+    reply_id INT UNSIGNED NOT NULL DEFAULT 0 COMMENT '评论编号',
     user_id INT UNSIGNED NOT NULL DEFAULT 0 COMMENT '用户编号',
     user_name VARCHAR(200) NOT NULL DEFAULT '' COMMENT '用户名称',
     content TEXT COMMENT '内容',
+    created INT UNSIGNED NOT NULL DEFAULT 0 COMMENT '創建時間',
     PRIMARY KEY(id)
 );
+INSERT INTO video_replies (user_name, content, created) VALUES 
+('user', 'aaaaaabbbbbcccc', UNIX_TIMESTAMP());

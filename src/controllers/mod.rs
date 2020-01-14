@@ -137,6 +137,9 @@ pub mod index;
 pub mod admins;
 pub mod admin_roles;
 pub mod menus;
-
+pub mod users;
+pub mod video_categories;
+pub mod videos;
+pub mod video_replies;
 //pub use index::Index;
 //pub use admins::Admins;

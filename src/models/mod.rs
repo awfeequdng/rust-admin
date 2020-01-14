@@ -69,7 +69,15 @@ pub trait ModelBackend: Model {
 mod admins;
 mod menus;
 mod admin_roles;
+mod users;
+mod videos;
+mod video_categories;
+mod video_replies;
 
 pub use admins::Admins;
 pub use menus::Menus;
 pub use admin_roles::AdminRoles;
+pub use videos::Videos;
+pub use video_categories::VideoCategories;
+pub use video_replies::VideoReplies;
+pub use users::Users;

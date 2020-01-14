@@ -67,6 +67,8 @@ CREATE TABLE IF NOT EXISTS users (
     last_ip VARCHAR(32) NOT NULL DEFAULT '' COMMENT '最後IP',
     state TINYINT UNSIGNED NOT NULL DEFAULT 0 COMMENT '狀態',
     login_count INT UNSIGNED NOT NULL DEFAULT 0 COMMENT '登錄次數',
+    level_id INT UNSIGNED NOT NULL DEFAULT 0 COMMENT '等级编号',
+    score INT UNSIGNED NOT NULL DEFAULT 0 COMMENT '积分',
     last_login INT UNSIGNED NOT NULL DEFAULT 0 COMMENT '上次登錄時間',
     created INT UNSIGNED NOT NULL DEFAULT 0 COMMENT '創建時間',
     updated INT UNSIGNED NOT NULL DEFAULT 0 COMMENT '修改時間',
@@ -75,6 +77,35 @@ CREATE TABLE IF NOT EXISTS users (
 );
 INSERT INTO users (name, password, mail, created, updated) VALUES 
 ('user', md5('qwe123'), 'abc@gmail.com', UNIX_TIMESTAMP(), UNIX_TIMESTAMP());
+
+/** 用户等级 **/
+DROP TABLE IF EXISTS user_levels;
+CREATE TABLE IF NOT EXISTS user_levels (
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    name VARCHAR(20) NOT NULL DEFAULT '' COMMENT '等级名称',
+    remark VARCHAR(100) NOT NULL DEFAULT '' COMMENT '备注',
+    watch_per_day INT UNSIGNED NOT NULL DEFAULT 0 COMMENT '每天观数',
+    score_min INT UNSIGNED NOT NULL DEFAULT 0 COMMENT '最低积分',
+    score_max INT UNSIGNED NOT NULL DEFAULT 0 COMMENT '最高积分',
+    seq INT NOT NULL DEFAULT 0 COMMENT '排序',
+    RPIMARY KEY(id)
+);
+INSERT INTO user_levels (name, remark) VALUES 
+('VIP1', 'hahahaa'),
+('VIP2', 'hahahaa');
+
+/** 观看记录 **/
+DROP TABLE IF EXISTS watch_records;
+CREATE TABLE IF NOT EXISTS watch_records (
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    user_id INT UNSIGNED NOT NULL DEFAULT 0 COMMENT '用户编号',
+    user_name VARCHAR(20) NOT NULL DEFAULT '' COMMENT '用户各称',
+    video_id INT UNSIGNED NOT NULL DEFAULt 0 COMMENT '视频编号',
+    created INT UNSIGNED NOT NULL DEFAULT 0 COMMENT '創建時間',
+    INDEX(user_id),
+    INDEX(video_id),
+    PRIMARY KEY(id)
+);
 
 /** 视频分类 **/
 DROP TABLE IF EXISTS video_categories;
@@ -87,6 +118,19 @@ CREATE TABLE IF NOT EXISTS video_categories (
 );
 INSERT INTO video_categories (name, remark) VALUES 
 ('AAA', 'aaa');
+
+/** 视频标签 **/
+DROP TABLE IF EXISTS video_tags;
+CREATE TABLE IF NOT EXISTS video_tags (
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    name VARCHAR(20) NOT NULL DEFAULT '' COMMENT '名称',
+    remark VARCHAR(100) NOT NULL DEFAULT '' COMMENT '备注',
+    seq INT NOT NULL DEFAULT 0 COMMENT '排序',
+    PRIMARY KEY(id)
+);
+INSERT INTO video_tags (name, remark) VALUES 
+('AAA', 'aaa');
+
 
 /** 视频 **/
 DROP TABLE IF EXISTS videos;

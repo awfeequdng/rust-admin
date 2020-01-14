@@ -34,12 +34,14 @@ CREATE TABLE IF NOT EXISTS menus (
 INSERT INTO menus (parent_id, name, level_id, state, url) VALUES 
 (0, '后台权限', 1, 1, '#'),
 (0, '内容管理', 1, 1, '#'),
+(0, '前台用户', 1, 1, '#'),
 (1, '后台用户', 2, 1, '/admins'),
 (1, '菜单列表', 2, 1, '/menus'),
 (1, '用户角色', 2, 1, '/admin_roles'),
 (2, '视频分类', 2, 1, '/video_categories'),
 (2, '视频管理', 2, 1, '/videos'),
-(2, '视频评论', 2, 1, '/video_replies');
+(2, '视频评论', 2, 1, '/video_replies'),
+(3, '用户列表', 2, 1, '/users');
 
 /** 角色管理 **/
 DROP TABLE IF EXISTS admin_roles;

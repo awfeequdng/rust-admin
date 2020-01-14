@@ -1,7 +1,7 @@
 {% extends "_layouts/edit.html" -%}
 {% import "_macros/form_input.html" as form -%}
 {% block body %}
-{{ form::input(name="name", title="分类名称", value=row.name) }}
+{{ form::input(name="name", title="名称", value=row.name) }}
 {{ form::input(name="remark", title="备注", value=row.remark) }}
 {{ form::input(name="seq", title="排序", value=row.seq) }}
 <script>

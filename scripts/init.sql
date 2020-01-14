@@ -109,6 +109,8 @@ CREATE TABLE IF NOT EXISTS watch_records (
     INDEX(video_id),
     PRIMARY KEY(id)
 );
+INSERT INTO watch_records (user_id, user_name, video_id, created) VALUES 
+(1, 'user', 1, UNIX_TIMESTAMP());
 
 /** 视频分类 **/
 DROP TABLE IF EXISTS video_categories;

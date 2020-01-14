@@ -22,6 +22,7 @@ impl<'a> Validator<'a> {
         }
     }
 
+    /// 是否是用户名称
     pub fn is_username(&mut self, field: &'static str, message: &'static str, is_required: bool) -> &mut Self { 
         if let Some(v) = self.data.get(field) { 
             let count = v.chars().count();
@@ -34,6 +35,7 @@ impl<'a> Validator<'a> {
         self
     }
 
+    /// 指定长度的字符串
     pub fn length(&mut self, field: &'static str, message: &'static str, min: usize, max: usize, is_required: bool) -> &mut Self { 
         if let Some(v) = self.data.get(field) { 
             if v.len() < min || v.len() > max {
@@ -45,6 +47,7 @@ impl<'a> Validator<'a> {
         self
     }
 
+    /// 执行校验
     pub fn validate(&mut self) -> Result<(), String> { 
         if self.errors.len() > 0 { 
             return Err(self.errors.join(","));

@@ -3,6 +3,7 @@ use serde_json::value::Value;
 use tera::{Result};
 use crate::caches::STATES;
 
+/// 状态名称
 pub fn state_name<'r, 's>(val: &'r Value, _data: &'s HashMap<String, Value>) -> Result<Value> { 
     if let Value::Number(n) = val { 
         let n = n.as_u64().unwrap();

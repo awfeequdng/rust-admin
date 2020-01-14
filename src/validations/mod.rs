@@ -23,8 +23,12 @@ impl<'a> Validator<'a> {
     }
 
     pub fn is_username(&mut self, field: &'static str, message: &'static str, is_required: bool) -> &mut Self { 
-        let value = self.data.get(field);
-        if value.is_none() && is_required { 
+        if let Some(v) = self.data.get(field) { 
+            let count = v.chars().count();
+            if count < 5 || count > 20 { 
+                self.errors.push(message);
+            }
+        } else if is_required { 
             self.errors.push(message);
         }
         self

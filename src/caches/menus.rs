@@ -19,4 +19,18 @@ lazy_static! {
     };
 }
 
+lazy_static! { 
+    pub static ref BREADS: Mutex<HashMap<String, String>> = { 
+        let menus = Menus::get_related();
+        let mut breads: HashMap<String, String> = HashMap::new();
+        for menu in &menus { 
+            for sub in &menu.menus { 
+                let bread = format!("<a href='#'>{}</a> <a href='#'><cite>{}</cite></a>", menu.name, sub.name);
+                breads.insert(sub.url.to_owned(), bread);
+            }
+        }
+        Mutex::new(breads)
+    };
+}
+
 pub const MENU_LEVELS: [&'static str; 2] = ["一级菜单", "二级菜单"];

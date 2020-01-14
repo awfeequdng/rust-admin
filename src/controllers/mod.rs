@@ -35,11 +35,14 @@ pub trait Controller {
     fn index(tpl: Tpl) -> HttpResponse { 
         let controller_name = Self::get_controller_name(); //控制器名称
         let info = Self::M::get_records();
+        let breads = caches::menus::BREADS.lock().unwrap();
+        let bread_path = if let Some(v) = breads.get(&format!("/{}", controller_name)) { v } else { "" };
         let data = tmpl_data![
             "action_name" => &"index",
             "controller_name" => &controller_name,
             "records" => &info.records,
             "pager" => &info.pager,
+            "bread_path" => &bread_path,
         ];
         let view_file = &format!("{}/index.html", controller_name);
         render!(tpl, view_file, &data)

@@ -1,0 +1,8 @@
+{% macro delete_all(controller) -%}
+<button class="layui-btn layui-btn-danger" onclick="delAll()" url="{{controller}}/delete/"><i class="layui-icon"></i>批量删除</button>
+{% endmacro -%}
+
+{% macro add(controller, height=400, width=600) -%}
+<button class="layui-btn" onclick="xadmin.open('添加数据', '/{{controller}}/edit/0', {{width}}, {{height}})"><i class="layui-icon"></i>添加</button>
+{% endmacro -%}
+

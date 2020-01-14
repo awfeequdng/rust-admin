@@ -91,7 +91,7 @@ CREATE TABLE IF NOT EXISTS user_levels (
     score_min INT UNSIGNED NOT NULL DEFAULT 0 COMMENT '最低积分',
     score_max INT UNSIGNED NOT NULL DEFAULT 0 COMMENT '最高积分',
     seq INT NOT NULL DEFAULT 0 COMMENT '排序',
-    RPIMARY KEY(id)
+    PRIMARY KEY(id)
 );
 INSERT INTO user_levels (name, remark) VALUES 
 ('VIP1', 'hahahaa'),

@@ -171,3 +171,20 @@ CREATE TABLE IF NOT EXISTS video_replies (
 );
 INSERT INTO video_replies (user_name, content, created) VALUES 
 ('user', 'aaaaaabbbbbcccc', UNIX_TIMESTAMP());
+
+/** 广告 **/
+DROP TABLE IF EXISTS ads;
+CREATE TABLE IF NOT EXISTS ads (
+    id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+    name VARCHAR(20) NOT NULL DEFAULT '' COMMENT '名称',
+    remark VARCHAR(100) NOT NULL DEFAULT '' COMMENT '备注',
+    image VARCHAR(200) NOT NULL DEFAULT '' COMMENT '图片地址',
+    page_id INT UNSIGNED NOT NULL DEFAULT 0 COMMENT '页面,0:首页;1:详情页',
+    position_id INT UNSIGNED NOT NULL DEFAULT 0 COMMENT '位置,0:顶部;1:中左;2:中右;3:底部',
+    url VARCHAR(200) NOT NULL DEFAULT '' COMMENT '链接地址',
+    is_blank TINYINT UNSIGNED NOT NULL DEFAULT 1 COMMENT '是否外链,0:否,1:是',
+    seq INT NOT NULL DEFAULT 0 COMMENT '排序',
+    PRIMARY KEY(id)
+);
+INSERT INTO ads (name, remark) VALUES 
+('AAA', 'aaa');

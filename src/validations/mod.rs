@@ -3,6 +3,7 @@ use regex::Regex;
 
 lazy_static! { 
     static ref RE_USERNAME: Regex = { Regex::new(r"^[a-zA-Z]+[a-zA-Z_0-9]{5,19}$").unwrap() };
+    static ref RE_MAIL: Regex = { Regex::new(r"/^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,5})$/").unwrap() };
 }
 
 #[derive(Debug)]
@@ -54,12 +55,24 @@ impl<'a> Validator<'a> {
     }
 
     /// 检测是否是正确的验证码
-    pub fn is_check_code(&mut self, field: &'static str, message: &'sttic str) -> &mut Self { 
+    pub fn is_check_code(&mut self, field: &'static str, message: &'static str) -> &mut Self { 
         if let Some(v) = self.data.get(field) { 
-            if let Err(n) = v.parse::<usize>() { 
+            if let Err(_) = v.parse::<usize>() { 
                 self.errors.push(message);
             }
         } else { 
+            self.errors.push(message);
+        }
+        self
+    }
+
+    /// 判断是否是电子邮件
+    pub fn is_mail(&mut self, field: &'static str, message: &'static str, is_required: bool) -> &mut Self  {
+        if let Some(v) = self.data.get(field) { 
+            if RE_MAIL.is_match(v) { 
+                self.errors.push(message);
+            }
+        } else if is_required { 
             self.errors.push(message);
         }
         self

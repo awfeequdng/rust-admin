@@ -1,10 +1,7 @@
 use std::collections::HashMap;
 use std::default::Default;
 use std::fmt::Debug;
-use fluffy::{
-    db, DbRow, Pager,
-    model::Model, 
-};
+use fluffy::{ db, DbRow, Pager, model::Model, };
 use serde::ser::Serialize;
 
 #[derive(Debug, Default)]
@@ -16,8 +13,8 @@ pub struct DataGrid<M: Model + Serialize> {
 #[macro_export]
 macro_rules! get_fields {
     ($struct: ident, [$($field: ident => $type: ident,)+]) => {
-
-        /// 得到列表页面所需字段
+        
+        /// 得到所有列表字段
         fn get_fields() -> &'static str { 
             concat!("id", $(",", stringify!($field)),+)
         }

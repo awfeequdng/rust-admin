@@ -1,4 +1,9 @@
 use std::collections::HashMap;
+use regex::Regex;
+
+lazy_static! { 
+    static ref RE_USERNAME: Regex = { Regex::new(r"^[a-zA-Z]+[a-zA-Z_0-9]{5,19}$").unwrap() };
+}
 
 #[derive(Debug)]
 pub struct Validator<'a> { 
@@ -22,14 +27,39 @@ impl<'a> Validator<'a> {
         }
     }
 
-    /// 是否是用户名称
+    /// 是否是用户名称, 6-20位, 英文开头, 数字、下划线、英文
     pub fn is_username(&mut self, field: &'static str, message: &'static str, is_required: bool) -> &mut Self { 
+        if let Some(v) = self.data.get(field) { 
+            let count = v.chars().count();
+            if count < 5 || count > 20 || !RE_USERNAME.is_match(v) { 
+                self.errors.push(message);
+            }
+        } else if is_required { 
+            self.errors.push(message);
+        }
+        self
+    }
+
+    /// 检测是否是正确的密码格式
+    pub fn is_password(&mut self, field: &'static str, message: &'static str, is_required: bool) -> &mut Self { 
         if let Some(v) = self.data.get(field) { 
             let count = v.chars().count();
             if count < 5 || count > 20 { 
                 self.errors.push(message);
             }
         } else if is_required { 
+            self.errors.push(message);
+        }
+        self
+    }
+
+    /// 检测是否是正确的验证码
+    pub fn is_check_code(&mut self, field: &'static str, message: &'sttic str) -> &mut Self { 
+        if let Some(v) = self.data.get(field) { 
+            if let Err(n) = v.parse::<usize>() { 
+                self.errors.push(message);
+            }
+        } else { 
             self.errors.push(message);
         }
         self

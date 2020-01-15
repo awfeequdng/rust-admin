@@ -12,6 +12,7 @@ impl Index {
         render!(tpl, "index/index.html")
     }
 
+    /// 用户登录
     pub async fn login(post: Form<HashMap<String, String>>) -> HttpResponse { 
         if let Err(message) = ThisModel::check_login(&post) {  //如果校验数据出现错误
             return response::error(&message);

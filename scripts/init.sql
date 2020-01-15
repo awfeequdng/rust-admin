@@ -44,7 +44,8 @@ INSERT INTO menus (parent_id, name, level_id, state, url) VALUES
 (2, '视频评论', 1, 1, '/video_replies'),
 (3, '用户列表', 1, 1, '/users'),
 (3, '用户等级', 1, 1, '/user_levels'),
-(3, '观看记录', 1, 1, '/watch_records');
+(3, '观看记录', 1, 1, '/watch_records'),
+(2, '广告管理', 1, 1, '/ads');
 
 /** 角色管理 **/
 DROP TABLE IF EXISTS admin_roles;

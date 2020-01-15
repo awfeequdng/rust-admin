@@ -41,7 +41,7 @@
             <td>{{r.id }}</td>
             <td>{{r.parent_id | menu_name}}</td>
             <td>{{r.name }}</td>
-            <td>{{r.level_id | level_name}}</td>
+            <td>{% if r.level_id == 0 %}一级菜单{% else %}二级菜单{% endif %}</td>
             <td>{{r.state | state_name}}</td>
             <td>{{r.url }}</td>
             <td>{{r.is_blank }}</td>

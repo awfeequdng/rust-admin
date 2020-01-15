@@ -17,10 +17,12 @@ pub struct DataGrid<M: Model + Serialize> {
 macro_rules! get_fields {
     ($struct: ident, [$($field: ident => $type: ident,)+]) => {
 
+        /// 得到列表页面所需字段
         fn get_fields() -> &'static str { 
             concat!("id", $(",", stringify!($field)),+)
         }
-
+    
+        /// 得到单条记录
         fn get_record(r: DbRow) -> Self { 
             let mut row = Self::default();
             let (id, $($field),+): (usize, $($type),+) = from_row!(r);
@@ -42,13 +44,20 @@ pub trait ModelBackend: Model {
     /// 得到單條記錄
     fn get_record(_: DbRow) -> Self::M;
 
-    fn get_default() -> Self::M { 
-        Self::M::default()
-    }
+    /// 得到当前的Model
+    fn get_default() -> Self::M { Self::M::default() }
 
-    fn validate(_data: &HashMap<String, String>) -> Result<(), String>{ 
-        Ok(())
-    }
+    /// 是否允许添加
+    fn option_create() -> bool { true }
+    
+    /// 是否允许修改
+    fn option_update() -> bool { true }
+
+    /// 是否允许删除
+    fn option_delete() -> bool { true }
+
+    /// 校验提交上来的数据
+    fn validate(_data: &HashMap<String, String>) -> Result<(), String>{ Ok(()) }
 
     /// 得到所有記錄-帶分頁信息
     fn get_records() -> DataGrid<Self::M> { 
@@ -70,7 +79,6 @@ pub trait ModelBackend: Model {
     }
 }
 
-/// 後臺用戶
 mod admins;
 mod menus;
 mod admin_roles;

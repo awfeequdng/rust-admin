@@ -10,6 +10,6 @@ impl Controller for Admins {
 
     fn edit_after(data: &mut tera::Context) {
         let roles = ADMIN_ROLES.lock().unwrap();
-        data.insert("roles", &roles.to_owned());
+        data.insert("roles", &*roles);
     }
 }

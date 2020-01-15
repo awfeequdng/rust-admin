@@ -32,5 +32,3 @@ lazy_static! {
         Mutex::new(breads)
     };
 }
-
-pub const MENU_LEVELS: [&'static str; 2] = ["一级菜单", "二级菜单"];

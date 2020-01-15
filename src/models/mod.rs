@@ -32,7 +32,8 @@ macro_rules! get_fields {
 
 
 pub trait ModelBackend: Model { 
-
+    
+    /// 模型
     type M: Model + Serialize + Default + Debug;
 
     /// 得到要從資料庫中提取的列頭

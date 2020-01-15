@@ -6,27 +6,12 @@ use actix_web::{HttpResponse, web::{Path, Form}};
 use crate::caches;
 use serde::ser::{Serialize};
 
-//#[macro_export]
-//macro_rules! row_for_update {
-//    ($struct: ident, $id: expr, [$($field: ident => $type: ident,)+]) => ({
-//        let mut row = $struct::default();
-//        let fields = concat!("id", $(",", stringify!($field)),+);
-//        let query = query![fields => &fields, ];
-//        let cond = cond![eq => ["id" => &$id,], ];
-//        let mut conn = fluffy::db::get_conn();
-//        if let Some(r) = $struct::fetch_row(&mut conn, &query, Some(&cond)) { 
-//            let (id, $($field),+): (usize, $($type),+) = from_row!(r);
-//            row.id = id;
-//            $(row.$field = $field;)+
-//        }
-//        row
-//    })
-//}
-
 pub trait Controller { 
-
+    
+    /// 模型
     type M: ModelBackend + Default + Serialize + Debug;
-
+    
+    /// 得到控制器名称
     fn get_controller_name() -> &'static str { 
         Self::M::get_table_name()
     }
@@ -48,6 +33,7 @@ pub trait Controller {
         render!(tpl, view_file, &data)
     }
 
+    /// 处理编辑时需要展现出来的附加数据
     fn edit_after(_data: &mut tera::Context) {}
 
     /// 編輯
@@ -64,7 +50,6 @@ pub trait Controller {
                 Self::M::get_record(r)
             } else { Self::M::get_default() }
         };
-        println!("row = {:?}", row);
         let button_text = if is_update { "保存记录" } else { "添加记录" };
         let mut data = tmpl_data![
             "controller_name" => controller_name,
@@ -157,5 +142,3 @@ pub mod video_tags;
 pub mod user_levels;
 pub mod watch_records;
 pub mod ads;
-//pub use index::Index;
-//pub use admins::Admins;

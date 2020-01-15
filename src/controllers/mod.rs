@@ -48,7 +48,7 @@ pub trait Controller {
         render!(tpl, view_file, &data)
     }
 
-    fn edit_data() -> Option<HashMap<String, String>> { None }
+    fn edit_data() -> Option<(&'static str, HashMap<String, String>)> { None }
 
     /// 編輯
     fn edit(info: Path<usize>, tpl: Tpl) -> HttpResponse { 
@@ -72,10 +72,8 @@ pub trait Controller {
             "button_text" => button_text,
             "id" => &id,
         ];
-        if let Some(other_data) = Self::edit_data() { 
-            for (k, v) in  &other_data { 
-                data.insert(k, v);
-            }
+        if let Some((key, other_data))= Self::edit_data() { 
+            data.insert(key, &other_data);
         }
         let view_file = &format!("{}/edit.html", controller_name);
         render!(tpl, view_file, &data)

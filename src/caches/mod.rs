@@ -15,3 +15,4 @@ lazy_static! {
 }
 
 pub mod menus;
+pub mod admin_roles;

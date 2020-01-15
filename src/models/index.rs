@@ -6,13 +6,11 @@ pub struct Index {
 
 impl Index { 
 
+    /// 检测用户登录
     pub fn check_login(data: &HashMap<String, String>) -> Result<(), String> { 
-        if let Err(message) = Validator::load(data)
+        Validator::load(data)
             .is_username("username", "必须输入正确格式的用户名称", true)
-            .validate() { 
-                return Err(message);
-        }
-        
-        Ok(())
+            .is_password("password", "必须输入密码", true)
+            .validate()
     }
 }

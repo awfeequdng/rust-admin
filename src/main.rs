@@ -51,6 +51,7 @@ async fn main() -> std::io::Result<()> {
             .data(tpl)
             .wrap(middleware::Logger::default()) // enable logger
             .service(get!("/", Index::index))
+            .service(post!("/index/login", Index::login))
             .service(get!("/index/manage", Index::manage))
             .service(get!("/index/right", Index::right))
             .service(get!("/index/right", Index::right))

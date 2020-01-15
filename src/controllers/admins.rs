@@ -1,4 +1,3 @@
-use std::collections::HashMap;
 use crate::models::Admins as ThisModel;
 use super::Controller;
 use crate::caches::admin_roles::ADMIN_ROLES;
@@ -9,8 +8,8 @@ impl Controller for Admins {
 
     type M = ThisModel;
 
-    fn edit_data() -> Option<(&'static str, HashMap<String, String>)> { 
+    fn edit_after(data: &mut tera::Context) {
         let roles = ADMIN_ROLES.lock().unwrap();
-        Some(("roles", roles.to_owned()))
+        data.insert("roles", &roles.to_owned());
     }
 }

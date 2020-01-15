@@ -36,7 +36,7 @@
         <label for="{{name}}" class="layui-form-label"> <span class="x-red">*</span>{{title}}: </label>
         <div class="layui-input-inline">
             <select name="city" lay-verify="required">
-                {% for (key, val) in data %}
+                {% for key, val in data %}
                 <option value="{{key}}" {% if value == val %}selected="selected"{% endif %}>{{val}}</option>
                 {% endfor -%}
             </select>

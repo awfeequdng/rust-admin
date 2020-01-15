@@ -12,6 +12,7 @@ pub struct Admins {
     pub last_login: u32, //最后登录时间
     pub created: u32, //添加时间
     pub updated: u32, //更新时间
+    pub role_id: usize,
 }
 
 impl Model for Admins { 
@@ -25,6 +26,7 @@ impl ModelBackend for Admins {
     get_fields!(Self, [
         name => String,
         last_ip => String,
+        role_id => usize,
         state => u32,
         login_count => u32,
         last_login => u32,

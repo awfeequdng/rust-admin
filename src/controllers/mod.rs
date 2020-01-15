@@ -48,6 +48,8 @@ pub trait Controller {
         render!(tpl, view_file, &data)
     }
 
+    fn edit_data() -> Option<HashMap<String, String>> { None }
+
     /// 編輯
     fn edit(info: Path<usize>, tpl: Tpl) -> HttpResponse { 
         let controller_name = Self::get_controller_name(); //控制器名称
@@ -64,12 +66,17 @@ pub trait Controller {
         };
         println!("row = {:?}", row);
         let button_text = if is_update { "保存记录" } else { "添加记录" };
-        let data = tmpl_data![
+        let mut data = tmpl_data![
             "controller_name" => controller_name,
             "row" => &row,
             "button_text" => button_text,
             "id" => &id,
         ];
+        if let Some(other_data) = Self::edit_data() { 
+            for (k, v) in  &other_data { 
+                data.insert(k, v);
+            }
+        }
         let view_file = &format!("{}/edit.html", controller_name);
         render!(tpl, view_file, &data)
     }

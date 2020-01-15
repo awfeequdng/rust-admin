@@ -25,6 +25,7 @@ use controllers::{
     video_tags::VideoTags,
     user_levels::UserLevels,
     watch_records::WatchRecords,
+    ads::Ads,
 };
 
 #[derive(Default, Debug)]
@@ -109,6 +110,11 @@ async fn main() -> std::io::Result<()> {
             .service(get!("/video_replies/edit/{id}", VideoReplies::edit))
             .service(post!("/video_replies/save/{id}", VideoReplies::save))
             .service(get!("/video_replies/delete/{ids}", VideoReplies::delete))
+            //ads
+            .service(get!("/ads", Ads::index))
+            .service(get!("/ads/edit/{id}", Ads::edit))
+            .service(post!("/ads/save/{id}", Ads::save))
+            .service(get!("/ads/delete/{ids}", Ads::delete))
     })
     .bind(host_port)?
     .run()

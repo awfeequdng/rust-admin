@@ -1,8 +1,21 @@
 {% extends "_layouts/edit.html" -%}
 {% import "_macros/form.html" as form -%}
 {% block body %}
-{{ form::input(name="name", title="角色名称", value=row.name) }}
-{{ form::input(name="remark", title="备注", value=row.remark) }}
+{{ form::input(name="parent_id", title="上级菜单", value=row.parent_id) }}
+{{ form::input(name="name", title="菜单名称") }}
+<div class="layui-form-item">
+    <label for="level_id" class="layui-form-label"> <span class="x-red">*</span>菜单级别: </label>
+    <div class="layui-input-inline">
+        <select name="level_id" lay-verify="required">
+            <option value="0" {% if row.level_id == 0 %}selected="selected"{% endif %}>一级菜单</option>
+            <option value="1" {% if row.level_id == 1 %}selected="selected"{% endif %}>二级菜单</option>
+        </select>
+    </div>
+    <div class="layui-form-mid layui-word-aux"> <span class="x-red">*</span> </div>
+</div>
+{{ form::state(name="url", title="路由链接", value=row.url) }}
+{{ form::yes_no(name="is_blank", title="新窗打开", value=row.is_blank) }}
+{{ form::input(name="seq", title="排序", value=row.seq) }}
 <script>
 layui.validators = { 
     name: function(value) { 
@@ -11,5 +24,6 @@ layui.validators = {
         }
     }
 };
+{{ form::state(name="state", title="状态", value=row.state) }}
 </script>
 {% endblock body -%}

@@ -1,9 +1,11 @@
 {% extends "_layouts/edit.html" -%}
 {% import "_macros/form.html" as form -%}
 {% block body %}
-{{ form::input(name="name", title="名称", value=row.name) }}
-{{ form::password(name="password", title="密码", value=row.name) }}
-{{ form::input(name="re_password", title="重复密码", value=row.name) }}
+{{ form::input(name="name", title="用户名称", value=row.name) }}
+{{ form::password(name="password", title="密码") }}
+{{ form::password(name="re_password", title="重复密码") }}
+{{ form::state(name="state", title="状态", value=1) }}
+{{ form::input(name="login_count", title="登录次数", value=row.login_count) }}
 {{ form::list(name="role_id", title="角色", data=roles, value=row.role_id) }}
 <script>
 layui.validators = { 
@@ -13,5 +15,6 @@ layui.validators = {
         }
     }
 };
+{{ form::list(name="state", title="状态", value=1) }}
 </script>
 {% endblock body -%}

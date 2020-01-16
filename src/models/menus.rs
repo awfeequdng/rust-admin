@@ -11,6 +11,7 @@ pub struct Menus {
     pub state: u32, //状态
     pub is_blank: u32, //是否新窗口
     pub url: String, //链接地址
+    pub seq: isize, //排序
 }
 
 #[derive(Default, Debug, Serialize)]
@@ -42,6 +43,7 @@ impl ModelBackend for Menus {
         state => u32,
         is_blank => u32,
         url => String,
+        seq => isize,
     ]);
 }
 

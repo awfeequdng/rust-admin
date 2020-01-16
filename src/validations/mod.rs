@@ -66,6 +66,34 @@ impl<'a> Validator<'a> {
         self
     }
 
+    /// 两次输入的内容必须一致
+    pub fn equal(&mut self, field: &'static str, equal_field: &'static str, message: &'static str) -> &mut Self { 
+        if let Some(v) = self.data.get(field) { 
+            if let Some(e) = self.data.get(equal_field) { 
+                if v == e { 
+                    return self;
+                }
+            }
+        }
+        self.errors.push(message);
+        self
+    }
+
+    /// 是否是 1/0 的选项
+    pub fn is_yes_no(&mut self, field: &'static str, message: &'static str, is_required: bool) -> &mut Self { 
+        if let Some(v) = self.data.get(field) { 
+            if let Ok(n) = v.parse::<usize>() { 
+                if n == 0 || n == 1 { 
+                    return self;
+                }
+            }
+        }
+        if is_required { 
+            self.errors.push(message);
+        }
+        self
+    }
+
     /// 判断是否是电子邮件
     pub fn is_mail(&mut self, field: &'static str, message: &'static str, is_required: bool) -> &mut Self  {
         if let Some(v) = self.data.get(field) { 

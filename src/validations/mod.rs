@@ -55,6 +55,7 @@ impl<'a> Validator<'a> {
     }
 
     /// 检测是否是正确的验证码
+    #[allow(dead_code)]
     pub fn is_check_code(&mut self, field: &'static str, message: &'static str) -> &mut Self { 
         if let Some(v) = self.data.get(field) { 
             if let Err(_) = v.parse::<usize>() { 
@@ -67,6 +68,7 @@ impl<'a> Validator<'a> {
     }
 
     /// 两次输入的内容必须一致
+    #[allow(dead_code)]
     pub fn equal(&mut self, field: &'static str, equal_field: &'static str, message: &'static str) -> &mut Self { 
         if let Some(v) = self.data.get(field) { 
             if let Some(e) = self.data.get(equal_field) { 
@@ -80,6 +82,7 @@ impl<'a> Validator<'a> {
     }
 
     /// 是否是 1/0 的选项
+    #[allow(dead_code)]
     pub fn is_yes_no(&mut self, field: &'static str, message: &'static str, is_required: bool) -> &mut Self { 
         if let Some(v) = self.data.get(field) { 
             if let Ok(n) = v.parse::<usize>() { 
@@ -95,6 +98,7 @@ impl<'a> Validator<'a> {
     }
 
     /// 判断是否是电子邮件
+    #[allow(dead_code)]
     pub fn is_mail(&mut self, field: &'static str, message: &'static str, is_required: bool) -> &mut Self  {
         if let Some(v) = self.data.get(field) { 
             if RE_MAIL.is_match(v) { 

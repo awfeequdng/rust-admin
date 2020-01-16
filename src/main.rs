@@ -4,6 +4,7 @@
 
 use actix_web::{App, HttpServer, middleware};
 use fluffy::{db};
+use actix_session::{CookieSession};
 
 mod config;
 mod filters;
@@ -48,6 +49,7 @@ async fn main() -> std::io::Result<()> {
         tpl.register_filter("yes_no", filters::yes_no);
         
         App::new()
+            .wrap(CookieSession::signed(&[0; 32]).secure(false))
             .data(tpl)
             .wrap(middleware::Logger::default()) // enable logger
             .service(get!("/", Index::index))

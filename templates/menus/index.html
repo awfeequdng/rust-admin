@@ -44,7 +44,7 @@
             <td>{% if r.level_id == 0 %}一级菜单{% else %}二级菜单{% endif %}</td>
             <td>{{r.state | state_name}}</td>
             <td>{{r.url }}</td>
-            <td>{{r.is_blank }}</td>
+            <td>{{r.is_blank | yes_no}}</td>
             <td class="td-manage">
                 <a href="javascript:;"  title="启用"><i class="layui-icon">&#xe601;</i></a>
                 <a title="编辑" href="javascript:;"><i class="layui-icon">&#xe642;</i></a>

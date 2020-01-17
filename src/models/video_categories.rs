@@ -29,6 +29,8 @@ impl ModelBackend for VideoCategories {
     fn validate(data: &HashMap<String, String>) -> Result<(), String> { 
         Validator::load(&data)
             .length("name", "分类名称必须在2-20之间", 2, 20, true)
+            .length("remark", "备注长度必须在0-50之间", 0, 50, false)
+            .is_numeric("seq", "排序必须是有效的数字", true)
             .validate()
     }
 }

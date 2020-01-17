@@ -47,6 +47,7 @@ async fn main() -> std::io::Result<()> {
         tpl.register_filter("state_name", filters::state_name);
         tpl.register_filter("menu_name", filters::menus::menu_name);
         tpl.register_filter("yes_no", filters::yes_no);
+        tpl.register_filter("admin_role", filters::admin_roles::role_name);
         
         App::new()
             .wrap(CookieSession::signed(&[0; 32]).secure(false))

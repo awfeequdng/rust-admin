@@ -10,11 +10,7 @@
 {{ form::input(name="content", title="说明", value=row.remark) }}
 <script>
 layui.validators = { 
-    title: function(value) { 
-        if (value.length < 2 || value.length > 50) { 
-            return '标题长度必须2-50之间';
-        }
-    },
+    title: validator.string_length(value, 2, 50, true),
     remark: function(value) { 
         if (value.length > 100) { 
             return '备注长度不能超过100';
@@ -27,7 +23,7 @@ layui.validators = {
     },
     duration: function(value) { 
         if (isNaN(value)) { 
-
+            return '时长必须是数字';
         }
     }
 };

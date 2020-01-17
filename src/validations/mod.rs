@@ -67,6 +67,18 @@ impl<'a> Validator<'a> {
         self
     }
 
+    /// 判断是否是数字
+    pub fn is_numeric(&mut self, field: &'static str, message: &'static str, is_required: bool) -> &mut Self { 
+        if let Some(v) = self.data.get(field) { 
+            if let Err(_) = v.parse::<isize>() { 
+                self.errors.push(message);
+            }
+        } else if is_required { 
+            self.errors.push(message);
+        }
+        self
+    }
+
     /// 两次输入的内容必须一致
     #[allow(dead_code)]
     pub fn equal(&mut self, field: &'static str, equal_field: &'static str, message: &'static str) -> &mut Self { 

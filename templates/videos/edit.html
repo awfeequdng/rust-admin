@@ -10,9 +10,24 @@
 {{ form::input(name="content", title="说明", value=row.remark) }}
 <script>
 layui.validators = { 
-    name: function(value) { 
-        if (value.length < 5) { 
-            return '昵称至少5个字符';
+    title: function(value) { 
+        if (value.length < 2 || value.length > 50) { 
+            return '标题长度必须2-50之间';
+        }
+    },
+    remark: function(value) { 
+        if (value.length > 100) { 
+            return '备注长度不能超过100';
+        }
+    },
+    cover_imge: function(value) { 
+        if (value.length > 100) { 
+            return '封面图片长度过长';
+        }
+    },
+    duration: function(value) { 
+        if (isNaN(value)) { 
+
         }
     }
 };

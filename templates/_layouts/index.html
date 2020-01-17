@@ -1,6 +1,12 @@
 <!DOCTYPE html>
 <html class="x-admin-sm">
-    <head>{% include "_elements/head.html" -%}</head>
+    <head>
+        {% include "_elements/head.html" -%}
+        <style type="text/css">
+            .layui-table td, .layui-table th{ min-width: 40px; }
+            .row-id { width: 60px; }
+        </style>
+    </head>
     <body>
         <div class="x-nav">
             <span class="layui-breadcrumb">

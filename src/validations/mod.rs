@@ -110,10 +110,8 @@ impl<'a> Validator<'a> {
     pub fn in_range<T: Sized + FromStr + PartialEq>(&mut self, field: &'static str, message: &'static str, array: &[T]) -> &mut Self { 
         if let Some(v) = self.data.get(field) { 
             if let Ok(n) = v.parse::<T>() { 
-                for i in array { 
-                    if i == &n { 
-                        return self
-                    }
+                if array.contains(&n) { 
+                    return self;
                 }
             }
         }

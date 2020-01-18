@@ -6,6 +6,11 @@ use crate::models::{Menus, Users, Index as ThisModel};
 pub struct Index {}
 
 impl Index { 
+    
+    /// 测试请求
+    pub async fn test() -> &'static str { 
+        "hello, there"
+    }
 
     /// 后台首页登录
     pub async fn index(tpl: Tpl) -> HttpResponse { 

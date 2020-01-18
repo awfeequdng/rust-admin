@@ -2,7 +2,7 @@
 #[macro_use] extern crate lazy_static;
 #[macro_use] extern crate serde_json;
 
-use actix_web::{App, HttpServer, middleware};
+use actix_web::{App, HttpServer, middleware, web};
 use fluffy::{db};
 use actix_session::{CookieSession};
 
@@ -53,6 +53,7 @@ async fn main() -> std::io::Result<()> {
             .wrap(CookieSession::signed(&[0; 32]).secure(false))
             .data(tpl)
             .wrap(middleware::Logger::default()) // enable logger
+            .service(web::resource("/test").to(Index::test))
             .service(get!("/", Index::index))
             .service(post!("/index/login", Index::login))
             .service(get!("/index/manage", Index::manage))

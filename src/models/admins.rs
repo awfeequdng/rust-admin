@@ -1,6 +1,8 @@
 use fluffy::{DbRow, model::Model,};
 use super::ModelBackend;
 use serde_derive::{Serialize};
+use crate::validations::Validator;
+use std::collections::HashMap;
 
 #[derive(Default, Debug, Serialize)]
 pub struct Admins { 
@@ -13,6 +15,7 @@ pub struct Admins {
     pub created: u32, //添加时间
     pub updated: u32, //更新时间
     pub role_id: usize,
+    pub seq: isize,
 }
 
 impl Model for Admins { 
@@ -32,6 +35,15 @@ impl ModelBackend for Admins {
         last_login => u32,
         created => u32,
         updated => u32,
+        seq => isize,
     ]);
+
+    fn validate(data: &HashMap<String, String>) -> Result<(), String> { 
+        Validator::load(&data)
+            .string_length("name", "分类名称必须在2-20之间", 2, 20, true)
+            .is_yes_no("state", "状态值不正确")
+            .is_numeric("seq", "排序必须是有效的数字", true)
+            .validate()
+    }
 
 }

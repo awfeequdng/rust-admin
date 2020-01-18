@@ -1,6 +1,8 @@
 use fluffy::{DbRow, model::Model,};
 use super::ModelBackend;
 use serde_derive::{Serialize};
+use crate::validations::Validator;
+use std::collections::HashMap;
 
 #[derive(Default, Debug, Serialize)]
 pub struct Videos { 
@@ -34,4 +36,15 @@ impl ModelBackend for Videos {
         created => u32,
         updated => u32,
     ]);
+
+    fn validate(data: &HashMap<String, String>) -> Result<(), String> { 
+        Validator::load(&data)
+            .is_numeric("parent_id", "上级菜单编号必须是有效的数字")
+            .string_length("name", "分类名称必须在2-20之间", 2, 20, true)
+            .string_limit("url", "链接地址长度不能超过200", 200)
+            .is_yes_no("state", "状态值不正确")
+            .is_yes_no("is_blank", "是否外链值不正确")
+            .is_numeric("seq", "排序必须是有效的数字")
+            .validate()
+    }
 }

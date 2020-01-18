@@ -16,18 +16,18 @@
         </div>
         <div class="layui-form-mid layui-word-aux"> <span class="x-red">*</span> {{note}} </div>
     </div>
-{% endmacro input -%}
+{% endmacro password -%}
 
-{% macro state(name, title, value="", note="") -%}
+{% macro state(value) -%}
     <div class="layui-form-item">
-        <label for="{{name}}" class="layui-form-label"> <span class="x-red">*</span>{{title}}: </label>
+        <label for="state" class="layui-form-label"> <span class="x-red">*</span>状态: </label>
         <div class="layui-input-inline">
-            <select name="city" lay-verify="required">
+            <select name="state" lay-verify="required">
                 <option value="0" {% if value == 0 %}selected="selected"{% endif %}>禁用</option>
                 <option value="1" {% if value == 1 %}selected="selected"{% endif %}>启用</option>
             </select>
         </div>
-        <div class="layui-form-mid layui-word-aux"> <span class="x-red">*</span> {{note}} </div>
+        <div class="layui-form-mid layui-word-aux"> <span class="x-red">*</span> </div>
     </div>
 {% endmacro state -%}
 
@@ -42,7 +42,7 @@
         </div>
         <div class="layui-form-mid layui-word-aux"> <span class="x-red">*</span> {{note}} </div>
     </div>
-{% endmacro state -%}
+{% endmacro yes_no -%}
 
 {% macro list(name, title, data, value="", note="") -%}
     <div class="layui-form-item">
@@ -56,4 +56,15 @@
         </div>
         <div class="layui-form-mid layui-word-aux"> <span class="x-red">*</span> {{note}} </div>
     </div>
-{% endmacro state -%}
+{% endmacro list -%}
+
+{% macro seq(value) -%}
+    <div class="layui-form-item">
+        <label for="seq" class="layui-form-label"> <span class="x-red">*</span>排序: </label>
+        <div class="layui-input-inline">
+            <input type="text" id="seq" name="seq" required="true" lay-verify="required" autocomplete="off" class="layui-input" value="{{ value }}" />
+        </div>
+        <div class="layui-form-mid layui-word-aux"> <span class="x-red">*</span> </div>
+    </div>
+{% endmacro seq -%}
+

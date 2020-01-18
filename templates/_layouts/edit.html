@@ -21,6 +21,7 @@
             <div class="layui-row">
                 <form class="layui-form" id="edit_form">
                     {% block body -%} {% endblock body -%}
+                    <input type="hidden" value="{{id}}" name="id" />
                     <div class="layui-form-item">
                         <label for="L_repass" class="layui-form-label"> </label>
                         <button  class="layui-btn" lay-filter="add" lay-submit=""> {{ button_text }} </button>

@@ -33,25 +33,25 @@ impl<'a> Validator<'a> {
     pub fn is_username(&mut self, field: &'static str, message: &'static str, is_required: bool) -> &mut Self { 
         if let Some(v) = self.data.get(field) { 
             let count = v.chars().count();
-            if count < 5 || count > 20 || !RE_USERNAME.is_match(v) { 
-                self.errors.push(message);
-            }
-        } else if is_required { 
+            if count > 5 && count < 20 && RE_USERNAME.is_match(v) { 
+                return self;
+            } 
+        }
+        if is_required { 
             self.errors.push(message);
         }
         self
     }
 
     /// 检测是否是正确的密码格式
-    pub fn is_password(&mut self, field: &'static str, message: &'static str, is_required: bool) -> &mut Self { 
+    pub fn is_password(&mut self, field: &'static str, message: &'static str) -> &mut Self { 
         if let Some(v) = self.data.get(field) { 
             let count = v.chars().count();
-            if count < 5 || count > 20 { 
-                self.errors.push(message);
+            if count > 5 && count < 20 { 
+                return self;
             }
-        } else if is_required { 
-            self.errors.push(message);
         }
+        self.errors.push(message);
         self
     }
 

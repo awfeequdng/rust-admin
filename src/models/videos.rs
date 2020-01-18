@@ -41,7 +41,7 @@ impl ModelBackend for Videos {
         Validator::load(&data)
             .string_length("title", "标题长度必须在2-30之间", 2, 30, true)
             .string_limit("remark", "备注长度不能超过200", 200)
-            .string_length("cover_image", "链接地址长度必须在2-200之间", 2, 200, true)
+            .string_length("cover_image", "封面地址长度必须在2-200之间", 2, 200, true)
             .is_unsigned("duration", "时长必须是正确的数字")
             .is_numeric("seq", "排序必须是有效的数字")
             .is_state("state", "必须选择正确的状态值")

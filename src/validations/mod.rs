@@ -1,5 +1,6 @@
 use std::collections::HashMap;
 use regex::Regex;
+use std::str::FromStr;
 
 lazy_static! { 
     static ref RE_USERNAME: Regex = { Regex::new(r"^[a-zA-Z]+[a-zA-Z_0-9]{5,19}$").unwrap() };
@@ -94,8 +95,7 @@ impl<'a> Validator<'a> {
     }
 
     /// 是否是 1/0 的选项
-    #[allow(dead_code)]
-    pub fn is_yes_no(&mut self, field: &'static str, message: &'static str, is_required: bool) -> &mut Self { 
+    pub fn is_yes_no(&mut self, field: &'static str, message: &'static str) -> &mut Self { 
         if let Some(v) = self.data.get(field) { 
             if let Ok(n) = v.parse::<usize>() { 
                 if n == 0 || n == 1 { 
@@ -103,33 +103,55 @@ impl<'a> Validator<'a> {
                 }
             }
         }
-        if is_required { 
-            self.errors.push(message);
-        }
+        self.errors.push(message);
         self
     }
 
-    /// 判断是否是电子邮件
-    #[allow(dead_code)]
-    pub fn is_mail(&mut self, field: &'static str, message: &'static str, is_required: bool) -> &mut Self  {
+    /// 必须在某个区间范围之内
+    pub fn in_range<T: Sized + FromStr + PartialEq>(&mut self, field: &'static str, message: &'static str, array: &[T]) -> &mut Self { 
         if let Some(v) = self.data.get(field) { 
-            if RE_MAIL.is_match(v) { 
-                self.errors.push(message);
+            if let Ok(n) = v.parse::<T>() { 
+                for i in array { 
+                    if i == &n { 
+                        return self
+                    }
+                }
             }
-        } else if is_required { 
-            self.errors.push(message);
         }
+        self.errors.push(message);
         self
     }
+
+    // 判断是否是电子邮件
+    //pub fn is_mail(&mut self, field: &'static str, message: &'static str, is_required: bool) -> &mut Self  {
+    //    if let Some(v) = self.data.get(field) { 
+    //        if RE_MAIL.is_match(v) { 
+    //            self.errors.push(message);
+    //        }
+    //    } else if is_required { 
+    //        self.errors.push(message);
+    //    }
+    //    self
+    //}
 
     /// 指定长度的字符串
-    pub fn length(&mut self, field: &'static str, message: &'static str, min: usize, max: usize, is_required: bool) -> &mut Self { 
+    pub fn string_length(&mut self, field: &'static str, message: &'static str, min: usize, max: usize, is_required: bool) -> &mut Self { 
         if let Some(v) = self.data.get(field) { 
             if v.len() < min || v.len() > max {
                 self.errors.push(message);
             }
         } else if is_required { 
             self.errors.push(message);
+        }
+        self
+    }
+
+    /// 限定长度字符串
+    pub fn string_limit(&mut self, field: &'static str, message: &'static str, max: usize) -> &mut Self { 
+        if let Some(v) = self.data.get(field) { 
+            if v.len() > max { 
+                self.errors.push(message);
+            }
         }
         self
     }

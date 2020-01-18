@@ -34,7 +34,7 @@ impl ModelBackend for UserLevels {
 
     fn validate(data: &HashMap<String, String>) -> Result<(), String> { 
         Validator::load(&data)
-            .length("name", "分类名称必须在2-20之间", 2, 20, true)
+            .string_length("name", "分类名称必须在2-20之间", 2, 20, true)
             .validate()
     }
 }

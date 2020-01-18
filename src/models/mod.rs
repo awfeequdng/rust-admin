@@ -41,18 +41,12 @@ pub trait ModelBackend: Model {
 
     /// 得到單條記錄
     fn get_record(_: DbRow) -> Self::M;
+    
+    /// 保存到数据库之前的处理
+    fn save_before(_data: &mut HashMap<String, String>) {}
 
     /// 得到当前的Model
     fn get_default() -> Self::M { Self::M::default() }
-
-    /// 是否允许添加
-    fn option_create() -> bool { true }
-    
-    /// 是否允许修改
-    fn option_update() -> bool { true }
-
-    /// 是否允许删除
-    fn option_delete() -> bool { true }
 
     /// 校验提交上来的数据
     fn validate(_data: &HashMap<String, String>) -> Result<(), String>{ Ok(()) }

@@ -32,24 +32,37 @@
     </body>
 </html>
 <script>
-    layui.use(['laydate','form', 'laypage'], function(){
-        var laydate = layui.laydate, form = layui.form, laypage = layui.laypage;
+    layui.use(['laydate','form', 'laypage', 'jquery'], function(){
+        var laydate = layui.laydate, form = layui.form, laypage = layui.laypage, $ = layui.jquery;
         
-        //执行一个laydate实例
+        // 执行一个laydate实例
         laydate.render({
           elem: '#start' //指定元素
         });
 
-        //执行一个laydate实例
+        // 执行一个laydate实例
         laydate.render({
             elem: '#end' //指定元素
         });
-
+        
+        // 分页信息
         laypage.render({
             elem: 'pager',
             count: {{ pager.rows_total }},
             limit: {{ pager.limit }},
             curr: {{ pager.current }}
+        });
+
+        // 添加记录
+        $(".record-add").click(function() { 
+            var that = $(this);
+            xadmin.open('添加数据', '/{{controller_name}}/edit/0', that.attr("w_width"), that.attr("w_height"));
+        });
+    
+        // 修改记录
+        $(".record-update").click(function() { 
+            var that = $(this);
+            xadmin.open('添加数据', '/{{controller_name}}/edit/' + that.attr("rid"), that.attr("w_width"), that.attr("w_height"));
         });
     });
 

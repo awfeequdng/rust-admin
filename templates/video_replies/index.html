@@ -17,9 +17,7 @@
         </div>
     </form>
 </div>
-<div class="layui-card-header">
-    {{option::delete_all(controller=controller_name)}}
-</div>
+<div class="layui-card-header"> {{option::delete_all()}} </div>
 <div class="layui-card-body ">
     <table class="layui-table layui-form">
     <thead>
@@ -45,7 +43,7 @@
             <td>{{r.user_name}}</td>
             <td>{{r.content}}</td>
             <td>{{r.created|date(format="%Y-%m-%d %H:%M")}}</td>
-            <td class="td-manage"> {{option::update()}} | {{option::delete()}} </td>
+            <td class="td-manage"> {{option::delete()}} </td>
         </tr>
         {% endfor -%}
         </tbody>

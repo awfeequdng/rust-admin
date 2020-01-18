@@ -1,13 +1,13 @@
-{% macro delete_all(controller) -%}
-<button class="layui-btn layui-btn-danger" onclick="delAll()" url="{{controller}}/delete/"><i class="layui-icon"></i>批量删除</button>
+{% macro delete_all() -%}
+<button class="layui-btn layui-btn-danger record-delete-all"><i class="layui-icon"></i>批量删除</button>
 {% endmacro -%}
 
-{% macro add(controller, height=400, width=600) -%}
-<button class="layui-btn" onclick="xadmin.open('添加数据', '/{{controller}}/edit/0', {{width}}, {{height}})"><i class="layui-icon"></i>添加</button>
+{% macro add(height=400, width=600) -%}
+<button class="layui-btn record-add" w_width="{{width}}" w_height="{{height}}"><i class="layui-icon"></i>添加</button>
 {% endmacro -%}
 
-{% macro update() -%}
-<a title="编辑" href="javascript:;"><i class="layui-icon">&#xe642;</i></a>
+{% macro update(id, height=400, width=600) -%}
+<a title="编辑" href="javascript:;" class="record-update" rid="{{id}}" w_width="{{width}}" w_height="{{height}}"><i class="layui-icon">&#xe642;</i></a>
 {% endmacro -%}
 
 {% macro delete() -%}

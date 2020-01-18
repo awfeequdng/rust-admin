@@ -17,10 +17,7 @@
         </div>
     </form>
 </div>
-<div class="layui-card-header">
-    {{option::delete_all(controller=controller_name)}}
-    {{option::add(controller=controller_name, height=300)}}
-</div>
+<div class="layui-card-header"> {{option::delete_all()}} {{option::add(height=300)}} </div>
 <div class="layui-card-body ">
     <table class="layui-table layui-form">
     <thead>
@@ -40,7 +37,7 @@
             <td>{{r.name }}</td>
             <td>{{r.remark}}</td>
             <td>{{r.seq}}</td>
-            <td class="td-manage"> {{option::update()}} | {{option::delete()}} </td>
+            <td class="td-manage"> {{option::update(id=r.id, height=300)}} | {{option::delete()}} </td>
         </tr>
         {% endfor -%}
         </tbody>

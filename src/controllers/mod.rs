@@ -80,7 +80,7 @@ pub trait Controller {
         Self::M::save_before(&mut checked_fields); //对于保存数据前的检测
         let mut data = DataSet::create();
         for (k, v) in &checked_fields { 
-            data.set(k, v);
+            data.set(k, &v.trim());
         }
         let mut conn = db::get_conn();
         let id = Self::M::create(&mut conn, &data);
@@ -102,7 +102,10 @@ pub trait Controller {
         Self::M::save_before(&mut checked_fields); //对于保存数据前的检测
         let mut data = DataSet::update();
         for (k, v) in &checked_fields { 
-            data.set(k, v);
+            if k == "id" {  //跳过id字段
+                continue;
+            }
+            data.set(k, &v.trim());
         }
         let mut conn = db::get_conn();
         let cond = cond![ "id" => &id, ];

@@ -63,7 +63,8 @@ impl Index {
         ];
         render!(tpl, "index/manage.html", &data)
     }
-
+    
+    /// 后台进入之后的首页
     pub async fn right(tpl: Tpl) -> HttpResponse { 
         render!(tpl, "index/right.html")
     }

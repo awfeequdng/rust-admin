@@ -16,10 +16,7 @@
         </div>
     </form>
 </div>
-<div class="layui-card-header">
-    <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
-    <button class="layui-btn" onclick="xadmin.open('添加用户','./admin-add.html',600,400)"><i class="layui-icon"></i>添加</button>
-</div>
+<div class="layui-card-header"> {{option::delete_all()}} {{option::add(height=300)}} </div>
 <div class="layui-card-body ">
     <table class="layui-table layui-form">
     <thead>
@@ -47,11 +44,7 @@
             <td>{{ r.last_login|date(format="%Y-%m-%d %H:%M") }}</td>
             <td>{{ r.created|date(format="%Y-%m-%d %H:%M") }}</td>
             <td>{{ r.updated|date(format="%Y-%m-%d %H:%M") }}</td>
-            <td class="td-manage">
-                <a href="javascript:;"  title="启用"><i class="layui-icon">&#xe601;</i></a>
-                <a title="编辑" href="javascript:;"><i class="layui-icon">&#xe642;</i></a>
-                <a title="删除" href="javascript:;"><i class="layui-icon">&#xe640;</i></a>
-            </td>
+            <td class="td-manage"> {{option::update(id=r.id, height=300)}} | {{option::delete()}} </td>
         </tr>
         {% endfor -%}
         </tbody>

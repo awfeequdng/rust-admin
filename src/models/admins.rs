@@ -57,6 +57,8 @@ impl ModelBackend for Admins {
                 need_password = true
             }
         } 
+
+        println!("data = {:?}", data);
         if need_password {
             vali.is_password("password", "必须输入密码");
             vali.equal("password", "re_password", "两次输入的密码必须一致");

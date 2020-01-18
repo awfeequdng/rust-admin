@@ -70,13 +70,13 @@ pub trait Controller {
 
     /// 添加
     fn save_for_create(post: Form<HashMap<String, String>>) -> HttpResponse { 
-        let table_name = Self::M::get_table_name();
-        let table_fields = caches::TABLE_FIELDS.lock().unwrap();
         let post_fields = post.into_inner();
-        let mut checked_fields = Db::check_fields(table_name, &table_fields, post_fields, false); //經過檢驗之後的數據
-        if let Err(message) = Self::M::validate(&checked_fields) {  //如果检验出错
+        if let Err(message) = Self::M::validate(&post_fields) {  //如果检验出错
             return response::error(message);
         }
+        let table_name = Self::M::get_table_name();
+        let table_fields = caches::TABLE_FIELDS.lock().unwrap();
+        let mut checked_fields = Db::check_fields(table_name, &table_fields, post_fields, false); //經過檢驗之後的數據
         Self::M::save_before(&mut checked_fields); //对于保存数据前的检测
         let mut data = DataSet::create();
         for (k, v) in &checked_fields { 
@@ -92,13 +92,13 @@ pub trait Controller {
     
     /// 修改
     fn save_for_update(id: usize, post: Form<HashMap<String, String>>) -> HttpResponse { 
-        let table_name = Self::M::get_table_name();
-        let table_fields = caches::TABLE_FIELDS.lock().unwrap();
         let post_fields = post.into_inner();
-        let mut checked_fields = Db::check_fields(table_name, &table_fields, post_fields, true); //經過檢驗之後的數據
-        if let Err(message) = Self::M::validate(&checked_fields) {  //如果检验出错
+        if let Err(message) = Self::M::validate(&post_fields) {  //如果检验出错
             return response::error(message);
         }
+        let table_name = Self::M::get_table_name();
+        let table_fields = caches::TABLE_FIELDS.lock().unwrap();
+        let mut checked_fields = Db::check_fields(table_name, &table_fields, post_fields, true); //經過檢驗之後的數據
         Self::M::save_before(&mut checked_fields); //对于保存数据前的检测
         let mut data = DataSet::update();
         for (k, v) in &checked_fields { 

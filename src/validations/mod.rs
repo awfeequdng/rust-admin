@@ -79,8 +79,18 @@ impl<'a> Validator<'a> {
         self
     }
 
+    /// 判断必须是正整数(包括0)
+    pub fn is_unsigned(&mut self, field: &'static str, message: &'static str) -> &mut Self { 
+        if let Some(v) = self.data.get(field) { 
+            if let Ok(_) = v.parse::<usize>() { 
+                return self;
+            }
+        }
+        self.errors.push(message);
+        self
+    }
+
     /// 两次输入的内容必须一致
-    #[allow(dead_code)]
     pub fn equal(&mut self, field: &'static str, equal_field: &'static str, message: &'static str) -> &mut Self { 
         if let Some(v) = self.data.get(field) { 
             if let Some(e) = self.data.get(equal_field) { 
@@ -95,6 +105,19 @@ impl<'a> Validator<'a> {
 
     /// 是否是 1/0 的选项
     pub fn is_yes_no(&mut self, field: &'static str, message: &'static str) -> &mut Self { 
+        if let Some(v) = self.data.get(field) { 
+            if let Ok(n) = v.parse::<usize>() { 
+                if n == 0 || n == 1 { 
+                    return self;
+                }
+            }
+        }
+        self.errors.push(message);
+        self
+    }
+
+    /// 是否是 1/0 的选项
+    pub fn is_state(&mut self, field: &'static str, message: &'static str) -> &mut Self { 
         if let Some(v) = self.data.get(field) { 
             if let Ok(n) = v.parse::<usize>() { 
                 if n == 0 || n == 1 { 

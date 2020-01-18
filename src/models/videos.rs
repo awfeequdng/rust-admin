@@ -39,12 +39,12 @@ impl ModelBackend for Videos {
 
     fn validate(data: &HashMap<String, String>) -> Result<(), String> { 
         Validator::load(&data)
-            .is_numeric("parent_id", "上级菜单编号必须是有效的数字")
-            .string_length("name", "分类名称必须在2-20之间", 2, 20, true)
-            .string_limit("url", "链接地址长度不能超过200", 200)
-            .is_yes_no("state", "状态值不正确")
-            .is_yes_no("is_blank", "是否外链值不正确")
+            .string_length("title", "标题长度必须在2-30之间", 2, 30, true)
+            .string_limit("remark", "备注长度不能超过200", 200)
+            .string_length("cover_image", "链接地址长度必须在2-200之间", 2, 200, true)
+            .is_unsigned("duration", "时长必须是正确的数字")
             .is_numeric("seq", "排序必须是有效的数字")
+            .is_state("state", "必须选择正确的状态值")
             .validate()
     }
 }

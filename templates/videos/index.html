@@ -17,7 +17,7 @@
         </div>
     </form>
 </div>
-<div class="layui-card-header"> {{option::delete_all()}} {{option::add(height=300)}} </div>
+<div class="layui-card-header"> {{option::delete_all()}} {{option::add(height=500)}} </div>
 <div class="layui-card-body ">
     <table class="layui-table layui-form">
     <thead>
@@ -47,7 +47,7 @@
             <td>{{r.state}}</td>
             <td>{{r.created|date(format="%Y-%m-%d %H:%M")}}</td>
             <td>{{r.updated|date(format="%Y-%m-%d %H:%M")}}</td>
-            <td class="td-manage"> {{option::update(id=r.id, height=300)}} | {{option::delete()}} </td>
+            <td class="td-manage"> {{option::update(id=r.id, height=500)}} | {{option::delete()}} </td>
         </tr>
         {% endfor -%}
         </tbody>

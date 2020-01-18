@@ -42,7 +42,7 @@ impl ModelBackend for Admins {
         Validator::load(&data)
             .string_length("name", "分类名称必须在2-20之间", 2, 20, true)
             .is_yes_no("state", "状态值不正确")
-            .is_numeric("seq", "排序必须是有效的数字", true)
+            .is_numeric("seq", "排序必须是有效的数字")
             .validate()
     }
 

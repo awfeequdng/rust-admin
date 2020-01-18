@@ -46,7 +46,7 @@ impl ModelBackend for Ads {
             .in_range("position_id", "位置必须在范围之内", &POSITION_IDS)
             .string_limit("url", "链接地址长度不能超过200", 200)
             .is_yes_no("is_blank", "必须输入选项是否外链")
-            .is_numeric("seq", "排序必须是有效的数字", true)
+            .is_numeric("seq", "排序必须是有效的数字")
             .validate()
     }
 }

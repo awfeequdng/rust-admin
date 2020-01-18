@@ -69,14 +69,13 @@ impl<'a> Validator<'a> {
     }
 
     /// 判断是否是数字
-    pub fn is_numeric(&mut self, field: &'static str, message: &'static str, is_required: bool) -> &mut Self { 
+    pub fn is_numeric(&mut self, field: &'static str, message: &'static str) -> &mut Self { 
         if let Some(v) = self.data.get(field) { 
-            if let Err(_) = v.parse::<isize>() { 
-                self.errors.push(message);
+            if let Ok(_) = v.parse::<isize>() { 
+                return self;
             }
-        } else if is_required { 
-            self.errors.push(message);
-        }
+        } 
+        self.errors.push(message);
         self
     }
 

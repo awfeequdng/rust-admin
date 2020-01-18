@@ -61,9 +61,9 @@ async fn main() -> std::io::Result<()> {
             .service(get!("/index/right", Index::right))
             //后台用户
             .service(get!("/admins", Admins::index))
-            .service(get!("/admin_roles/edit/{id}", Admins::edit))
-            .service(post!("/admin_roles/save/{id}", Admins::save))
-            .service(get!("/admin_roles/delete/{ids}", Admins::delete))
+            .service(get!("/admins/edit/{id}", Admins::edit))
+            .service(post!("/admins/save/{id}", Admins::save))
+            .service(get!("/admins/delete/{ids}", Admins::delete))
             //角色管理 
             .service(get!("/admin_roles", AdminRoles::index))
             .service(get!("/admin_roles/edit/{id}", AdminRoles::edit))

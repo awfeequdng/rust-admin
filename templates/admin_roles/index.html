@@ -1,4 +1,5 @@
 {% extends "_layouts/index.html" -%}
+{% import "_macros/options.html" as option -%}
 {% block content -%}
 <div class="layui-card-body ">
     <form class="layui-form layui-col-space5">
@@ -34,11 +35,7 @@
             <td>{{ r.id }}</td>
             <td>{{ r.name }}</td>
             <td>{{ r.remark }}</td>
-            <td class="td-manage">
-                <a href="javascript:;"  title="启用"><i class="layui-icon">&#xe601;</i></a>
-                <a title="编辑" href="javascript:;"><i class="layui-icon">&#xe642;</i></a>
-                <a title="删除" href="javascript:;"><i class="layui-icon">&#xe640;</i></a>
-            </td>
+            <td class="td-manage"> {{option::update(id=r.id, height=300)}} | {{option::delete(id=r.id)}} </td>
         </tr>
         {% endfor -%}
         </tbody>

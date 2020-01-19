@@ -10,6 +10,6 @@
 <a title="编辑" href="javascript:;" class="record-update" rid="{{id}}" w_width="{{width}}" w_height="{{height}}"><i class="layui-icon">&#xe642;</i></a>
 {% endmacro -%}
 
-{% macro delete() -%}
-<a title="删除" href="javascript:;"><i class="layui-icon">&#xe640;</i></a>
+{% macro delete(id) -%}
+<a title="删除" href="javascript:;" class="record-delete" rid={{id}}><i class="layui-icon">&#xe640;</i></a>
 {% endmacro -%}

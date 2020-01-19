@@ -43,7 +43,7 @@
             <td>{{r.user_name}}</td>
             <td>{{r.content}}</td>
             <td>{{r.created|date(format="%Y-%m-%d %H:%M")}}</td>
-            <td class="td-manage"> {{option::delete()}} </td>
+            <td class="td-manage"> {{option::delete(id=r.id)}} </td>
         </tr>
         {% endfor -%}
         </tbody>

@@ -47,7 +47,7 @@
             <td>{{r.last_login|date(format="%Y-%m-%d %H:%M")}}</td>
             <td>{{r.created|date(format="%Y-%m-%d %H:%M")}}</td>
             <td>{{r.updated|date(format="%Y-%m-%d %H:%M")}}</td>
-            <td class="td-manage"> {{option::update(id=r.id, height=300)}} | {{option::delete()}} </td>
+            <td class="td-manage"> {{option::update(id=r.id, height=300)}} | {{option::delete(id=r.id)}} </td>
         </tr>
         {% endfor -%}
         </tbody>

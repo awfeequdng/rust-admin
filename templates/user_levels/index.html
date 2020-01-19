@@ -43,7 +43,7 @@
             <td>{{r.score_min}}</td>
             <td>{{r.score_max}}</td>
             <td>{{r.seq}}</td>
-            <td class="td-manage"> {{option::update(id=r.id, height=300)}} | {{option::delete()}} </td>
+            <td class="td-manage"> {{option::update(id=r.id, height=300)}} | {{option::delete(id=r.id)}} </td>
         </tr>
         {% endfor -%}
         </tbody>

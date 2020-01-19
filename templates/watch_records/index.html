@@ -39,7 +39,7 @@
             <td>{{r.user_name}}</td>
             <td>{{r.video_id}}</td>
             <td>{{r.created}}</td>
-            <td class="td-manage"> {{option::delete()}} </td>
+            <td class="td-manage"> {{option::delete(id=r.id)}} </td>
         </tr>
         {% endfor -%}
         </tbody>

@@ -64,36 +64,25 @@
             var that = $(this);
             xadmin.open('添加数据', '/{{controller_name}}/edit/' + that.attr("rid"), that.attr("w_width"), that.attr("w_height"));
         });
+
+        // 删除记录
+        $(".record-delete").click(function() { 
+            var that = $(this);
+            var id = that.attr("rid");
+            layer.confirm('确认要删除这条记录吗？',function(){
+                //发异步删除数据
+                var url = "/{{controller_name}}/delete/" + id;
+                $.get(url, function(res) { 
+                    if (res.code !== 0) { 
+                        layer.msg("删除失败", {icon: 1, time: 500});
+                        return;
+                    }
+                    $(that).parents("tr").remove();
+                    layer.msg('删除成功!',{icon:1,time:1000});
+                });
+            });
+        });
     });
-
-    /*用户-停用*/
-    function member_stop(obj,id){
-        layer.confirm('确认要停用吗？',function(index){
-            if($(obj).attr('title')=='启用'){
-                //发异步把用户状态进行更改
-                $(obj).attr('title','停用')
-                $(obj).find('i').html('&#xe62f;');
-
-                $(obj).parents("tr").find(".td-status").find('span').addClass('layui-btn-disabled').html('已停用');
-                layer.msg('已停用!',{icon: 5,time:1000});
-            } else {
-                $(obj).attr('title','启用')
-                $(obj).find('i').html('&#xe601;');
-
-                $(obj).parents("tr").find(".td-status").find('span').removeClass('layui-btn-disabled').html('已启用');
-                layer.msg('已启用!',{icon: 5,time:1000});
-            }
-        });
-    }
-
-    /*用户-删除*/
-    function member_del(obj,id){
-        layer.confirm('确认要删除吗？',function(index){
-            //发异步删除数据
-            $(obj).parents("tr").remove();
-            layer.msg('已删除!',{icon:1,time:1000});
-        });
-    }
 
     function delAll (argument) {
         var data = tableCheck.getData();

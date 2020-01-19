@@ -47,7 +47,7 @@
             <td>{{r.url}}</td>
             <td>{{r.is_blank|yes_no}}</td>
             <td>{{r.seq}}</td>
-            <td class="td-manage"> {{option::update(id=r.id, height=300)}} | {{option::delete()}} </td>
+            <td class="td-manage"> {{option::update(id=r.id, height=300)}} | {{option::delete(id=r.id)}} </td>
         </tr>
         {% endfor -%}
         </tbody>

@@ -12,6 +12,7 @@ pub struct Users {
     pub state: u32, //状态, 是否可用, 0: 不可用, 1:可用
     pub login_count: u32, //登录次数
     pub last_login: u32, //最后登录时间
+    pub remark: String,
     pub created: u32, //添加时间
     pub updated: u32, //更新时间
 }
@@ -30,6 +31,7 @@ impl ModelBackend for Users {
         state => u32,
         login_count => u32,
         last_login => u32,
+        remark => String,
         created => u32,
         updated => u32,
     ]);

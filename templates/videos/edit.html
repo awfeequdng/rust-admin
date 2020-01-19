@@ -2,12 +2,12 @@
 {% import "_macros/form.html" as form -%}
 {% block body %}
 {{ form::input(name="title", title="标题", value=row.title) }}
-{{ form::input(name="remark", title="备注", value=row.remark) }}
-{{ form::input(name="cover_image", title="封面图片", value=row.cover_image) }}
-{{ form::input(name="duration", title="时长(秒)", value=row.duration) }}
-{{ form::input(name="seq", title="排序", value=row.seq) }}
+{{ form::remark(value=row.remark) }}
+{{ form::input(name="cover_image", title="封面图片", value=row.cover_image, length=380) }}
+{{ form::input(name="duration", title="时长(秒)", value=row.duration, length=95) }}
+{{ form::seq(value=row.seq) }}
 {{ form::state(name="state", title="状态", value=row.state) }}
-{{ form::input(name="content", title="说明", value=row.remark) }}
+{{ form::input(name="content", title="说明", value=row.remark, length=380) }}
 <script>
 layui.validators = { 
     title: function(value) { 

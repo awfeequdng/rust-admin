@@ -1,20 +1,43 @@
-{% macro input(name, title, value="", required=true, note="") -%}
+{% macro input(name, title, value="", required=true, length=190) -%}
     <div class="layui-form-item">
-        <label for="{{name}}" class="layui-form-label"> <span class="x-red">*</span>{{title}}: </label>
+        <label for="{{name}}" class="layui-form-label"> {% if required %}<span class="x-red">*</span>{% endif %}{{title}}: </label>
         <div class="layui-input-inline">
-            <input type="text" id="{{name}}" name="{{name}}" required="" {% if required %}lay-verify="{{name}}"{% endif %} autocomplete="off" class="layui-input" value="{{ value }}" />
+            <input {% if length != 190 %}style="width:{{length}}px"{% endif %} type="text" id="{{name}}" name="{{name}}" 
+                required="" {% if required %}lay-verify="{{name}}"{% endif %} autocomplete="off" class="layui-input" value="{{ value }}" placeholder="请输入{{title}}" />
         </div>
-        <div class="layui-form-mid layui-word-aux"> <span class="x-red">*</span> {{note}} </div>
+        <div class="layui-form-mid layui-word-aux"> </div>
     </div>
 {% endmacro input -%}
+
+{% macro number(name, title, value="") -%}
+    <div class="layui-form-item">
+        <label for="{{name}}" class="layui-form-label"> <span class="x-red">*</span> {{title}}: </label>
+        <div class="layui-input-inline">
+            <input style="width:95px" type="text" id="{{name}}" name="{{name}}" 
+                required="" {% if required %}lay-verify="{{name}}"{% endif %} autocomplete="off" class="layui-input" value="{{ value }}" placeholder="请输入{{title}}" />
+        </div>
+        <div class="layui-form-mid layui-word-aux"> </div>
+    </div>
+{% endmacro number -%}
+
+{% macro remark(value="", required=false, length=380) -%}
+    <div class="layui-form-item">
+        <label for="remark" class="layui-form-label"> {% if required %}<span class="x-red">*</span>{% endif %} 备注: </label>
+        <div class="layui-input-inline">
+            <input style="width: {{length}}px" type="text" id="remark" name="remark" required="" {% if required %}lay-verify="{{name}}"{% endif %} 
+                placeholder="请输入备注" autocomplete="off" class="layui-input" value="{{ value }}" />
+        </div>
+        <div class="layui-form-mid layui-word-aux"> </div>
+    </div>
+{% endmacro remark -%}
 
 {% macro password(name, title, required=true, note="") -%}
     <div class="layui-form-item">
         <label for="{{name}}" class="layui-form-label"> <span class="x-red">*</span>{{title}}: </label>
         <div class="layui-input-inline">
-            <input type="password" id="{{name}}" name="{{name}}" required="" {% if required %}lay-verify="{{name}}"{% endif %} autocomplete="off" class="layui-input" value="" />
+            <input type="password" id="{{name}}" name="{{name}}" required="" {% if required %}lay-verify="{{name}}"{% endif %} autocomplete="off" class="layui-input" placeholder="请输入{{title}}" />
         </div>
-        <div class="layui-form-mid layui-word-aux"> <span class="x-red">*</span> {{note}} </div>
+        <div class="layui-form-mid layui-word-aux"> {{note}} </div>
     </div>
 {% endmacro password -%}
 
@@ -27,7 +50,7 @@
                 <option value="1" {% if value == 1 %}selected="selected"{% endif %}>启用</option>
             </select>
         </div>
-        <div class="layui-form-mid layui-word-aux"> <span class="x-red">*</span> </div>
+        <div class="layui-form-mid layui-word-aux"> </div>
     </div>
 {% endmacro state -%}
 
@@ -40,7 +63,7 @@
                 <option value="1" {% if value == 1 %}selected="selected"{% endif %}>是</option>
             </select>
         </div>
-        <div class="layui-form-mid layui-word-aux"> <span class="x-red">*</span> {{note}} </div>
+        <div class="layui-form-mid layui-word-aux"> {{note}} </div>
     </div>
 {% endmacro yes_no -%}
 
@@ -54,7 +77,7 @@
                 {% endfor -%}
             </select>
         </div>
-        <div class="layui-form-mid layui-word-aux"> <span class="x-red">*</span> {{note}} </div>
+        <div class="layui-form-mid layui-word-aux"> {{note}} </div>
     </div>
 {% endmacro list -%}
 
@@ -62,9 +85,10 @@
     <div class="layui-form-item">
         <label for="seq" class="layui-form-label"> <span class="x-red">*</span>排序: </label>
         <div class="layui-input-inline">
-            <input type="text" id="seq" name="seq" required="true" lay-verify="required" autocomplete="off" class="layui-input" value="{{ value }}" />
+            <input style="width: 95px;" type="text" id="seq" name="seq" required="true" lay-verify="required" 
+                autocomplete="off" class="layui-input" placeholder="请输入排序" value="{{ value }}" />
         </div>
-        <div class="layui-form-mid layui-word-aux"> <span class="x-red">*</span> </div>
+        <div class="layui-form-mid layui-word-aux"> </div>
     </div>
 {% endmacro seq -%}
 

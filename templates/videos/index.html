@@ -44,7 +44,7 @@
             <td>{{r.cover_image}}</td>
             <td>{{r.duration}}</td>
             <td>{{r.seq}}</td>
-            <td>{{r.state}}</td>
+            <td>{{r.state|state_name}}</td>
             <td>{{r.created|date(format="%Y-%m-%d %H:%M")}}</td>
             <td>{{r.updated|date(format="%Y-%m-%d %H:%M")}}</td>
             <td class="td-manage"> {{option::update(id=r.id, height=500)}} | {{option::delete(id=r.id)}} </td>

@@ -1,39 +1,60 @@
 {% macro input(name, title, value="") -%}
-<label for="name"> {{title}}: </label>
-<div class="layui-inline layui-show-xs-block" style="padding-right: 10px;">
-    <input type="text" name="{{name}}"  placeholder="请输入{{title}}" autocomplete="off" class="layui-input" value="{{value}}" />
+<div class="layui-inline">
+    <label for="{{name}}"> {{title}}: </label>
+    <div class="layui-inline layui-show-xs-block" style="padding-right: 10px;">
+        <input type="text" name="{{name}}"  placeholder="请输入{{title}}" autocomplete="off" class="layui-input" value="{{value}}" />
+    </div>
 </div>
 {% endmacro input -%}
 
 {% macro date_range(name, title, value_start, value_end) -%}
-<label for="name"> {{title}}: </label>
-<div class="layui-inline layui-show-xs-block">
-    <input class="layui-input date-range" style="width: 100px;"  autocomplete="off" placeholder="开始时间" name="{{name}}_start" id="{{name}}_start" value="{{value_start}}" readonly="readonly" />
-</div> - 
-<div class="layui-inline layui-show-xs-block">
-    <input class="layui-input date-range" style="width: 100px"  autocomplete="off" placeholder="结束时间" name="{{name}}_end" id="{{name}}_end" value="{{value_end}}" readonly="readonly" />
+<div class="layui-inline">
+    <label  for="{{name}}"> {{title}}: </label>
+    <div class="layui-inline layui-show-xs-block">
+        <input class="layui-input date-range" style="width: 100px;"  autocomplete="off" placeholder="开始时间" name="{{name}}_start" id="{{name}}_start" value="{{value_start}}" readonly="readonly" />
+    </div> - 
+    <div class="layui-inline layui-show-xs-block" style="padding-right: 10px;">
+        <input class="layui-input date-range" style="width: 100px"  autocomplete="off" placeholder="结束时间" name="{{name}}_end" id="{{name}}_end" value="{{value_end}}" readonly="readonly" />
+    </div>
 </div>
 {% endmacro date_range -%}
 
 {% macro yes_no(name, title, value=0) -%}
-<label for="name"> {{title}}: </label>
-<div class="layui-inline layui-show-xs-block">
-    <select name="{{name}}">
-        <option value="">请选择{{title}}</option>
-        <option value="0" {% if value == 0 %}selected="selected"{% endif %}>否</option>
-        <option value="1" {% if value == 1 %}selected="selected"{% endif %}>是</option>
-    </select>
+<div class="layui-inline">
+    <label for="{{name}}"> {{title}}: </label>
+    <div class="layui-inline layui-show-xs-block" style="padding-right: 10px;">
+        <select name="{{name}}">
+            <option value="">请选择{{title}}</option>
+            <option value="0" {% if value == 0 %}selected="selected"{% endif %}>否</option>
+            <option value="1" {% if value == 1 %}selected="selected"{% endif %}>是</option>
+        </select>
+    </div>
 </div>
 {% endmacro yes_no -%}
 
+{% macro state(value=0) -%}
+<div class="layui-inline">
+    <label for="state"> 状态: </label>
+    <div class="layui-inline layui-show-xs-block" style="padding-right: 10px;">
+        <select name="state">
+            <option value="">请选择状态</option>
+            <option value="0" {% if value == 0 %}selected="selected"{% endif %}>禁用</option>
+            <option value="1" {% if value == 1 %}selected="selected"{% endif %}>启用</option>
+        </select>
+    </div>
+</div>
+{% endmacro state -%}
+
 {% macro list(name, title, data, value=0) -%}
-<label for="name"> {{title}}: </label>
-<div class="layui-inline layui-show-xs-block">
-    <select name="{{name}}">
-        <option value="">请选择{{title}}</option>
-        {% for key, val in data %}
-        <option value="{{key}}" {% if value == val %}selected="selected"{% endif %}>{{val}}</option>
-        {% endfor -%}
-    </select>
+<div class="layui-inline">
+    <label for="{{name}}"> {{title}}: </label>
+    <div class="layui-inline layui-show-xs-block" style="padding-right: 10px;">
+        <select name="{{name}}">
+            <option value="">请选择{{title}}</option>
+            {% for key, val in data %}
+            <option value="{{key}}" {% if value == val %}selected="selected"{% endif %}>{{val}}</option>
+            {% endfor -%}
+        </select>
+    </div>
 </div>
 {% endmacro list -%}

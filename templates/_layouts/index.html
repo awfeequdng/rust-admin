@@ -46,16 +46,9 @@
 <script>
     layui.use(['laydate','form', 'laypage', 'jquery'], function(){
         var laydate = layui.laydate, form = layui.form, laypage = layui.laypage, $ = layui.jquery;
-        
-        // 执行一个laydate实例
-        laydate.render({
-          elem: '#start' //指定元素
-        });
-
-        // 执行一个laydate实例
-        laydate.render({
-            elem: '#end' //指定元素
-        });
+    
+        // 绑定日期控件
+        $(".date-range").each(function() { laydate.render({elem: "#" + $(this).attr("id")}); });
         
         // 分页信息
         laypage.render({

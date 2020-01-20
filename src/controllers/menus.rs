@@ -12,4 +12,8 @@ impl Controller for Menus {
         let menus = MENUS.lock().unwrap();
         data.insert("menus", &*menus);
     }
+
+    fn get_query_cond() -> Vec<(&'static str, &'static str)> { 
+        vec![("name", "%"), ("state", "="), ("url", "%"), ("is_blank", "=")]
+    }
 }

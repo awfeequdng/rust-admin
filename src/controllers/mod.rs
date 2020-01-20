@@ -22,41 +22,49 @@ pub trait Controller {
         let mut params = HashMap::new();
         for query in &queries { 
             let parts: Vec<&str> = query.split("=").collect();
-            params.insert(parts[0], parts[1]);
+            if parts.len() > 1 { 
+                params.insert(parts[0], parts[1]);
+            }
         }
+        println!("params = {:?}", params);
         params
     }
     
     /// 得到查询条件
-    fn get_query_cond() -> Vec<(&'static str, &'static str)> { 
-        vec![("name", "=")]
-    }
+    fn get_query_cond() -> Vec<(&'static str, &'static str)> { vec![] }
 
     /// 得到最终查询条件
-    fn get_cond(queries: HashMap<&str, &str>) -> CondBuilder { 
+    fn get_cond(queries: &HashMap<&str, &str>) -> CondBuilder { 
         let mut cond = CondBuilder::new();
         let conditions = Self::get_query_cond();
         for c in &conditions { 
             let field = c.0;
             let sign = c.1;
             if let Some(value) = queries.get(field) {
-                match field { 
-                    "=" => { cond.eq(field, value); },
-                    "!=" => { cond.ne(field, value); },
-                    ">" => { cond.gt(field, value); },
-                    ">=" => { cond.gte(field, value); },
-                    "<" => { cond.lt(field, value); },
-                    "<=" => { cond.lte(field, value); },
-                    "%" => { cond.like(field, value); },
+                let real_value = value.trim();
+                if real_value == "" { 
+                    continue;
+                }
+                match sign { 
+                    "=" => { cond.eq(field, &real_value); },
+                    "!=" => { cond.ne(field, &real_value); },
+                    ">" => { cond.gt(field, &real_value); },
+                    ">=" => { cond.gte(field, &real_value); },
+                    "<" => { cond.lt(field, &real_value); },
+                    "<=" => { cond.lte(field, &real_value); },
+                    "%" => { cond.like(field, &real_value); },
                     _ => { }
                 };
             }
             if sign == "[]" { 
-                let key1 = format!("{}_start", c.0);
-                let value1 = if let Some(v) = queries.get(key1.as_str()) { v }  else { continue; };
-                let key2 = format!("{}_end", c.0);
-                let value2 = if let Some(v) = queries.get(key2.as_str()) { v } else { continue; };
-                cond.between(field, value1, value2);
+                let key1 = format!("{}_start", field);
+                let value1 = if let Some(v) = queries.get(key1.as_str()) { v.trim() }  else { continue; };
+                let key2 = format!("{}_end", field);
+                let value2 = if let Some(v) = queries.get(key2.as_str()) { v.trim() } else { continue; };
+                if value1 == "" || value2 == "" { 
+                    continue;
+                }
+                cond.between(field, &value1, &value2);
             }
         }
 
@@ -66,18 +74,26 @@ pub trait Controller {
     /// 主頁
     fn index(tpl: Tpl, request: HttpRequest) -> HttpResponse { 
         let query_string = request.query_string();
-        println!("query_string: {}", query_string);
+        let queries = Self::get_queries(query_string);
+        let query_cond = Self::get_cond(&queries);
+        println!("query = {:?}", query_cond);
+        let cond = if query_cond.len() > 0 { Some(&query_cond) } else { None };
         let controller_name = Self::get_controller_name(); //控制器名称
-        let info = Self::M::get_records();
+        let info = Self::M::get_records(cond);
         let breads = caches::menus::BREADS.lock().unwrap();
         let bread_path = if let Some(v) = breads.get(&format!("/{}", controller_name)) { v } else { "" };
-        let data = tmpl_data![
+        let mut data = tmpl_data![
             "action_name" => &"index",
             "controller_name" => &controller_name,
             "records" => &info.records,
             "pager" => &info.pager,
             "bread_path" => &bread_path,
         ];
+        let conds = Self::get_query_cond();
+        for (key, _) in &conds { 
+            let value = queries.get(key).unwrap_or(&"");
+            data.insert(key.to_owned(), &value);
+        }
         let view_file = &format!("{}/index.html", controller_name);
         render!(tpl, view_file, &data)
     }

@@ -1,8 +1,6 @@
 {% extends "_layouts/index.html" -%}
 {% import "_macros/options.html" as option -%}
-{% block content -%}
-<div class="layui-card-body ">
-    <form class="layui-form layui-col-space5">
+{% block search -%}
         <div class="layui-inline layui-show-xs-block">
             <input class="layui-input"  autocomplete="off" placeholder="开始日" name="start" id="start">
         </div>
@@ -15,10 +13,13 @@
         <div class="layui-inline layui-show-xs-block">
             <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
         </div>
-    </form>
-</div>
-<div class="layui-card-header"> {{option::delete_all()}} {{option::add(height=500)}} </div>
-<div class="layui-card-body ">
+{% endblock search -%}
+
+{% block options -%}
+{{option::delete_all()}} {{option::add(height=500)}}
+{% endblock options -%}
+
+{% block content -%}
     <table class="layui-table layui-form">
     <thead>
         <tr>
@@ -53,5 +54,4 @@
         </tbody>
     </thead>
     </table>
-</div>
 {% endblock content -%}

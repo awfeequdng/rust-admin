@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 use std::default::Default;
 use std::fmt::Debug;
-use fluffy::{ db, DbRow, Pager, model::Model, };
+use fluffy::{ db, DbRow, Pager, model::Model, cond_builder::CondBuilder };
 use serde::ser::Serialize;
 
 #[derive(Debug, Default)]
@@ -52,18 +52,18 @@ pub trait ModelBackend: Model {
     fn validate(_data: &HashMap<String, String>) -> Result<(), String>{ Ok(()) }
 
     /// 得到所有記錄-帶分頁信息
-    fn get_records() -> DataGrid<Self::M> { 
+    fn get_records(cond: Option<&CondBuilder>) -> DataGrid<Self::M> { 
         let fields = Self::get_fields();
         let query = query![
             fields => fields,
         ];
         let mut conn = db::get_conn();
-        let rows = Self::M::fetch_rows(&mut conn, &query, None);
+        let rows = Self::M::fetch_rows(&mut conn, &query, cond);
         let mut rs: Vec<Self::M> = vec![];
         for r in rows { 
             rs.push(Self::get_record(r));
         }
-        let pager = Self::M::get_pager(&mut conn, &query, None);
+        let pager = Self::M::get_pager(&mut conn, &query, cond);
         DataGrid { 
             records: rs,
             pager: pager,

@@ -1,0 +1,6 @@
+{% macro input(name, title, value="") -%}
+<label for="name"> {{title}}: </label>
+<div class="layui-inline layui-show-xs-block" style="padding-right: 10px;">
+    <input type="text" name="{{name}}"  placeholder="请输入{{title}}" autocomplete="off" class="layui-input" value="{{value}}" />
+</div>
+{% endmacro input -%}

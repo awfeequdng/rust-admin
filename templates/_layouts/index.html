@@ -1,3 +1,5 @@
+{% import "_macros/options.html" as option -%}
+{% import "_macros/search.html" as search -%}
 <!DOCTYPE html>
 <html class="x-admin-sm">
     <head>
@@ -24,7 +26,15 @@
             <div class="layui-row layui-col-space15">
                 <div class="layui-col-md12">
                     <div class="layui-card">
-                        {% block content -%} {% endblock content -%}
+                        <div class="layui-card-body ">
+                            <form class="layui-form layui-col-space5">
+                                {% block search -%}{option::search()}}{% endblock search -%}
+                            </form>
+                        </div>
+                        <div class="layui-card-header">{% block options %}{% endblock options -%} </div>
+                        <div class="layui-card-body ">
+                            {% block content -%} {% endblock content -%}
+                        </div>
                         <div class="layui-card-body "> <div class="page" id="pager"></div> </div>
                     </div>
                 </div>

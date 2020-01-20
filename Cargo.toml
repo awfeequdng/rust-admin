@@ -22,7 +22,7 @@ regex = "1.3"
 actix-session = "0.3.0"
 
 [dependencies.fluffy]
-#path = "/home/fly/web/lottery/fluffy"
-git = "https://github.com/bignut1688/fluffy.git" 
+path = "/home/fly/web/lottery/fluffy"
+#git = "https://github.com/bignut1688/fluffy.git" 
 branch = "master"
 features = ["debug"]

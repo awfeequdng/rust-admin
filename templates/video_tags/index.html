@@ -1,19 +1,8 @@
 {% extends "_layouts/index.html" -%}
-{% import "_macros/options.html" as option -%}
 
 {% block search -%}
-<div class="layui-inline layui-show-xs-block">
-    <input class="layui-input"  autocomplete="off" placeholder="开始日" name="start" id="start">
-</div>
-<div class="layui-inline layui-show-xs-block">
-    <input class="layui-input"  autocomplete="off" placeholder="截止日" name="end" id="end">
-</div>
-<div class="layui-inline layui-show-xs-block">
-    <input type="text" name="username"  placeholder="请输入用户名" autocomplete="off" class="layui-input">
-</div>
-<div class="layui-inline layui-show-xs-block">
-    <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
-</div>
+    {{search::input(name="name", title="名称", value=name)}}
+    {{search::input(name="remark", title="备注", value=remark)}}
 {% endblock search -%}
 
 {% block options -%}

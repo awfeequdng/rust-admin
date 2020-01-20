@@ -1,5 +1,6 @@
 {% import "_macros/options.html" as option -%}
 {% import "_macros/search.html" as search -%}
+{% import "_macros/options.html" as option -%}
 <!DOCTYPE html>
 <html class="x-admin-sm">
     <head>
@@ -28,7 +29,7 @@
                     <div class="layui-card">
                         <div class="layui-card-body ">
                             <form class="layui-form layui-col-space5">
-                                {% block search -%}{option::search()}}{% endblock search -%}
+                                {% block search -%}{% endblock search -%}{{option::search()}}
                             </form>
                         </div>
                         <div class="layui-card-header">{% block options %}{% endblock options -%} </div>

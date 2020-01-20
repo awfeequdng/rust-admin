@@ -12,4 +12,14 @@ impl Controller for Admins {
         let roles = ADMIN_ROLES.lock().unwrap();
         data.insert("roles", &*roles);
     }
+
+    fn get_query_cond() -> Vec<(&'static str, &'static str)> { 
+        vec![("id", "="), 
+            ("name", "%"), 
+            ("state", "="),
+            ("last_ip", "%"), 
+            ("created", "[date]"), 
+            ("updated", "[date]"), 
+            ("last_login", "[date]")]
+    }
 }

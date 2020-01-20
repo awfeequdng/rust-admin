@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 use std::fmt::Debug;
-use fluffy::{ tmpl::Tpl, response, model::Model, model::Db, data_set::DataSet, db, cond_builder::CondBuilder};
+use fluffy::{ tmpl::Tpl, response, model::Model, model::Db, data_set::DataSet, db, cond_builder::CondBuilder, datetime,};
 use crate::models::ModelBackend;
 use actix_web::{HttpResponse, web::{Path, Form}, HttpRequest};
 use crate::caches;
@@ -26,7 +26,6 @@ pub trait Controller {
                 params.insert(parts[0], parts[1]);
             }
         }
-        println!("params = {:?}", params);
         params
     }
     
@@ -56,7 +55,7 @@ pub trait Controller {
                     _ => { }
                 };
             }
-            if sign == "[]" { 
+            if sign == "[]" {  //数字区间
                 let key1 = format!("{}_start", field);
                 let value1 = if let Some(v) = queries.get(key1.as_str()) { v.trim() }  else { continue; };
                 let key2 = format!("{}_end", field);
@@ -65,6 +64,22 @@ pub trait Controller {
                     continue;
                 }
                 cond.between(field, &value1, &value2);
+            }
+            if sign == "[date]" {  //日期区间
+                let key1 = format!("{}_start", field);
+                let value1 = if let Some(v) = queries.get(key1.as_str()) { v.trim() } else { "" };
+                if value1 != "" { 
+                    let date_str = format!("{} 00:00:00", value1);
+                    let timestamp = datetime::from_str(date_str.as_str()).timestamp();
+                    cond.gt(field, &timestamp);
+                }
+                let key2 = format!("{}_end", field);
+                let value2 = if let Some(v) = queries.get(key2.as_str()) { v.trim() } else { "" };
+                if value2 != "" { 
+                    let date_str = format!("{} 00:00:00", value2);
+                    let timestamp = datetime::from_str(date_str.as_str()).timestamp();
+                    cond.lte(field, &timestamp);
+                }
             }
         }
 
@@ -76,7 +91,6 @@ pub trait Controller {
         let query_string = request.query_string();
         let queries = Self::get_queries(query_string);
         let query_cond = Self::get_cond(&queries);
-        println!("query = {:?}", query_cond);
         let cond = if query_cond.len() > 0 { Some(&query_cond) } else { None };
         let controller_name = Self::get_controller_name(); //控制器名称
         let info = Self::M::get_records(cond);
@@ -90,7 +104,17 @@ pub trait Controller {
             "bread_path" => &bread_path,
         ];
         let conds = Self::get_query_cond();
-        for (key, _) in &conds { 
+        println!("\nqueries: {:?}\ncond: {:?}\n", queries, conds);
+        for (key, sign) in &conds { 
+            if sign == &"[]" || sign == &"[date]" {
+                let key1 = format!("{}_start", key);
+                let value1 = queries.get(key1.as_str()).unwrap_or(&"");
+                data.insert(key1, &value1);
+                let key2 = format!("{}_end", key);
+                let value2 = queries.get(key2.as_str()).unwrap_or(&"");
+                data.insert(key2, &value2);
+                continue;
+            }
             let value = queries.get(key).unwrap_or(&"");
             data.insert(key.to_owned(), &value);
         }

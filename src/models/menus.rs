@@ -30,6 +30,22 @@ pub struct MainMenu {
     pub menus: Vec<SubMenu>,
 }
 
+//#[derive(Default, Debug, Serialize)]
+//pub struct RoleMenuSub { 
+//    pub id: usize, //编号
+//    pub name: String, //菜单名称
+//    pub is_show: bool, //是否显式菜单
+//    pub leevl_id: u32, //级别,0:一级,1:二级
+//    pub is_blank: u32, //是否新窗口打开
+//}
+//
+//#[derive(Default, Debug, Serialize)]
+//pub struct RoleMenu { 
+//    pub id: usize,
+//    pub name: String,
+//    pub menus: Vec<RoleMenuSub>,
+//}
+
 impl Model for Menus { 
     fn get_table_name() -> &'static str { "menus" }
 }

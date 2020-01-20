@@ -6,7 +6,7 @@
 {% endblock search -%}
 
 {% block options -%}
-{{option::delete_all()}} {{option::add(height=300)}} 
+{{option::delete_all()}} {{option::add(height=600)}} 
 {% endblock options -%}
 
 {% block content -%}
@@ -26,7 +26,7 @@
         <td>{{ r.id }}</td>
         <td>{{ r.name }}</td>
         <td>{{ r.remark }}</td>
-        <td class="td-manage"> {{option::update(id=r.id, height=300)}} | {{option::delete(id=r.id)}} </td>
+        <td class="td-manage"> {{option::update(id=r.id, height=600)}} | {{option::delete(id=r.id)}} </td>
     </tr>
     {% endfor -%}
     </tbody>

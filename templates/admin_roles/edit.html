@@ -3,6 +3,23 @@
 {% block body %}
 {{ form::input(name="name", title="角色名称", value=row.name) }}
 {{ form::remark(value=row.remark) }}
+<div class="layui-form-item">
+    <label for="menus" class="layui-form-label"> <span class="x-red">*</span>菜单权限: </label>
+    <div class="layui-input-inline" style="width: 380px;">
+
+        <fieldset class="layui-elem-field">
+            <legend style="font-size: 13px;">后台管理</legend>
+            <div class="layui-field-box"> 
+                <input type="checkbox" name="" title="写作" lay-skin="primary" checked />
+                <input type="checkbox" name="" title="写作" lay-skin="primary" checked />
+            </div>
+        </fieldset>
+
+    </div>
+    <input type="hidden" value="" name="menu_ids" />
+    <div class="layui-form-mid layui-word-aux"> </div>
+</div>
+
 <script>
 layui.validators = { 
     name: function(value) { 

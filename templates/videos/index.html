@@ -5,6 +5,7 @@
 {{ search::input(name="remark", title="备注", value=remark)}}
 {{ search::date_range(name="created", title="添加时间", value_start=created_start, value_end=created_end)}}
 {{ search::date_range(name="updated", title="修改时间", value_start=updated_start, value_end=updated_end)}}
+{{ search::number_range(name="duration", title="时长(秒)", value_start=duration_start, value_end=duration_end)}}
 {% endblock search -%}
 
 {% block options -%}

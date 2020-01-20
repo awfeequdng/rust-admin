@@ -19,6 +19,18 @@
 </div>
 {% endmacro date_range -%}
 
+{% macro number_range(name, title, value_start, value_end) -%}
+<div class="layui-inline">
+    <label  for="{{name}}"> {{title}}: </label>
+    <div class="layui-inline layui-show-xs-block">
+        <input class="layui-input" style="width: 80px;"  autocomplete="off" placeholder="区间开始" name="{{name}}_start" id="{{name}}_start" value="{{value_start}}" />
+    </div> - 
+    <div class="layui-inline layui-show-xs-block" style="padding-right: 10px;">
+        <input class="layui-input" style="width: 80px"  autocomplete="off" placeholder="区间结束" name="{{name}}_end" id="{{name}}_end" value="{{value_end}}" />
+    </div>
+</div>
+{% endmacro number_range -%}
+
 {% macro yes_no(name, title, value=0) -%}
 <div class="layui-inline">
     <label for="{{name}}"> {{title}}: </label>

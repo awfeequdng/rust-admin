@@ -3,9 +3,9 @@
 {% block search -%}
 {{ search::input(name="title", title="标题", value=title)}}
 {{ search::input(name="remark", title="备注", value=remark)}}
-{{ search::date_range(name="created", title="添加时间", value_start=created_start, value_end=created_end)}}
-{{ search::date_range(name="updated", title="修改时间", value_start=updated_start, value_end=updated_end)}}
-{{ search::number_range(name="duration", title="时长(秒)", value_start=duration_start, value_end=duration_end)}}
+{{ search::range_date(name="created", title="添加时间", value_start=created_start, value_end=created_end)}}
+{{ search::range_date(name="updated", title="修改时间", value_start=updated_start, value_end=updated_end)}}
+{{ search::range_number(name="duration", title="时长(秒)", value_start=duration_start, value_end=duration_end)}}
 {% endblock search -%}
 
 {% block options -%}

@@ -4,7 +4,7 @@
 {{search::input(name="user_id", title="用户编号", value=user_id)}}
 {{search::input(name="user_name", title="用户名称", value=user_name)}}
 {{search::input(name="video_id", title="视频ID", value=video_id)}}
-{{ search::date_range(name="created", title="添加时间", value_start=created_start, value_end=created_end)}}
+{{ search::range_date(name="created", title="添加时间", value_start=created_start, value_end=created_end)}}
 {% endblock search -%}
 
 {% block options -%}

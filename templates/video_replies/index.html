@@ -6,7 +6,7 @@
 {{ search::input(name="user_id", title="用户ID", value=user_id)}}
 {{ search::input(name="user_name", title="用户名称", value=user_name)}}
 {{ search::input(name="content", title="评论内容", value=content)}}
-{{ search::date_range(name="created", title="添加时间", value_start=created_start, value_end=created_end)}}
+{{ search::range_date(name="created", title="添加时间", value_start=created_start, value_end=created_end)}}
 {% endblock search -%}
 
 {% block options -%}{{option::delete_all()}} {% endblock options -%}

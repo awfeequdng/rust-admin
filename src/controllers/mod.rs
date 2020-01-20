@@ -1,8 +1,8 @@
 use std::collections::HashMap;
 use std::fmt::Debug;
-use fluffy::{ tmpl::Tpl, response, model::Model, model::Db, data_set::DataSet, db, };
+use fluffy::{ tmpl::Tpl, response, model::Model, model::Db, data_set::DataSet, db, cond_builder::CondBuilder};
 use crate::models::ModelBackend;
-use actix_web::{HttpResponse, web::{Path, Form}};
+use actix_web::{HttpResponse, web::{Path, Form}, HttpRequest};
 use crate::caches;
 use serde::ser::{Serialize};
 
@@ -15,9 +15,58 @@ pub trait Controller {
     fn get_controller_name() -> &'static str { 
         Self::M::get_table_name()
     }
+
+    /// 转换查询条件
+    fn get_queries(query_string: &str) -> HashMap<&str, &str> { 
+        let queries: Vec<&str> = query_string.split("&").collect();
+        let mut params = HashMap::new();
+        for query in &queries { 
+            let parts: Vec<&str> = query.split("=").collect();
+            params.insert(parts[0], parts[1]);
+        }
+        params
+    }
+    
+    /// 得到查询条件
+    fn get_query_cond() -> Vec<(&'static str, &'static str)> { 
+        vec![("name", "=")]
+    }
+
+    /// 得到最终查询条件
+    fn get_cond(queries: HashMap<&str, &str>) -> CondBuilder { 
+        let mut cond = CondBuilder::new();
+        let conditions = Self::get_query_cond();
+        for c in &conditions { 
+            let field = c.0;
+            let sign = c.1;
+            if let Some(value) = queries.get(field) {
+                match field { 
+                    "=" => { cond.eq(field, value); },
+                    "!=" => { cond.ne(field, value); },
+                    ">" => { cond.gt(field, value); },
+                    ">=" => { cond.gte(field, value); },
+                    "<" => { cond.lt(field, value); },
+                    "<=" => { cond.lte(field, value); },
+                    "%" => { cond.like(field, value); },
+                    _ => { }
+                };
+            }
+            if sign == "[]" { 
+                let key1 = format!("{}_start", c.0);
+                let value1 = if let Some(v) = queries.get(key1.as_str()) { v }  else { continue; };
+                let key2 = format!("{}_end", c.0);
+                let value2 = if let Some(v) = queries.get(key2.as_str()) { v } else { continue; };
+                cond.between(field, value1, value2);
+            }
+        }
+
+        cond
+    }
     
     /// 主頁
-    fn index(tpl: Tpl) -> HttpResponse { 
+    fn index(tpl: Tpl, request: HttpRequest) -> HttpResponse { 
+        let query_string = request.query_string();
+        println!("query_string: {}", query_string);
         let controller_name = Self::get_controller_name(); //控制器名称
         let info = Self::M::get_records();
         let breads = caches::menus::BREADS.lock().unwrap();

@@ -14,3 +14,26 @@
     <input class="layui-input date-range" style="width: 100px"  autocomplete="off" placeholder="结束时间" name="{{name}}_end" id="{{name}}_end" value="{{value_end}}" readonly="readonly" />
 </div>
 {% endmacro date_range -%}
+
+{% macro yes_no(name, title, value=0) -%}
+<label for="name"> {{title}}: </label>
+<div class="layui-inline layui-show-xs-block">
+    <select name="{{name}}">
+        <option value="">请选择{{title}}</option>
+        <option value="0" {% if value == 0 %}selected="selected"{% endif %}>否</option>
+        <option value="1" {% if value == 1 %}selected="selected"{% endif %}>是</option>
+    </select>
+</div>
+{% endmacro yes_no -%}
+
+{% macro list(name, title, data, value=0) -%}
+<label for="name"> {{title}}: </label>
+<div class="layui-inline layui-show-xs-block">
+    <select name="{{name}}">
+        <option value="">请选择{{title}}</option>
+        {% for key, val in data %}
+        <option value="{{key}}" {% if value == val %}selected="selected"{% endif %}>{{val}}</option>
+        {% endfor -%}
+    </select>
+</div>
+{% endmacro list -%}

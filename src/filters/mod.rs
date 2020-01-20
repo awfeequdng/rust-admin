@@ -5,8 +5,8 @@ use crate::caches::STATES;
 
 /// 状态名称
 pub fn state_name<'r, 's>(val: &'r Value, _data: &'s HashMap<String, Value>) -> Result<Value> { 
-    if let Value::Number(n) = val { 
-        let n = n.as_u64().unwrap();
+    if let Value::Number(v) = val { 
+        let n = v.as_u64().unwrap();
         if n != 0 && n != 1 { 
             return Ok(json!("未知等级"));
         }
@@ -17,8 +17,8 @@ pub fn state_name<'r, 's>(val: &'r Value, _data: &'s HashMap<String, Value>) -> 
 }
 
 pub fn yes_no<'r, 's>(val: &'r Value, _data: &'s HashMap<String, Value>) -> Result<Value> { 
-    if let Value::Number(n) = val { 
-        let n = n.as_u64().unwrap();
+    if let Value::Number(v) = val { 
+        let n = v.as_u64().unwrap();
         if n == 1 { 
             return Ok(json!("是"));
         }
@@ -31,3 +31,4 @@ pub fn yes_no<'r, 's>(val: &'r Value, _data: &'s HashMap<String, Value>) -> Resu
 
 pub mod menus;
 pub mod admin_roles;
+pub mod ads;

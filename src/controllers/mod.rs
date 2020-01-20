@@ -86,6 +86,9 @@ pub trait Controller {
         cond
     }
     
+    /// 处理额外的追回数据
+    fn index_after(_data: &mut tera::Context) {}
+    
     /// 主頁
     fn index(tpl: Tpl, request: HttpRequest) -> HttpResponse { 
         let query_string = request.query_string();
@@ -118,6 +121,7 @@ pub trait Controller {
             let value = queries.get(key).unwrap_or(&"");
             data.insert(key.to_owned(), &value);
         }
+        Self::index_after(&mut data);
         let view_file = &format!("{}/index.html", controller_name);
         render!(tpl, view_file, &data)
     }

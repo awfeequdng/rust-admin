@@ -114,10 +114,10 @@ impl Index {
             return response::redirect("/");
         }
         let related_menus = Menus::get_related();
-        let role_menus = Menus::get_role_menus_by_id(0);
+        //let role_menus = Menus::get_role_menus_by_id(0);
         let data = tmpl_data![
             "menus" => &related_menus,
-            "role_menus" => &role_menus,
+            //"role_menus" => &role_menus,
         ];
         render!(tpl, "index/manage.html", &data)
     }

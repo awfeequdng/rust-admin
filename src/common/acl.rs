@@ -15,7 +15,6 @@ impl Acl {
                 }
             }
         }
-        
         false
     }
 

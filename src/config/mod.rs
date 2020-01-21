@@ -19,8 +19,11 @@ pub const MYSQL_DB_PORT: &str = "3306";
 // 資料庫连接
 //pub const MYSQL_CONN_STR: &str = "mysql://rust_admin:rust-x-lsl@localhost:3306/rust_admin";
 
-// 最多允許登錄出錯次數
-//pub const LOGIN_ERROR_MAX: usize = 5;
+/// 最多允許登錄出錯次數
+pub const LOGIN_ERROR_MAX: usize = 1000;
+
+/// 登录失败后锁定时间
+pub const LOGIN_LOCKED_TIME: usize = 3600;
 
 pub fn get_conn_string() -> String { 
     format!("mysql://{}:{}@{}:{}/{}", MYSQL_DB_USER, MYSQL_DB_PASS, MYSQL_DB_HOST, MYSQL_DB_PORT, MYSQL_DB_NAME)

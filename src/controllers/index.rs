@@ -1,10 +1,11 @@
 use std::collections::HashMap;
 use actix_web::{HttpResponse, web::Form,};
 use fluffy::{tmpl::Tpl, db, model::Model, datetime, utils, random, response,};
-use crate::models::{Menus, Users, Index as ThisModel};
+use crate::models::{Menus, Index as ThisModel, Admins};
 use std::env;
 use actix_session::{Session};
 use crate::common::Acl;
+use crate::config::{LOGIN_ERROR_MAX, LOGIN_LOCKED_TIME};
 
 //struct Login { 
 //    pub ip: String,
@@ -33,9 +34,14 @@ impl Index {
 
     /// 用户登录
     pub async fn login(session: Session, post: Form<HashMap<String, String>>) -> HttpResponse { 
+        //let s1 = random::rand_str(32); //用于生成默认的用户密码
+        //let p1 = utils::get_password("qwe123", &s1); //默认密码qwe123
+        //println!("UPDATE admins SET secret = '{}', password = '{}' WHERE id = 1", s1, p1);
+        //session.remove("locked_time");
+        //session.remove("failure_count");
         if let Ok(locked_time) = session.get::<usize>("locked_time") {  //如果session中记录的有锁定时间
             if let Some(n) = locked_time { 
-                if (datetime::timestamp() as usize) - n < 7200 { 
+                if (datetime::timestamp() as usize) - n < LOGIN_LOCKED_TIME { 
                     return response::error("登录次败次数过多,请2小时后再次尝试");
                 }
             }
@@ -45,7 +51,7 @@ impl Index {
         if let Ok(failure) = session.get::<usize>("failure_count") {  //检测登录失败次数
             if let Some(n) = failure { 
                 failure_count = n; //已经失败的次数
-                if n > 5 { 
+                if n > LOGIN_ERROR_MAX { 
                     if let Err(message) = session.set::<usize>("locked_time", datetime::timestamp() as usize) { 
                         return response::error(&message.to_string());
                     }
@@ -62,13 +68,12 @@ impl Index {
             return response::error(&message);
         }
         
-        println!("failure_count = {}", failure_count);
         let name = post.get("username").unwrap();
         let password_ori = post.get("password").unwrap();
         let query = query![fields => "id, password, secret, login_count, role_id",];
-        let cond = cond!["id" => &name,];
+        let cond = cond!["name" => &name,];
         let mut conn = db::get_conn();
-        if let Some(row) = Users::fetch_row(&mut conn, &query, Some(&cond)) { 
+        if let Some(row) = Admins::fetch_row(&mut conn, &query, Some(&cond)) { 
             let (id, password, secret, login_count, role_id): (usize, String, String, usize, usize) = from_row!(row);
             let password_enc = utils::get_password(password_ori, &secret);
             if password_enc != password {  //对比加密之后的密码是否一致
@@ -87,7 +92,7 @@ impl Index {
                 "password" => &password_new,
             ];
             let cond = cond!["id" => id,];
-            if  Users::update(&mut conn, &data, &cond) == 0 { 
+            if  Admins::update(&mut conn, &data, &cond) == 0 { 
                 session.set::<usize>("failure_count", failure_count + 1).unwrap();
                 return response::error("更新用户信息失败");
             }
@@ -95,6 +100,7 @@ impl Index {
             session.remove("failure_count"); //清空失败次数
             session.remove("locked_time"); //清空锁定时间
             session.set::<usize>("user_id", id).unwrap();
+            session.set::<String>("user_name", name.to_owned()).unwrap();
             session.set::<usize>("role_id", role_id).unwrap();
             return response::ok();
         } 

@@ -3,7 +3,7 @@ use regex::Regex;
 use std::str::FromStr;
 
 lazy_static! { 
-    static ref RE_USERNAME: Regex = { Regex::new(r"^[a-zA-Z]+[a-zA-Z_0-9]{5,19}$").unwrap() };
+    static ref RE_USERNAME: Regex = { Regex::new(r"^[a-zA-Z]+[a-zA-Z_0-9]{4,19}$").unwrap() };
     static ref RE_MAIL: Regex = { Regex::new(r"/^([A-Za-z0-9_\-\.])+\@([A-Za-z0-9_\-\.])+\.([A-Za-z]{2,5})$/").unwrap() };
 }
 
@@ -12,7 +12,6 @@ pub struct Validator<'a> {
     errors: Vec<&'static str>,
     data: &'a HashMap<String, String>
 }
-
 
 pub trait Validation { 
     fn validate(_data: &HashMap<String, String>) -> Result<(), String> { 
@@ -33,7 +32,7 @@ impl<'a> Validator<'a> {
     pub fn is_username(&mut self, field: &'static str, message: &'static str, is_required: bool) -> &mut Self { 
         if let Some(v) = self.data.get(field) { 
             let count = v.chars().count();
-            if count > 5 && count < 20 && RE_USERNAME.is_match(v) { 
+            if count >= 5 && count < 20 && RE_USERNAME.is_match(v) { 
                 return self;
             } 
         }

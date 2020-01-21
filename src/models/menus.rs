@@ -61,7 +61,8 @@ impl ModelBackend for Menus {
 }
 
 impl Menus { 
-
+    
+    /// 得到关联菜单
     pub fn get_related() -> Vec<MainMenu> { 
         let mut main_menus = vec![];
         let mut conn = db::get_conn();
@@ -81,16 +82,17 @@ impl Menus {
         }
         main_menus
     }
-
+    
+    /// 依据角色编号得到菜单信息
     pub fn get_role_menus_by_id(role_id: usize) -> Vec<MainMenu> { 
         let mut main_menus = vec![];
-        let sql_main = format!("SELECT id, name FROM menus WHERE id IN (SELECT parent_id FROM menus INNER JOIN admin_roles ON menus.id IN (admin_roles.menu_ids) AND admin_roles.id = {})", role_id);
+        let sql_main = format!("SELECT menus.id, menus.name FROM menus WHERE id IN (SELECT parent_id FROM menus INNER JOIN admin_roles ON menus.id IN (admin_roles.menu_ids) AND admin_roles.id = {})", role_id);
         let mut conn = db::get_conn();
         let rows = Self::query(&mut conn, &sql_main);
         for r in rows { 
             let mut menus = vec![];
             let (main_id, main_name): (usize, String) = from_row!(r);
-            let sql_sub = format!("SELECT id, name, url FROM menus INNER JOIN admin_roles ON menus.id IN (admin_roes.menu_ids) AND parent_id = {}", main_id);
+            let sql_sub = format!("SELECT menus.id, menus.name, menus.url FROM menus INNER JOIN admin_roles ON menus.id IN (admin_roles.menu_ids) AND parent_id = {}", main_id);
             let subs = Self::query(&mut conn, sql_sub.as_str());
             for s in subs { 
                 let (id, name, url): (usize, String, String) = from_row!(s);
@@ -100,7 +102,8 @@ impl Menus {
         }
         main_menus
     }
-
+    
+    /// 得到全部角色菜单
     pub fn get_role_menus() -> HashMap<usize, Vec<MainMenu>> { 
         let sql = "SELECT id FROM admin_roles";
         let mut conn = db::get_conn();

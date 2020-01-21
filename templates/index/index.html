@@ -36,7 +36,11 @@ layui.use(['form','jquery'] , function(){
             return false;
         }
         $.post("/index/login", {"username": username, "password": password}, function(res) {
-            console.log(res);
+            if (res.code !== 0) { 
+                layer.alert(res.message);
+            } else { 
+                location.href = '/index/manage';
+            }
         });
         //layer.msg(JSON.stringify(data.field),function(){
         //    location.href='index.html'

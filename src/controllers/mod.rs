@@ -94,9 +94,8 @@ pub trait Controller {
     /// 主頁
     fn index(request: HttpRequest, session:Session, tpl: Tpl) -> HttpResponse { 
         if !Acl::check_login(&session) || !Acl::check_auth(&request, &session) { 
-            return response::error("拒绝访问, 未授权");
+            return response::redirect("/index/error");
         }
-        println!("path = {}", request.path());
         let query_string = request.query_string();
         let queries = Self::get_queries(query_string);
         let query_cond = Self::get_cond(&queries);
@@ -113,7 +112,6 @@ pub trait Controller {
             "bread_path" => &bread_path,
         ];
         let conds = Self::get_query_cond();
-        println!("\nqueries: {:?}\ncond: {:?}\n", queries, conds);
         for (key, sign) in &conds { 
             if sign == &"[]" || sign == &"[date]" {
                 let key1 = format!("{}_start", key);
@@ -138,7 +136,7 @@ pub trait Controller {
     /// 編輯
     fn edit(request: HttpRequest, session: Session, info: Path<usize>, tpl: Tpl) -> HttpResponse { 
         if !Acl::check_login(&session) || !Acl::check_auth(&request, &session) { 
-            return response::error("拒绝访问, 未授权");
+            return response::redirect("/index/error");
         }
         let controller_name = Self::get_controller_name(); //控制器名称
         let id = info.into_inner();
@@ -152,7 +150,6 @@ pub trait Controller {
                 Self::M::get_record(r)
             } else { Self::M::get_default() }
         };
-        println!("row : {:?}", row);
         let button_text = if is_update { "保存记录" } else { "添加记录" };
         let mut data = tmpl_data![
             "controller_name" => controller_name,

@@ -61,6 +61,7 @@ async fn main() -> std::io::Result<()> {
             .service(get!("/index/manage", Index::manage))
             .service(get!("/index/right", Index::right))
             .service(get!("/index/right", Index::right))
+            .service(get!("/index/error", Index::error))
             //后台用户
             .service(get!("/admins", Admins::index))
             .service(get!("/admins/edit/{id}", Admins::edit))

@@ -33,6 +33,11 @@ impl Index {
         render!(tpl, "index/index.html")
     }
 
+    /// 错误页面
+    pub async fn error(tpl: Tpl) -> HttpResponse { 
+        render!(tpl, "index/error.html")
+    }
+
     /// 用户登录
     pub async fn login(session: Session, post: Form<HashMap<String, String>>) -> HttpResponse { 
         //let s1 = random::rand_str(32); //用于生成默认的用户密码
@@ -112,7 +117,7 @@ impl Index {
     /// 后台管理主界面
     pub async fn manage(session: Session, tpl: Tpl) -> HttpResponse { 
         if !Acl::check_login(&session) { 
-            return response::redirect("/");
+            return response::redirect("/index/error");
         }
         let mut role_id = 0;
         if let Ok(v) = session.get::<usize>("role_id") { 
@@ -131,7 +136,7 @@ impl Index {
     /// 后台进入之后的首页
     pub async fn right(session: Session, tpl: Tpl) -> HttpResponse { 
         if !Acl::check_login(&session) { 
-            return response::redirect("/");
+            return response::redirect("/index/error");
         }
         let mut data = tmpl_data![];
         // 当前目录

@@ -3,7 +3,7 @@
 {% block body %}
 {{ form::input(name="name", title="角色名称", value=row.name) }}
 {{ form::remark(value=row.remark) }}
-{% set ids = "," ~ row.menu_ids ~ "," %}
+{% set ids = "," ~ row.menu_ids ~ "," -%}
 <div class="layui-form-item">
     <label for="menus" class="layui-form-label"> <span class="x-red">*</span>菜单权限: </label>
     <div class="layui-input-inline" style="width: 380px;">
@@ -11,7 +11,7 @@
         <fieldset class="layui-elem-field" style="background-color: #fff">
             <legend style="font-size: 13px;">{{menu.name}}</legend>
             <div class="layui-field-box"> 
-                {% for sub in menu.menus %}
+                {% for sub in menu.menus -%}
                 {% set my_id = "," ~ sub.id ~ "," %}
                 <input type="checkbox" class="sub_menu" name="sub_menu_{{sub.id}}" title="{{sub.name}}" lay-skin="primary" value="{{sub.id}}" {% if ids is containing(my_id) %}checked="checked"{% endif %} />
                 {% endfor -%}

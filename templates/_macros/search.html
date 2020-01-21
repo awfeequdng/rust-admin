@@ -1,3 +1,21 @@
+{% macro list(name, title, data, value) -%}
+<div class="layui-inline">
+    <label for="{{name}}"> {{title}}: </label>
+    <div class="layui-inline layui-show-xs-block" style="padding-right: 10px;">
+        <select name="{{name}}">
+            <option value="">请选择{{title}}</option>
+            {% for k,val in data -%}
+            {% if k != value -%}
+            <option value="{{k}}">{{val}} --</option>
+            {% else -%}
+            <option value="{{k}}" selected="selected">{{val}}</option>
+            {% endif -%}
+            {% endfor -%}
+        </select>
+    </div>
+</div>
+{% endmacro list -%}
+
 {% macro input(name, title, value="") -%}
 <div class="layui-inline">
     <label for="{{name}}"> {{title}}: </label>
@@ -56,17 +74,3 @@
     </div>
 </div>
 {% endmacro state -%}
-
-{% macro list(name, title, data, value=0) -%}
-<div class="layui-inline">
-    <label for="{{name}}"> {{title}}: </label>
-    <div class="layui-inline layui-show-xs-block" style="padding-right: 10px;">
-        <select name="{{name}}">
-            <option value="">请选择{{title}}</option>
-            {% for key, val in data %}
-            <option value="{{key}}" {% if value == val %}selected="selected"{% endif %}>{{val}}</option>
-            {% endfor -%}
-        </select>
-    </div>
-</div>
-{% endmacro list -%}

@@ -7,6 +7,11 @@ use crate::caches;
 use serde::ser::{Serialize};
 use actix_session::{Session};
 use crate::common::Acl;
+use regex::Regex;
+
+lazy_static! { 
+    static ref NUMBERS: Regex = { Regex::new(r"^\d+$").unwrap() };
+}
 
 pub trait Controller { 
     
@@ -97,9 +102,9 @@ pub trait Controller {
             return response::redirect("/index/error");
         }
         let query_string = request.query_string();
-        let queries = Self::get_queries(query_string);
-        let query_cond = Self::get_cond(&queries);
-        let cond = if query_cond.len() > 0 { Some(&query_cond) } else { None };
+        let queries = dbg!(Self::get_queries(query_string));
+        let query_cond = dbg!(Self::get_cond(&queries));
+        let cond = dbg!(if query_cond.len() > 0 { Some(&query_cond) } else { None });
         let controller_name = Self::get_controller_name(); //控制器名称
         let info = Self::M::get_records(cond);
         let breads = &*caches::menus::BREADS;
@@ -111,7 +116,7 @@ pub trait Controller {
             "pager" => &info.pager,
             "bread_path" => &bread_path,
         ];
-        let conds = Self::get_query_cond();
+        let conds = dbg!(Self::get_query_cond());
         for (key, sign) in &conds { 
             if sign == &"[]" || sign == &"[date]" {
                 let key1 = format!("{}_start", key);
@@ -123,6 +128,12 @@ pub trait Controller {
                 continue;
             }
             let value = queries.get(key).unwrap_or(&"");
+            //if NUMBERS.is_match(value) {  //如果是数字, 则转换成数字
+            //    if let Ok(n) = dbg!(value.parse::<usize>()) { 
+            //        data.insert(key.to_owned(), &n);
+            //        continue;
+            //    } 
+            //}
             data.insert(key.to_owned(), &value);
         }
         Self::index_after(&mut data);

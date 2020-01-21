@@ -48,3 +48,9 @@ pub fn allow_access(role_id: usize, url: &str) -> bool {
     }
     false
 }
+
+/// 刷新缓存
+pub fn refresh() { 
+    let mut role_menus = ROLE_MENUS.lock().unwrap();
+    *role_menus = Menus::get_role_menus();
+}

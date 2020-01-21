@@ -1,6 +1,7 @@
 use crate::models::AdminRoles as ThisModel;
 use super::Controller;
 use crate::models::Menus;
+use crate::caches::admin_roles;
 
 pub struct AdminRoles { }
 
@@ -14,5 +15,9 @@ impl Controller for AdminRoles {
 
     fn edit_after(data: &mut tera::Context) { 
         data.insert("menus", &Menus::get_related());
+    }
+
+    fn save_after() { 
+        admin_roles::refresh(); //刷新缓存
     }
 }

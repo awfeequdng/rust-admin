@@ -221,6 +221,9 @@ pub trait Controller {
         } 
         response::error("修改記錄失敗")
     }
+
+    /// 保存之后处理
+    fn save_after() { }
     
     /// 刪除
     fn delete(request: HttpRequest, session: Session, id_strings: Path<String>) -> HttpResponse { 

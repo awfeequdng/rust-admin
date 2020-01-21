@@ -34,21 +34,21 @@ CREATE TABLE IF NOT EXISTS menus (
     PRIMARY KEY(id),
     INDEX(parent_id)
 );
-INSERT INTO menus (parent_id, name, level_id, state, url) VALUES 
-(0, '后台管理', 0, 1, '#'),
-(0, '内容管理', 0, 1, '#'),
-(0, '前台用户', 0, 1, '#'),
-(1, '后台用户', 1, 1, '/admins'),
-(1, '菜单列表', 1, 1, '/menus'),
-(1, '用户角色', 1, 1, '/admin_roles'),
-(2, '视频分类', 1, 1, '/video_categories'),
-(2, '视频标签', 1, 1, '/video_tags'),
-(2, '视频管理', 1, 1, '/videos'),
-(2, '视频评论', 1, 1, '/video_replies'),
-(3, '用户列表', 1, 1, '/users'),
-(3, '用户等级', 1, 1, '/user_levels'),
-(3, '观看记录', 1, 1, '/watch_records'),
-(2, '广告管理', 1, 1, '/ads');
+INSERT INTO menus (parent_id, name, level_id, state, url, is_show) VALUES 
+(0, '后台管理', 0, 1, '#', 1),
+(0, '内容管理', 0, 1, '#', 1),
+(0, '前台用户', 0, 1, '#', 1),
+(1, '后台用户', 1, 1, '/admins', 1),
+(1, '菜单列表', 1, 1, '/menus', 1),
+(1, '用户角色', 1, 1, '/admin_roles', 1),
+(2, '视频分类', 1, 1, '/video_categories', 1),
+(2, '视频标签', 1, 1, '/video_tags', 1),
+(2, '视频管理', 1, 1, '/videos', 1),
+(2, '视频评论', 1, 1, '/video_replies', 1),
+(3, '用户列表', 1, 1, '/users', 1),
+(3, '用户等级', 1, 1, '/user_levels', 1),
+(3, '观看记录', 1, 1, '/watch_records', 1),
+(2, '广告管理', 1, 1, '/ads', 1);
 
 /** 角色管理 **/
 DROP TABLE IF EXISTS admin_roles;

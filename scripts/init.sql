@@ -29,6 +29,7 @@ CREATE TABLE IF NOT EXISTS menus (
     state TINYINT NOT NULL DEFAULT 0 COMMENT '状态,0:隐藏;1:显示',
     url VARCHAR(50) NOT NULL DEFAULT '' COMMENT '链接地址',
     is_blank TINYINT NOT NULL DEFAULT 0 COMMENT '是否外链,0:否,1:是',
+    is_show TINYINT NOT NULL DEFAULT 0 COMMENT '是否显式,0:否,1:是',
     seq INT NOT NULL DEFAULT 0 COMMENT '排序',
     PRIMARY KEY(id),
     INDEX(parent_id)

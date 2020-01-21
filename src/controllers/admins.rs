@@ -13,6 +13,11 @@ impl Controller for Admins {
         data.insert("roles", &*roles);
     }
 
+    fn index_after(data: &mut tera::Context) { 
+        let roles = ADMIN_ROLES.lock().unwrap();
+        data.insert("roles", &*roles);
+    }
+
     fn get_query_cond() -> Vec<(&'static str, &'static str)> { 
         vec![("id", "="), 
             ("name", "%"), 
@@ -20,6 +25,7 @@ impl Controller for Admins {
             ("last_ip", "%"), 
             ("created", "[date]"), 
             ("updated", "[date]"), 
+            ("role_id", "="),
             ("last_login", "[date]")]
     }
 }

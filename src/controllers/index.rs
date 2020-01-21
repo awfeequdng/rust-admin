@@ -1,9 +1,21 @@
 use std::collections::HashMap;
-use actix_web::{HttpResponse, web::Form};
-use fluffy::{tmpl::Tpl, db, model::Model, datetime, utils, random, response, };
+use actix_web::{HttpResponse, web::Form,};
+use fluffy::{tmpl::Tpl, db, model::Model, datetime, utils, random, response,};
 use crate::models::{Menus, Users, Index as ThisModel};
 use std::env;
-use sys_info;
+use actix_session::{Session};
+use crate::common::Acl;
+
+//struct Login { 
+//    pub ip: String,
+//    pub locked_time: usize,
+//}
+//
+//lazy_static! { 
+//    pub static ref LOGIN_INFO: HashMap<String, Login> = {
+//        HashMap::new()
+//    };
+//}
 
 pub struct Index {}
 
@@ -20,20 +32,40 @@ impl Index {
     }
 
     /// 用户登录
-    pub async fn login(post: Form<HashMap<String, String>>) -> HttpResponse { 
+    pub async fn login(session: Session, post: Form<HashMap<String, String>>) -> HttpResponse { 
+        if let Ok(locked_time) = session.get::<usize>("locked_time") {  //如果session中记录的有锁定时间
+            if let Some(n) = locked_time { 
+                if (datetime::timestamp() as usize) - n < 7200 { 
+                    return response::error("登录次败次数过多,请2小时后再次尝试");
+                }
+            }
+        } 
+
+        let mut failure_count = 0_usize; //登录失败次数
+        if let Ok(failure) = session.get::<usize>("failure_count") {  //检测登录失败次数
+            if let Some(n) = failure { 
+                failure_count = n; //已经失败的次数
+                if n > 5 { 
+                    session.set::<usize>("locked_time", datetime::timestamp() as usize).unwrap();
+                    return response::error("失败次数过多, 请稍后重试");
+                }
+            }
+        } else { session.set::<usize>("failure_count", failure_count).unwrap(); } //设置登录失败次数的默认值
+
         if let Err(message) = ThisModel::check_login(&post) {  //如果校验数据出现错误
             return response::error(&message);
         }
         
         let name = post.get("name").unwrap();
         let password_ori = post.get("password").unwrap();
-        let query = query![fields => "id, password, secret, login_count",];
+        let query = query![fields => "id, password, secret, login_count, role_id",];
         let cond = cond!["id" => &name,];
         let mut conn = db::get_conn();
         if let Some(row) = Users::fetch_row(&mut conn, &query, Some(&cond)) { 
-            let (id, password, secret, login_count): (usize, String, String, usize) = from_row!(row);
+            let (id, password, secret, login_count, role_id): (usize, String, String, usize, usize) = from_row!(row);
             let password_enc = utils::get_password(password_ori, &secret);
             if password_enc != password {  //对比加密之后的密码是否一致
+                session.set::<usize>("failure_count", failure_count + 1).unwrap();
                 return response::error("用户名称或密码错误");
             }
 
@@ -49,25 +81,39 @@ impl Index {
             ];
             let cond = cond!["id" => id,];
             if  Users::update(&mut conn, &data, &cond) == 0 { 
+                session.set::<usize>("failure_count", failure_count + 1).unwrap();
                 return response::error("更新用户信息失败");
             }
 
+            session.remove("failure_count"); //清空失败次数
+            session.remove("locked_time"); //清空锁定时间
+            session.set::<usize>("user_id", id).unwrap();
+            session.set::<usize>("role_id", role_id).unwrap();
             return response::ok();
         } 
+        session.set::<usize>("failure_count", failure_count + 1).unwrap();
         response::error("用户名称或密码错误")
     }
 
     /// 后台管理主界面
-    pub async fn manage(tpl: Tpl) -> HttpResponse { 
+    pub async fn manage(session: Session, tpl: Tpl) -> HttpResponse { 
+        if !Acl::check_login(&session) { 
+            return response::error("拒绝访问, 未授权");
+        }
         let related_menus = Menus::get_related();
+        let role_menus = Menus::get_role_menus_by_id(0);
         let data = tmpl_data![
             "menus" => &related_menus,
+            "role_menus" => &role_menus,
         ];
         render!(tpl, "index/manage.html", &data)
     }
     
     /// 后台进入之后的首页
-    pub async fn right(tpl: Tpl) -> HttpResponse { 
+    pub async fn right(session: Session, tpl: Tpl) -> HttpResponse { 
+        if !Acl::check_login(&session) { 
+            return response::error("拒绝访问, 未授权");
+        }
         let mut data = tmpl_data![];
         // 当前目录
         let current_dir = if let Ok(v) = env::current_dir() { 

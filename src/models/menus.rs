@@ -30,22 +30,6 @@ pub struct MainMenu {
     pub menus: Vec<SubMenu>,
 }
 
-//#[derive(Default, Debug, Serialize)]
-//pub struct RoleMenuSub { 
-//    pub id: usize, //编号
-//    pub name: String, //菜单名称
-//    pub is_show: bool, //是否显式菜单
-//    pub leevl_id: u32, //级别,0:一级,1:二级
-//    pub is_blank: u32, //是否新窗口打开
-//}
-//
-//#[derive(Default, Debug, Serialize)]
-//pub struct RoleMenu { 
-//    pub id: usize,
-//    pub name: String,
-//    pub menus: Vec<RoleMenuSub>,
-//}
-
 impl Model for Menus { 
     fn get_table_name() -> &'static str { "menus" }
 }
@@ -98,11 +82,11 @@ impl Menus {
         main_menus
     }
 
-    pub fn get_menus_by_role_id(role_id: usize) -> Vec<MainMenu> { 
+    pub fn get_role_menus_by_id(role_id: usize) -> Vec<MainMenu> { 
         let mut main_menus = vec![];
-        let sql_main = format!("SELECT id, name FROM menus WHERE id IN (SELECT parent_id FROM menus INNER JOIN admin_roles ON menus.id IN (admin_roles.menu_ids) AND role_id = {})", role_id);
+        let sql_main = format!("SELECT id, name FROM menus WHERE id IN (SELECT parent_id FROM menus INNER JOIN admin_roles ON menus.id IN (admin_roles.menu_ids) AND admin_roles.id = {})", role_id);
         let mut conn = db::get_conn();
-        let rows = Self::query(&mut conn, sql_main.as_str());
+        let rows = Self::query(&mut conn, &sql_main);
         for r in rows { 
             let mut menus = vec![];
             let (main_id, main_name): (usize, String) = from_row!(r);
@@ -115,5 +99,18 @@ impl Menus {
             main_menus.push(MainMenu{id: main_id, name: main_name, menus});
         }
         main_menus
+    }
+
+    pub fn get_role_menus() -> HashMap<usize, Vec<MainMenu>> { 
+        let sql = "SELECT id FROM admin_roles";
+        let mut conn = db::get_conn();
+        let rows = Self::query(&mut conn, &sql);
+        let mut role_menus = HashMap::new();
+        for r in rows { 
+            let role_id: usize = from_row!(r);
+            let menus = Self::get_role_menus_by_id(role_id);
+            role_menus.insert(role_id, menus);
+        }
+        role_menus
     }
 }

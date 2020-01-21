@@ -10,6 +10,7 @@ mod config;
 mod filters;
 mod validations;
 mod models;
+mod common;
 mod controllers;
 mod caches;
 

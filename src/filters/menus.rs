@@ -10,7 +10,7 @@ pub fn menu_name<'r, 's>(val: &'r Value, _data: &'s HashMap<String, Value>) -> R
         if id == 0 { 
             return Ok(json!(""));
         }
-        let menus = MENUS.lock().unwrap();
+        let menus = &*MENUS;
         if let Some(v) = menus.get(&id) { 
             return Ok(json!(v));
         }

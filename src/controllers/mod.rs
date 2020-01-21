@@ -5,6 +5,8 @@ use crate::models::ModelBackend;
 use actix_web::{HttpResponse, web::{Path, Form}, HttpRequest};
 use crate::caches;
 use serde::ser::{Serialize};
+use actix_session::{Session};
+use crate::common::Acl;
 
 pub trait Controller { 
     
@@ -90,14 +92,18 @@ pub trait Controller {
     fn index_after(_data: &mut tera::Context) {}
     
     /// 主頁
-    fn index(tpl: Tpl, request: HttpRequest) -> HttpResponse { 
+    fn index(request: HttpRequest, session:Session, tpl: Tpl) -> HttpResponse { 
+        if !Acl::check_login(&session) || !Acl::check_auth(&request, &session) { 
+            return response::error("拒绝访问, 未授权");
+        }
+        println!("path = {}", request.path());
         let query_string = request.query_string();
         let queries = Self::get_queries(query_string);
         let query_cond = Self::get_cond(&queries);
         let cond = if query_cond.len() > 0 { Some(&query_cond) } else { None };
         let controller_name = Self::get_controller_name(); //控制器名称
         let info = Self::M::get_records(cond);
-        let breads = caches::menus::BREADS.lock().unwrap();
+        let breads = &*caches::menus::BREADS;
         let bread_path = if let Some(v) = breads.get(&format!("/{}", controller_name)) { v } else { "" };
         let mut data = tmpl_data![
             "action_name" => &"index",
@@ -130,7 +136,10 @@ pub trait Controller {
     fn edit_after(_data: &mut tera::Context) {}
 
     /// 編輯
-    fn edit(info: Path<usize>, tpl: Tpl) -> HttpResponse { 
+    fn edit(request: HttpRequest, session: Session, info: Path<usize>, tpl: Tpl) -> HttpResponse { 
+        if !Acl::check_login(&session) || !Acl::check_auth(&request, &session) { 
+            return response::error("拒绝访问, 未授权");
+        }
         let controller_name = Self::get_controller_name(); //控制器名称
         let id = info.into_inner();
         let is_update = id > 0;
@@ -157,7 +166,10 @@ pub trait Controller {
     }
 
     /// 編輯
-    fn save(info: Path<usize>, post: Form<HashMap<String, String>>) -> HttpResponse { 
+    fn save(request: HttpRequest, session: Session, info: Path<usize>, post: Form<HashMap<String, String>>) -> HttpResponse { 
+        if !Acl::check_login(&session) || !Acl::check_auth(&request, &session) { 
+            return response::error("拒绝访问, 未授权");
+        }
         let id = info.into_inner();
         if id == 0 { Self::save_for_create(post) } else { Self::save_for_update(id, post) }
     }
@@ -211,7 +223,10 @@ pub trait Controller {
     }
     
     /// 刪除
-    fn delete(id_strings: Path<String>) -> HttpResponse { 
+    fn delete(request: HttpRequest, session: Session, id_strings: Path<String>) -> HttpResponse { 
+        if !Acl::check_login(&session) || !Acl::check_auth(&request, &session) { 
+            return response::error("拒绝访问, 未授权");
+        }
         let mut ids_string = String::new();
         for (index, value) in id_strings.split(",").enumerate() { 
             let _ = if let Ok(v) = value.parse::<usize>() { v } else { return response::error("错误的参数"); };

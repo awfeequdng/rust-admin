@@ -85,7 +85,7 @@ mod ads;
 mod index;
 
 pub use admins::Admins;
-pub use menus::Menus;
+pub use menus::{Menus, MainMenu, SubMenu};
 pub use admin_roles::AdminRoles;
 pub use videos::Videos;
 pub use video_categories::VideoCategories;

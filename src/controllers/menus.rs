@@ -9,8 +9,7 @@ impl Controller for Menus {
     type M = ThisModel;
 
     fn edit_after(data: &mut tera::Context) {
-        let menus = MENUS.lock().unwrap();
-        data.insert("menus", &*menus);
+        data.insert("menus", &*MENUS);
     }
 
     fn get_query_cond() -> Vec<(&'static str, &'static str)> { 

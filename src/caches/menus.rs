@@ -1,10 +1,10 @@
 use std::collections::HashMap;
-use std::sync::Mutex;
+//use std::sync::Mutex;
 use fluffy::{db, model::Model};
 use crate::models::Menus;
 
 lazy_static! {
-    pub static ref MENUS: Mutex<HashMap<usize, String>> = {
+    pub static ref MENUS: HashMap<usize, String> = {
         let fields = "id, name";
         let mut conn = db::get_conn();
         let cond = cond!["parent_id" => &"0",];
@@ -15,12 +15,12 @@ lazy_static! {
             let (id, name): (usize, String) = from_row!(r);
             menus.insert(id, name);
         }
-        Mutex::new(menus)
+        menus
     };
 }
 
 lazy_static! { 
-    pub static ref BREADS: Mutex<HashMap<String, String>> = { 
+    pub static ref BREADS: HashMap<String, String> = { 
         let menus = Menus::get_related();
         let mut breads: HashMap<String, String> = HashMap::new();
         for menu in &menus { 
@@ -29,6 +29,6 @@ lazy_static! {
                 breads.insert(sub.url.to_owned(), bread);
             }
         }
-        Mutex::new(breads)
+        breads
     };
 }

@@ -7,6 +7,7 @@ use crate::config::{MYSQL_DB_NAME};
 pub const STATES: [&'static str; 2] = ["禁用", "正常"];
 
 lazy_static! { 
+    /// 数据库-表-字段映射关系
     pub static ref TABLE_FIELDS: Mutex<HashMap<String, Vec<String>>> = {
         let mut conn = db::get_conn();
         let table_fields = Db::get_table_fields(&mut conn, MYSQL_DB_NAME);

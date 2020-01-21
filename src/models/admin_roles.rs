@@ -10,6 +10,7 @@ pub struct AdminRoles {
     pub name: String, //名称
     pub remark: String, //备注
     pub seq: isize, //
+    pub menu_ids: String,
 }
 
 impl Model for AdminRoles { 
@@ -24,6 +25,7 @@ impl ModelBackend for AdminRoles {
         name => String,
         remark => String,
         seq => isize,
+        menu_ids => String,
     ]);
 
     fn validate(data: &HashMap<String, String>) -> Result<(), String> { 

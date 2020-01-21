@@ -79,7 +79,7 @@ impl ModelBackend for Menus {
 impl Menus { 
 
     pub fn get_related() -> Vec<MainMenu> { 
-        let mut main_menus: Vec<MainMenu> = vec![];
+        let mut main_menus = vec![];
         let mut conn = db::get_conn();
         let query = query![ fields => "id, name, url", ];
         let cond = cond![ "level_id" => "0", ];
@@ -95,6 +95,12 @@ impl Menus {
             }
             main_menus.push(MainMenu{ id, name, menus, });
         }
+        main_menus
+    }
+
+    pub fn get_menus_by_role(role_id: usize) -> Vec<MainMenu> { 
+        let mut main_menus = vec![];
+
         main_menus
     }
 }

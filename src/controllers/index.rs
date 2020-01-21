@@ -1,11 +1,12 @@
 use std::collections::HashMap;
 use actix_web::{HttpResponse, web::Form,};
 use fluffy::{tmpl::Tpl, db, model::Model, datetime, utils, random, response,};
-use crate::models::{Menus, Index as ThisModel, Admins};
+use crate::models::{Index as ThisModel, Admins};
 use std::env;
 use actix_session::{Session};
 use crate::common::Acl;
 use crate::config::{LOGIN_ERROR_MAX, LOGIN_LOCKED_TIME};
+use crate::caches::admin_roles::ROLE_MENUS;
 
 //struct Login { 
 //    pub ip: String,
@@ -113,11 +114,16 @@ impl Index {
         if !Acl::check_login(&session) { 
             return response::redirect("/");
         }
-        let related_menus = Menus::get_related();
-        //let role_menus = Menus::get_role_menus_by_id(0);
+        let mut role_id = 0;
+        if let Ok(v) = session.get::<usize>("role_id") { 
+            if let Some(n) = v { 
+                role_id = n;
+            }
+        }
+        let role_menus = &*ROLE_MENUS.lock().unwrap();
+        let menus = role_menus.get(&role_id);
         let data = tmpl_data![
-            "menus" => &related_menus,
-            //"role_menus" => &role_menus,
+            "menus" => &menus,
         ];
         render!(tpl, "index/manage.html", &data)
     }

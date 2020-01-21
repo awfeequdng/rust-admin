@@ -143,6 +143,7 @@ pub trait Controller {
                 Self::M::get_record(r)
             } else { Self::M::get_default() }
         };
+        println!("row : {:?}", row);
         let button_text = if is_update { "保存记录" } else { "添加记录" };
         let mut data = tmpl_data![
             "controller_name" => controller_name,

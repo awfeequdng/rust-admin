@@ -98,9 +98,22 @@ impl Menus {
         main_menus
     }
 
-    pub fn get_menus_by_role(role_id: usize) -> Vec<MainMenu> { 
+    pub fn get_menus_by_role_id(role_id: usize) -> Vec<MainMenu> { 
         let mut main_menus = vec![];
-
+        let sql_main = format!("SELECT id, name FROM menus WHERE id IN (SELECT parent_id FROM menus INNER JOIN admin_roles ON menus.id IN (admin_roles.menu_ids) AND role_id = {})", role_id);
+        let mut conn = db::get_conn();
+        let rows = Self::query(&mut conn, sql_main.as_str());
+        for r in rows { 
+            let mut menus = vec![];
+            let (main_id, main_name): (usize, String) = from_row!(r);
+            let sql_sub = format!("SELECT id, name, url FROM menus INNER JOIN admin_roles ON menus.id IN (admin_roes.menu_ids) AND parent_id = {}", main_id);
+            let subs = Self::query(&mut conn, sql_sub.as_str());
+            for s in subs { 
+                let (id, name, url): (usize, String, String) = from_row!(s);
+                menus.push(SubMenu{id, name, url});
+            }
+            main_menus.push(MainMenu{id: main_id, name: main_name, menus});
+        }
         main_menus
     }
 }

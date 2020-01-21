@@ -46,17 +46,24 @@ impl Index {
             if let Some(n) = failure { 
                 failure_count = n; //已经失败的次数
                 if n > 5 { 
-                    session.set::<usize>("locked_time", datetime::timestamp() as usize).unwrap();
+                    if let Err(message) = session.set::<usize>("locked_time", datetime::timestamp() as usize) { 
+                        return response::error(&message.to_string());
+                    }
                     return response::error("失败次数过多, 请稍后重试");
                 }
             }
-        } else { session.set::<usize>("failure_count", failure_count).unwrap(); } //设置登录失败次数的默认值
+        } else { 
+            if let Err(message) = session.set::<usize>("failure_count", failure_count) { 
+                return response::error(&message.to_string());
+            }
+        } //设置登录失败次数的默认值
 
         if let Err(message) = ThisModel::check_login(&post) {  //如果校验数据出现错误
             return response::error(&message);
         }
         
-        let name = post.get("name").unwrap();
+        println!("failure_count = {}", failure_count);
+        let name = post.get("username").unwrap();
         let password_ori = post.get("password").unwrap();
         let query = query![fields => "id, password, secret, login_count, role_id",];
         let cond = cond!["id" => &name,];
@@ -98,7 +105,7 @@ impl Index {
     /// 后台管理主界面
     pub async fn manage(session: Session, tpl: Tpl) -> HttpResponse { 
         if !Acl::check_login(&session) { 
-            return response::error("拒绝访问, 未授权");
+            return response::redirect("/");
         }
         let related_menus = Menus::get_related();
         let role_menus = Menus::get_role_menus_by_id(0);
@@ -112,7 +119,7 @@ impl Index {
     /// 后台进入之后的首页
     pub async fn right(session: Session, tpl: Tpl) -> HttpResponse { 
         if !Acl::check_login(&session) { 
-            return response::error("拒绝访问, 未授权");
+            return response::redirect("/");
         }
         let mut data = tmpl_data![];
         // 当前目录

@@ -134,7 +134,7 @@ pub trait Controller {
             //        continue;
             //    } 
             //}
-            data.insert(key.to_owned(), &value);
+            data.insert(key.to_owned(), &value.to_string());
         }
         Self::index_after(&mut data);
         let view_file = &format!("{}/index.html", controller_name);

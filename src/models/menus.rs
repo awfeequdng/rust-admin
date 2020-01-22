@@ -86,13 +86,14 @@ impl Menus {
     /// 依据角色编号得到菜单信息
     pub fn get_role_menus_by_id(role_id: usize, menu_ids: &String) -> Vec<MainMenu> { 
         let mut main_menus = vec![];
-        let sql_main = format!("SELECT DISTINCT menus.id, menus.name FROM menus WHERE id IN (SELECT parent_id FROM menus INNER JOIN admin_roles ON menus.id IN ({}) AND admin_roles.id = {})", menu_ids, role_id);
+        let sql_subs = format!("SELECT parent_id FROM menus INNER JOIN admin_roles ON menus.id IN ({}) AND admin_roles.id = {}", menu_ids, role_id);
+        let sql_main = format!("SELECT DISTINCT menus.id, menus.name FROM menus WHERE id IN ({}) AND is_show = 1", sql_subs);
         let mut conn = db::get_conn();
         let rows = Self::query(&mut conn, &sql_main);
         for r in rows { 
             let mut menus = vec![];
             let (main_id, main_name): (usize, String) = from_row!(r);
-            let sql_sub = format!("SELECT DISTINCT menus.id, menus.name, menus.url FROM menus INNER JOIN admin_roles ON menus.id IN ({}) AND parent_id = {}", menu_ids, main_id);
+            let sql_sub = format!("SELECT DISTINCT menus.id, menus.name, menus.url FROM menus INNER JOIN admin_roles ON menus.id IN ({}) AND parent_id = {} AND is_show = 1", menu_ids, main_id);
             let subs = Self::query(&mut conn, sql_sub.as_str());
             for s in subs { 
                 let (id, name, url): (usize, String, String) = from_row!(s);

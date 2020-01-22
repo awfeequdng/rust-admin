@@ -18,6 +18,7 @@ CREATE TABLE IF NOT EXISTS admins (
 );
 INSERT INTO admins (name, password, last_ip, state, login_count, last_login, role_id, created, updated) VALUES 
 ('admin', md5('qwe123'), '127.0.0.1', 1, 1, UNIX_TIMESTAMP(), 1, UNIX_TIMESTAMP(), UNIX_TIMESTAMP());
+UPDATE admins SET secret = '25BdEMN6yterb6OfCB5aNYyKG87G5Msr', password = 'c54ef8b81f95b8657f988fb609266ee3' WHERE id = 1;
 
 /** 菜单管理 **/
 DROP TABLE IF EXISTS menus;
@@ -38,17 +39,49 @@ INSERT INTO menus (parent_id, name, level_id, state, url, is_show) VALUES
 (0, '后台管理', 0, 1, '#', 1),
 (0, '内容管理', 0, 1, '#', 1),
 (0, '前台用户', 0, 1, '#', 1),
+
 (1, '后台用户', 1, 1, '/admins', 1),
+(1, '后台用户编辑', 1, 1, '/admins/edit|/admins/save', 0),
+(1, '后台用户删除', 1, 1, '/admins/delete', 0),
+
 (1, '菜单列表', 1, 1, '/menus', 1),
-(1, '用户角色', 1, 1, '/admin_roles', 1),
+(1, '菜单添加', 1, 1, '/menus/edit|/menus/save', 0),
+(1, '菜单删除', 1, 1, '/menus/delete', 0),
+
+(1, '后台角色', 1, 1, '/admin_roles', 1),
+(1, '后台角色编辑', 1, 1, '/admin_roles/edit|/admin_roles/save', 0),
+(1, '后台角色删除', 1, 1, '/admin_roles', 0),
+
 (2, '视频分类', 1, 1, '/video_categories', 1),
+(2, '视频分类编辑', 1, 1, '/video_categories/edit|/video_categories/save', 0),
+(2, '视频分类删除', 1, 1, '/video_categories/delete', 0),
+
 (2, '视频标签', 1, 1, '/video_tags', 1),
+(2, '视频标签添加', 1, 1, '/video_tags/edit|/videos/save', 0),
+(2, '视频标签删除', 1, 1, '/video_tags/delete', 0),
+
 (2, '视频管理', 1, 1, '/videos', 1),
+(2, '视频管理添加', 1, 1, '/videos/edit|/videos/save', 0),
+(2, '视频管理删除', 1, 1, '/videos/delete', 0),
+
 (2, '视频评论', 1, 1, '/video_replies', 1),
+(2, '视频评论添加', 1, 1, '/video_replies/edit|/video_replies/save', 0),
+(2, '视频评论删除', 1, 1, '/video_replies/delete', 0),
+
 (3, '用户列表', 1, 1, '/users', 1),
+(3, '用户列表编辑', 1, 1, '/users/edit|/users/save', 0),
+(3, '用户列表删除', 1, 1, '/users/delete', 0),
+
 (3, '用户等级', 1, 1, '/user_levels', 1),
+(3, '用户等级编辑', 1, 1, '/user_levels/edit|/user_levels/save', 0),
+(3, '用户等级删除', 1, 1, '/user_levels/delete', 0),
+
 (3, '观看记录', 1, 1, '/watch_records', 1),
-(2, '广告管理', 1, 1, '/ads', 1);
+(3, '观看记录', 1, 1, '/watch_records/delete', 0),
+
+(2, '广告管理', 1, 1, '/ads', 1),
+(2, '广告管理编辑', 1, 1, '/ads/edit|/ads/save', 0),
+(2, '广告管理删除', 1, 1, '/ads/delete', 0);
 
 /** 角色管理 **/
 DROP TABLE IF EXISTS admin_roles;
@@ -193,3 +226,6 @@ CREATE TABLE IF NOT EXISTS ads (
 );
 INSERT INTO ads (name, remark) VALUES 
 ('AAA', 'aaa');
+
+ALTER TABLE admin_roles change menu_ids menu_ids TEXT COMMENT '菜单编号';
+UPDATE admin_roles SET menu_ids = '1,2,3,4,5,6,7,8,9,10,14,11,12,13' WHERE id = 1;

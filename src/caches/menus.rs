@@ -7,7 +7,7 @@ lazy_static! {
     pub static ref MENUS: HashMap<usize, String> = {
         let fields = "id, name";
         let mut conn = db::get_conn();
-        let cond = cond!["parent_id" => &"0",];
+        let cond = cond!["parent_id" => &"0", "is_show" => &"1",];
         let query = query![fields => &fields,];
         let rs = Menus::fetch_rows(&mut conn, &query, Some(&cond));
         let mut menus: HashMap<usize, String> = HashMap::new();

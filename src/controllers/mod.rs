@@ -22,19 +22,6 @@ pub trait Controller {
     fn get_controller_name() -> &'static str { 
         Self::M::get_table_name()
     }
-
-    /// 转换查询条件
-    fn get_queries(query_string: &str) -> HashMap<&str, &str> { 
-        let queries: Vec<&str> = query_string.split("&").collect();
-        let mut params = HashMap::new();
-        for query in &queries { 
-            let parts: Vec<&str> = query.split("=").collect();
-            if parts.len() > 1 { 
-                params.insert(parts[0], parts[1]);
-            }
-        }
-        params
-    }
     
     /// 得到查询条件
     fn get_query_cond() -> Vec<(&'static str, &'static str)> { vec![] }
@@ -102,7 +89,7 @@ pub trait Controller {
             return response::redirect("/index/error");
         }
         let query_string = request.query_string();
-        let queries = dbg!(Self::get_queries(query_string));
+        let queries = dbg!(fluffy::request::get_queries(query_string));
         let query_cond = dbg!(Self::get_cond(&queries));
         let cond = dbg!(if query_cond.len() > 0 { Some(&query_cond) } else { None });
         let controller_name = Self::get_controller_name(); //控制器名称

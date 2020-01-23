@@ -1,5 +1,5 @@
 use std::collections::HashMap;
-use actix_web::{HttpResponse, web::Form,};
+use actix_web::{HttpResponse, web::Form, HttpRequest};
 use fluffy::{tmpl::Tpl, db, model::Model, datetime, utils, random, response,};
 use crate::models::{Index as ThisModel, Admins};
 use std::env;
@@ -34,8 +34,14 @@ impl Index {
     }
 
     /// 错误页面
-    pub async fn error(tpl: Tpl) -> HttpResponse { 
-        render!(tpl, "index/error.html")
+    pub async fn error(request: HttpRequest, tpl: Tpl) -> HttpResponse { 
+        let query_string = request.query_string();
+        let queries = fluffy::request::get_queries(&query_string);
+        let duration = if let Some(v) = queries.get(&"duration") { if let Ok(n) = v.parse::<usize>() { n } else { 0 } } else { 0 };
+        let data = tmpl_data![
+            "duration" => &duration,
+        ];
+        render!(tpl, "index/error.html", &data)
     }
 
     /// 用户登录
@@ -105,9 +111,9 @@ impl Index {
 
             session.remove("failure_count"); //清空失败次数
             session.remove("locked_time"); //清空锁定时间
-            session.set::<usize>("user_id", id).unwrap();
-            session.set::<String>("user_name", name.to_owned()).unwrap();
-            session.set::<usize>("role_id", role_id).unwrap();
+            session.set::<usize>("user_id", id).unwrap(); //session
+            session.set::<String>("user_name", name.to_owned()).unwrap(); //session
+            session.set::<usize>("role_id", role_id).unwrap(); //session
             return response::ok();
         } 
         session.set::<usize>("failure_count", failure_count + 1).unwrap();
@@ -116,13 +122,56 @@ impl Index {
 
     /// 退出系统
     pub async fn logout(session: Session) -> HttpResponse { 
+        session.remove("user_id");
+        session.remove("user_name");
+        session.remove("role_id");
+        response::ok()
+    }
+
+    /// 修改密码
+    pub async fn change_pwd(session: Session, tpl: Tpl) -> HttpResponse { 
+        if !Acl::check_login(&session) { 
+            return response::redirect("/index/error?duration=2");
+        }
+        return render!(tpl, "admins/change_pwd.html");
+    }
+
+    /// 保存修改密码
+    pub async fn change_pwd_save(session: Session, post: Form<HashMap<String, String>>) -> HttpResponse { 
+        if !Acl::check_login(&session) { 
+            return response::error("缺少权限");
+        }
+        if let Err(message) = ThisModel::check_change_pwd(&post) { //检测密码输入是否正确
+            return response::error(message);
+        }
+        let password_ori = post.get("old_password").unwrap();
+        let user_id = session.get::<usize>("user_id").unwrap().unwrap(); //用户编号
+        let query = query![fields => "secret, password", ];
+        let cond = cond!["id" => user_id, ];
+        let mut conn = db::get_conn();
+        let row = if let Some(r) = Admins::fetch_row(&mut conn, &query, Some(&cond)) { r }  else { return response::error("检测用户信息失败"); };
+        let (secret, password): (String, String) = from_row!(row);
+        if utils::get_password(&password_ori, &secret) != password { 
+            return response::error("旧的密码输入错误");
+        }
+        let password_new = post.get("password").unwrap();
+        let secret_new = random::rand_str(32);
+        let password_enc = utils::get_password(&password_new, &secret_new);
+        let data = update_row![
+            "password" => &password_enc,
+            "secret" => &secret_new,
+            "updated" => &datetime::timestamp(),
+        ];
+        if Admins::update(&mut conn, &data, &cond) == 0 { 
+            return response::error("修改密码失败");
+        }
         response::ok()
     }
 
     /// 后台管理主界面
     pub async fn manage(session: Session, tpl: Tpl) -> HttpResponse { 
         if !Acl::check_login(&session) { 
-            return response::redirect("/index/error");
+            return response::redirect("/index/error?duration=2");
         }
         let mut role_id = 0;
         if let Ok(v) = session.get::<usize>("role_id") { 

@@ -8,4 +8,11 @@
         </div>
     </div>
 </div>
+{% if duration > 0 %}
+<script>
+setTimeout(function() { 
+    top.location.href = "/";
+}, {{duration*1000}})
+</script>
+{% endif %}
 {% endblock body -%}

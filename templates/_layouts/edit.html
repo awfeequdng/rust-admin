@@ -55,7 +55,7 @@ layui.use(['form', 'layer', 'jquery'], function() {
     form.verify(layui.validators);
 
     //监听提交
-    form.on('submit(add)', function() {
+    form.on('submit(edit)', function() {
         var action = "/{{ controller_name }}/save/{{id}}";
         var edit_form = $("#edit_form");
         $.ajax({

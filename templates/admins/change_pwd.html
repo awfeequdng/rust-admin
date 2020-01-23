@@ -43,31 +43,32 @@ layui.use(['jquery', 'layer', 'form'], function() {
 
     //监听提交
     form.on('submit(edit)', function() {
-        var action = "/index/change_pwd_save";
-        var edit_form = $("#edit_form");
         $.ajax({
-			url: action,
+			url: "/index/change_pwd_save",
 			type: "post",
 			dataType: "json",
-			//data: JSON.stringify(data.field),
-            data: edit_form.serializeArray(),
+            data: $("#edit_form").serializeArray(),
             headers: {"content-type": "application/x-www-form-urlencoded"},
 			success: function(res) {
+                console.log(res);
 				if (res.code === 0) {
-					layer.alert('密码修改成功, 请重新登录', { icon: 6 }, function() {
+					layer.alert('密码修改成功, 请重新登录', function() {
                         $.get("/index/logout", function() { 
                             xadmin.close(); //关闭当前frame
-                            xadmin.father_reload(); //刷新父窗口
+                            //xadmin.father_reload(); //刷新父窗口
+                            location.href = "/";
                         });
 					});
-					return;
-				}
-				layer.alert(res.message, { icon: 7 });
+                } else { 
+				    layer.alert(res.message, { icon: 7 });
+                }
 			},
 			error: function(res) {
 				layer.alert(res.message, { icon: 7 });
 			}
 		});
+
+        return false;
     });
 });
 </script>

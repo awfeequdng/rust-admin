@@ -114,6 +114,11 @@ impl Index {
         response::error("用户名称或密码错误")
     }
 
+    /// 退出系统
+    pub async fn logout(session: Session) -> HttpResponse { 
+        response::ok()
+    }
+
     /// 后台管理主界面
     pub async fn manage(session: Session, tpl: Tpl) -> HttpResponse { 
         if !Acl::check_login(&session) { 

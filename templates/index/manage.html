@@ -62,22 +62,26 @@
         <div class="left-nav">
             <div id="side-nav">
                 <ul id="nav">
-                    {% for menu in menus %}
+                    {% for menu in menus -%}
+                    {% if menu.is_show == 1 -%}
                     <li>
                         <a href="javascript:;">
                             <i class="iconfont left-nav-li" lay-tips="{{ menu.name }}">&#xe726;</i> <cite>{{ menu.name }}</cite>
                             <i class="iconfont nav_right">&#xe697;</i>
                         </a>
                         <ul class="sub-menu">
-                            {% for sub in menu.menus %}
+                            {% for sub in menu.menus -%}
+                            {% if sub.is_show == 1 -%}
                             <li>
                                 <a href="javascript:;" title="{{ sub.name }}" url="{{ sub.url }}">
                                     <i class="iconfont">&#xe6a7;</i><cite>{{ sub.name }}</cite>
                                 </a>
                             </li>
+                            {% endif -%}
                             {% endfor -%}
                         </ul>
                     </li>
+                    {% endif -%}
                     {% endfor -%}
                 </ul>
             </div>

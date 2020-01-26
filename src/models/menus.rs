@@ -21,6 +21,7 @@ pub struct SubMenu {
     pub id: usize,
     pub name: String,
     pub url: String,
+    pub is_show: usize,
 }
 
 #[derive(Default, Debug, Serialize)]
@@ -28,6 +29,7 @@ pub struct MainMenu {
     pub id: usize,
     pub name: String,
     pub menus: Vec<SubMenu>,
+    pub is_show: usize,
 }
 
 impl Model for Menus { 
@@ -66,19 +68,19 @@ impl Menus {
     pub fn get_related() -> Vec<MainMenu> { 
         let mut main_menus = vec![];
         let mut conn = db::get_conn();
-        let query = query![ fields => "id, name, url", ];
+        let query = query![ fields => "id, name, url, is_show", ];
         let cond = cond![ "level_id" => "0", ];
         let rs_main = Menus::fetch_rows(&mut conn, &query, Some(&cond));
         for r_main in rs_main { 
-            let (id, name, _): (usize, String, String) = from_row!(r_main);
+            let (id, name, _, is_show): (usize, String, String, usize) = from_row!(r_main);
             let mut menus: Vec<SubMenu> = vec![];
             let cond_sub = cond!["parent_id" => &id, ];
             let rs_subs = Menus::fetch_rows(&mut conn, &query, Some(&cond_sub));
             for r_sub in rs_subs { 
-                let (sub_id, sub_name, sub_url): (usize, String, String) = from_row!(r_sub);
-                menus.push(SubMenu{ id: sub_id, name: sub_name, url: sub_url, });
+                let (sub_id, sub_name, sub_url, sub_is_show): (usize, String, String, usize) = from_row!(r_sub);
+                menus.push(SubMenu{ id: sub_id, name: sub_name, url: sub_url, is_show: sub_is_show });
             }
-            main_menus.push(MainMenu{ id, name, menus, });
+            main_menus.push(MainMenu{ id, name, menus, is_show, });
         }
         main_menus
     }
@@ -87,19 +89,19 @@ impl Menus {
     pub fn get_role_menus_by_id(role_id: usize, menu_ids: &String) -> Vec<MainMenu> { 
         let mut main_menus = vec![];
         let sql_subs = format!("SELECT parent_id FROM menus INNER JOIN admin_roles ON menus.id IN ({}) AND admin_roles.id = {}", menu_ids, role_id);
-        let sql_main = format!("SELECT DISTINCT menus.id, menus.name FROM menus WHERE id IN ({}) AND is_show = 1", sql_subs);
+        let sql_main = format!("SELECT DISTINCT menus.id, menus.name, menus.is_show FROM menus WHERE id IN ({})", sql_subs);
         let mut conn = db::get_conn();
         let rows = Self::query(&mut conn, &sql_main);
         for r in rows { 
             let mut menus = vec![];
-            let (main_id, main_name): (usize, String) = from_row!(r);
-            let sql_sub = format!("SELECT DISTINCT menus.id, menus.name, menus.url FROM menus INNER JOIN admin_roles ON menus.id IN ({}) AND parent_id = {} AND is_show = 1", menu_ids, main_id);
+            let (main_id, main_name, main_is_show): (usize, String, usize) = from_row!(r);
+            let sql_sub = format!("SELECT DISTINCT menus.id, menus.name, menus.url, menus.is_show FROM menus INNER JOIN admin_roles ON menus.id IN ({}) AND parent_id = {}", menu_ids, main_id);
             let subs = Self::query(&mut conn, sql_sub.as_str());
             for s in subs { 
-                let (id, name, url): (usize, String, String) = from_row!(s);
-                menus.push(SubMenu{id, name, url});
+                let (id, name, url, is_show): (usize, String, String, usize) = from_row!(s);
+                menus.push(SubMenu{id, name, url, is_show});
             }
-            main_menus.push(MainMenu{id: main_id, name: main_name, menus});
+            main_menus.push(MainMenu{id: main_id, name: main_name, menus, is_show: main_is_show });
         }
         main_menus
     }

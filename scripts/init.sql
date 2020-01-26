@@ -28,7 +28,7 @@ CREATE TABLE IF NOT EXISTS menus (
     name VARCHAR(20) NOT NULL DEFAULT '' COMMENT '菜单名称',
     level_id TINYINT NOT NULL DEFAULT 0 COMMENT '级别ID,1:主菜单;2:子菜单',
     state TINYINT NOT NULL DEFAULT 0 COMMENT '状态,0:隐藏;1:显示',
-    url VARCHAR(50) NOT NULL DEFAULT '' COMMENT '链接地址',
+    url VARCHAR(200) NOT NULL DEFAULT '' COMMENT '链接地址',
     is_blank TINYINT NOT NULL DEFAULT 0 COMMENT '是否外链,0:否,1:是',
     is_show TINYINT NOT NULL DEFAULT 0 COMMENT '是否显式,0:否,1:是',
     seq INT NOT NULL DEFAULT 0 COMMENT '排序',
@@ -41,47 +41,47 @@ INSERT INTO menus (parent_id, name, level_id, state, url, is_show) VALUES
 (0, '前台用户', 0, 1, '#', 1),
 
 (1, '后台用户', 1, 1, '/admins', 1),
-(1, '后台用户编辑', 1, 1, '/admins/edit|/admins/save', 0),
-(1, '后台用户删除', 1, 1, '/admins/delete', 0),
+(1, '后台用户编辑', 1, 1, '/admins/edit/\\d+|/admins/save/\\d+', 0),
+(1, '后台用户删除', 1, 1, '/admins/delete/\\d+', 0),
 
 (1, '菜单列表', 1, 1, '/menus', 1),
-(1, '菜单添加', 1, 1, '/menus/edit|/menus/save', 0),
-(1, '菜单删除', 1, 1, '/menus/delete', 0),
+(1, '菜单添加', 1, 1, '/menus/edit/\\d+|/menus/save/\\d+', 0),
+(1, '菜单删除', 1, 1, '/menus/delete/\\d+', 0),
 
 (1, '后台角色', 1, 1, '/admin_roles', 1),
-(1, '后台角色编辑', 1, 1, '/admin_roles/edit|/admin_roles/save', 0),
-(1, '后台角色删除', 1, 1, '/admin_roles', 0),
+(1, '后台角色编辑', 1, 1, '/admin_roles/edit/\\d+|/admin_roles/save/\\d+', 0),
+(1, '后台角色删除', 1, 1, '/admin_roles/\\d+', 0),
 
 (2, '视频分类', 1, 1, '/video_categories', 1),
-(2, '视频分类编辑', 1, 1, '/video_categories/edit|/video_categories/save', 0),
-(2, '视频分类删除', 1, 1, '/video_categories/delete', 0),
+(2, '视频分类编辑', 1, 1, '/video_categories/edit/\\d+|/video_categories/save/\\d+', 0),
+(2, '视频分类删除', 1, 1, '/video_categories/delete/\\d+', 0),
 
 (2, '视频标签', 1, 1, '/video_tags', 1),
-(2, '视频标签添加', 1, 1, '/video_tags/edit|/videos/save', 0),
-(2, '视频标签删除', 1, 1, '/video_tags/delete', 0),
+(2, '视频标签添加', 1, 1, '/video_tags/edit/\\d+|/videos/save/\\d+', 0),
+(2, '视频标签删除', 1, 1, '/video_tags/delete/\\d+', 0),
 
 (2, '视频管理', 1, 1, '/videos', 1),
-(2, '视频管理添加', 1, 1, '/videos/edit|/videos/save', 0),
-(2, '视频管理删除', 1, 1, '/videos/delete', 0),
+(2, '视频管理添加', 1, 1, '/videos/edit/\\d+|/videos/save/\\d+', 0),
+(2, '视频管理删除', 1, 1, '/videos/delete/\\d+', 0),
 
 (2, '视频评论', 1, 1, '/video_replies', 1),
-(2, '视频评论添加', 1, 1, '/video_replies/edit|/video_replies/save', 0),
-(2, '视频评论删除', 1, 1, '/video_replies/delete', 0),
+(2, '视频评论添加', 1, 1, '/video_replies/edit/\\d+|/video_replies/save/\\d+', 0),
+(2, '视频评论删除', 1, 1, '/video_replies/delete/\\d+', 0),
 
 (3, '用户列表', 1, 1, '/users', 1),
-(3, '用户列表编辑', 1, 1, '/users/edit|/users/save', 0),
-(3, '用户列表删除', 1, 1, '/users/delete', 0),
+(3, '用户列表编辑', 1, 1, '/users/edit/\\d+|/users/save/\\d+', 0),
+(3, '用户列表删除', 1, 1, '/users/delete/\\d+', 0),
 
 (3, '用户等级', 1, 1, '/user_levels', 1),
-(3, '用户等级编辑', 1, 1, '/user_levels/edit|/user_levels/save', 0),
-(3, '用户等级删除', 1, 1, '/user_levels/delete', 0),
+(3, '用户等级编辑', 1, 1, '/user_levels/edit/\\d+|/user_levels/save/\\d+', 0),
+(3, '用户等级删除', 1, 1, '/user_levels/delete/\\d+', 0),
 
 (3, '观看记录', 1, 1, '/watch_records', 1),
-(3, '观看记录', 1, 1, '/watch_records/delete', 0),
+(3, '观看记录', 1, 1, '/watch_records/delete/\\d+', 0),
 
 (2, '广告管理', 1, 1, '/ads', 1),
-(2, '广告管理编辑', 1, 1, '/ads/edit|/ads/save', 0),
-(2, '广告管理删除', 1, 1, '/ads/delete', 0);
+(2, '广告管理编辑', 1, 1, '/ads/edit/\\d+|/ads/save/\\d+', 0),
+(2, '广告管理删除', 1, 1, '/ads/delete/\\d+', 0);
 
 /** 角色管理 **/
 DROP TABLE IF EXISTS admin_roles;
@@ -228,4 +228,4 @@ INSERT INTO ads (name, remark) VALUES
 ('AAA', 'aaa');
 
 ALTER TABLE admin_roles change menu_ids menu_ids TEXT COMMENT '菜单编号';
-UPDATE admin_roles SET menu_ids = '1,2,3,4,5,6,7,8,9,10,14,11,12,13' WHERE id = 1;
+UPDATE admin_roles SET menu_ids = '1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,33,34,35,25,26,27,28,29,30,31,32' WHERE id = 1;

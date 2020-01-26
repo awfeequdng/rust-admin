@@ -23,6 +23,6 @@ actix-session = "0.3.0"
 sys-info = "0.5"
 
 [dependencies.fluffy]
-git = "https://github.com/bignut1688/fluffy.git" 
+git = "https://github.com/houhanting/fluffy.git" 
 branch = "master"
 features = ["debug"]

@@ -44,12 +44,9 @@
                     <a href="javascript:;">admin</a>
                     <dl class="layui-nav-child">
                         <!-- 二级菜单 -->
-                        <dd>
-                            <a onclick="xadmin.open('个人信息','http://www.baidu.com')">个人信息</a></dd>
-                        <dd>
-                            <a onclick="xadmin.open('切换帐号','http://www.baidu.com')">切换帐号</a></dd>
-                        <dd>
-                            <a href="./login.html">退出</a></dd>
+                        <dd> <a onclick="xadmin.open('修改密码','/index/change_pwd', 600, 450)">修改密码</a></dd>
+                        <!--<dd> <a onclick="xadmin.open('切换帐号','http://www.baidu.com')">切换帐号</a></dd>-->
+                        <dd> <a href="javascript:" id="linkLogout">退出系统</a></dd>
                     </dl>
                 </li>
                 <li class="layui-nav-item to-index">
@@ -93,17 +90,16 @@
             <div class="layui-tab tab" lay-filter="xbs_tab" lay-allowclose="false">
                 <ul class="layui-tab-title">
                     <li class="home">
-                        <i class="layui-icon">&#xe68e;</i>我的桌面</li></ul>
+                        <i class="layui-icon">&#xe68e;</i>后台主页</li></ul>
                 <div class="layui-unselect layui-form-select layui-form-selected" id="tab_right">
                     <dl>
                         <dd data-type="this">关闭当前</dd>
                         <dd data-type="other">关闭其它</dd>
-                        <dd data-type="all">关闭全部</dd></dl>
+                        <dd data-type="all">关闭全部</dd>
+                    </dl>
                 </div>
                 <div class="layui-tab-content">
-                    <div class="layui-tab-item layui-show">
-                        <iframe src='/index/right' frameborder="0" scrolling="yes" class="x-iframe"></iframe>
-                    </div>
+                    <div class="layui-tab-item layui-show"> <iframe src='/index/right' frameborder="0" scrolling="yes" class="x-iframe"></iframe> </div>
                 </div>
                 <div id="tab_show"></div>
             </div>
@@ -115,13 +111,21 @@
     </body>
 </html>
 <script type="text/javascript">
-    layui.use('jquery', function() { 
-        var $ = layui.jquery;
-        $(".sub-menu a").click(function() { 
+    layui.use(['jquery', 'layer'], function() { 
+        var $ = layui.jquery, layer = layui.layer;
+        $(".sub-menu a").click(function() {  //菜单
             var that = $(this);
             var title = that.attr("title");
             var url = that.attr("url");
             xadmin.add_tab(title, url);
+        });
+
+        $("#linkLogout").click(function() {  //退出按钮
+            layer.confirm('你确定要退出后台管理系统么?', function() { 
+                $.get("/index/logout", function() { 
+                    location.href = "/";
+                });
+            });
         });
     });
 </script>

@@ -89,7 +89,7 @@ pub trait Controller {
             return response::redirect("/index/error");
         }
         let query_string = request.query_string();
-        let queries = Self::get_queries(query_string);
+        let queries = fluffy::request::get_queries(query_string);
         let query_cond = Self::get_cond(&queries);
         let cond = if query_cond.len() > 0 { Some(&query_cond) } else { None };
         let controller_name = Self::get_controller_name(); //控制器名称

@@ -26,6 +26,7 @@
 {{ form::input(name="url", title="路由地址", value=row.url, length=380) }}
 {{ form::yes_no(name="is_blank", title="是否外链", value=row.is_blank) }}
 {{ form::seq(value=row.seq) }}
+{{ form::state(name="state", title="状态", value=row.state) }}
 <script>
 layui.validators = { 
     name: function(value) { 
@@ -34,6 +35,5 @@ layui.validators = {
         }
     }
 };
-{{ form::state(name="state", title="状态", value=row.state) }}
 </script>
 {% endblock body -%}

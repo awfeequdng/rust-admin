@@ -74,6 +74,4 @@ cargo run --release
 
 当前正在创业当中, 期盼各位帮助支持
 
-![avatar](/image/wx.png)
-
-![avatar](/image/tb.png)
+![avatar](/image/wx.png) ![avatar](/image/tb.png)

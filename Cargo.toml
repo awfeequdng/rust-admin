@@ -25,4 +25,5 @@ sys-info = "0.5"
 [dependencies.fluffy]
 git = "https://github.com/houhanting/fluffy.git" 
 branch = "master"
+#release模式请去掉以下debug
 features = ["debug"]

@@ -16,13 +16,13 @@
 ![avatar](/image/login.png)
 
 2. 后台管理
-![avatar](https://github.com/houhanting/rust-admin/blob/master/image/right.png)
+![avatar](/image/right.png)
 
 3. 菜单管理
-![avatar](https://github.com/houhanting/rust-admin/blob/master/image/menus.png)
+![avatar](/image/menus.png)
 
 4. 角色管理
-![avatar](https://github.com/houhanting/rust-admin/blob/master/image/roles.png)
+![avatar](/image/roles.png)
 
 # 二次开发 & 技术交流
 请加入QQ群: 1036231916

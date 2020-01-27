@@ -13,7 +13,7 @@
 
 # 界面载图
 1. 登录界面
-![avatar](https://github.com/houhanting/rust-admin/blob/master/image/login.png)
+![avatar](/image/login.png)
 
 2. 后台管理
 ![avatar](https://github.com/houhanting/rust-admin/blob/master/image/right.png)

@@ -1,19 +1,25 @@
 /// 地址
 pub const BIND_HOST: &str = "127.0.0.1";
+
 /// 端口
 pub const BIND_PORT: &str = "8081";
 
 // redis连接
 //pub const REDIS_CONN_STR: &str = "redis://127.0.0.1";
 
+/// 主機地址
 pub const MYSQL_DB_HOST: &str = "localhost";
 
+/// 資料庫名稱
 pub const MYSQL_DB_NAME: &str = "rust_admin";
 
+/// 資料庫用戶名稱
 pub const MYSQL_DB_USER: &str = "rust_admin";
 
+/// 資料庫登錄密碼
 pub const MYSQL_DB_PASS: &str = "rust-x-lsl";
 
+/// 資料庫連接端口
 pub const MYSQL_DB_PORT: &str = "3306";
 
 // 資料庫连接
@@ -25,6 +31,7 @@ pub const LOGIN_ERROR_MAX: usize = 1000;
 /// 登录失败后锁定时间
 pub const LOGIN_LOCKED_TIME: usize = 3600;
 
+/// 資料庫連接字符串
 pub fn get_conn_string() -> String { 
     format!("mysql://{}:{}@{}:{}/{}", MYSQL_DB_USER, MYSQL_DB_PASS, MYSQL_DB_HOST, MYSQL_DB_PORT, MYSQL_DB_NAME)
 }

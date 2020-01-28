@@ -39,7 +39,7 @@ pub fn allow_access(role_id: usize, url: &str) -> bool {
                 let regs = sub.url.split("|").collect::<Vec<&str>>();
                 for reg in regs { 
                     let reg_url = &format!("^{}$", reg);
-                    println!("reg_url = {}, url = {}", reg_url, url);
+                    //println!("reg_url = {}, url = {}", reg_url, url);
                     if let Ok(r) = Regex::new(reg_url) { 
                         if r.is_match(url) { 
                             return true;

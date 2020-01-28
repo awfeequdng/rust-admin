@@ -61,19 +61,15 @@
                     return; 
                 }
                 var uArr = location.search.substring(1).split('&');
-                var query_string = '?';
+                var query_string = '?page=' + obj.curr;
                 for (var i = 0; i < uArr.length; i++) { 
-                    var sArr = uArr[i].split('=');
-                    if (sArr.length !== 2 || sArr[1] === '') { 
+                    var param = uArr[i];
+                    var sArr = param.split('=');
+                    if (sArr.length !== 2 || sArr[0] == 'page' || sArr[1] == '') { 
                         continue;
                     }
-                    var key = sArr[0], value = sArr[1];
-                    if (key === 'page') { 
-                        continue;
-                    } 
-                    query_string += key + '=' + value
+                    query_string += '&' + param;
                 }
-                query_string += 'page=' + obj.curr;
                 location.href = query_string;
             }
         });

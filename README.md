@@ -11,6 +11,25 @@
 
 5. 基于Rust语言特性,有性能、安全保证,先天优于Go/Java/.Net/Php等带GC语言。
 
+## 目录说明
+#### /image
+部分用于展示效果的图片, 可删除
+
+#### /public
+用于设置nginx对外的网站地址
+
+#### /scripts 
+用于初始化的sql脚本
+
+#### /src
+rust源代码
+
+#### /src/config/mod.rs
+系统配置文件
+
+#### /templates
+模板文件
+
 ## 界面载图
 1. 登录界面
 ![avatar](/image/login.png)
@@ -28,7 +47,7 @@
 请加入QQ群: 1036231916
 
 ## 使用说明
-1. 下载代码
+#### 下载代码
 
 ```bash
 git clone https://gitee.com/houhanting/rust-admin.git
@@ -47,21 +66,23 @@ SOURCE scripts/init.sql; /* 导入初始化数据库(请依据实际路径) */
 
 3. 设置nginx代理
 
-3.1 设置并生成Nginx配置文件
+设置并生成Nginx配置文件
 ```bash
 cp nginx.conf.default nginx.conf #复制nginx配置文件
 cat "/nginx.conf" >> .git/info/exclude #忽略nginx配置文件
 vim nginx.conf #修改相应的域名、目录、代理地址、端口
 ```
 
-3.2 修改 src/config/mod.rs 配置文件
+修改 src/config/mod.rs 配置文件
 
 修改相应的数据库名称、密码、主机、端口以及nginx相应的地址、端口
+
 ```bash
 vim src/config/mod.rs
 ```
 
 4. 运行程序
+
 ```bash
 cargo run
 ```

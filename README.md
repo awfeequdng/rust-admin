@@ -22,9 +22,6 @@ Tera: https://tera.netlify.com/docs/
 #### 基于Rust语言特性,有性能、安全保证,先天优于Go/Java/.Net/Php等带GC语言。
 
 ## 目录说明
-#### /image
-部分用于展示效果的图片, 可删除
-
 #### /public
 用于设置nginx对外的网站地址
 

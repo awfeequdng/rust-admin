@@ -60,12 +60,14 @@ cd rust-admin
 #### 创建数据库(Mysql)并入导入数据
 
 ```sql
-CREATE DATABASE rust_admin; /* 创建数据库 */
+CREATE DATABASE rust_admin DEFAULT CHARSET=UTF8 COLLATE=UTF8_GENERAL_CI; /* 创建数据库 */
 GRANT ALL PRIVILEGES ON `rust_admin`.* to 'rust_admin'@'%' IDENTIFIED BY 'rust-x-lsl'; /* 设置用户名称密码 */
 FLUSH PRIVILEGES;
 USE rust_admin; /* 选中数据库 */
 SOURCE scripts/init.sql; /* 导入初始化数据库(请依据实际路径) */
 ```
+
+默认用户/名称: admin / qwe123
 
 #### 设置nginx代理
 

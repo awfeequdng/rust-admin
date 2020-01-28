@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS admins (
     seq INT NOT NULL DEFAULT 0 COMMENT '排序',
     INDEX(name),
     PRIMARY KEY(id)
-);
+) ENGINE=INNODB DEFAULT CHARSET=UTF8 COLLATE=UTF8_GENERAL_CI;
 INSERT INTO admins (name, password, last_ip, state, login_count, last_login, role_id, created, updated) VALUES 
 ('admin', md5('qwe123'), '127.0.0.1', 1, 1, UNIX_TIMESTAMP(), 1, UNIX_TIMESTAMP(), UNIX_TIMESTAMP());
 UPDATE admins SET secret = '25BdEMN6yterb6OfCB5aNYyKG87G5Msr', password = 'c54ef8b81f95b8657f988fb609266ee3' WHERE id = 1;
@@ -25,7 +25,7 @@ DROP TABLE IF EXISTS menus;
 CREATE TABLE IF NOT EXISTS menus (
     id INT UNSIGNED NOT NULL AUTO_INCREMENT,
     parent_id INT UNSIGNED NOT NULL DEFAULT 0 COMMENT '上级编号',
-    name VARCHAR(20) NOT NULL DEFAULT '' COMMENT '菜单名称',
+    name VARCHAR(50) NOT NULL DEFAULT '' COMMENT '菜单名称',
     level_id TINYINT NOT NULL DEFAULT 0 COMMENT '级别ID,1:主菜单;2:子菜单',
     state TINYINT NOT NULL DEFAULT 0 COMMENT '状态,0:隐藏;1:显示',
     url VARCHAR(200) NOT NULL DEFAULT '' COMMENT '链接地址',
@@ -34,11 +34,11 @@ CREATE TABLE IF NOT EXISTS menus (
     seq INT NOT NULL DEFAULT 0 COMMENT '排序',
     PRIMARY KEY(id),
     INDEX(parent_id)
-);
+) ENGINE=INNODB DEFAULT CHARSET=UTF8 COLLATE=UTF8_GENERAL_Ci;
 INSERT INTO menus (parent_id, name, level_id, state, url, is_show) VALUES 
 (0, '后台管理', 0, 1, '#', 1),
 (0, '内容管理', 0, 1, '#', 1),
-(0, '前台用户', 0, 1, '#', 1),
+(0, '前台管理', 0, 1, '#', 1),
 
 (1, '后台用户', 1, 1, '/admins', 1),
 (1, '后台用户编辑', 1, 1, '/admins/edit/\\d+|/admins/save/\\d+', 0),
@@ -92,9 +92,9 @@ CREATE TABLE IF NOT EXISTS admin_roles (
     menu_ids TEXT COMMENT '菜单编号',
     seq INT NOT NULL DEFAULT 0 COMMENT '排序',
     PRIMARY KEY(id)
-);
-INSERT INTO admin_roles (name, remark, menu_ids) VALUES 
-('系统管理员', '后台用户管理', '1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,33,34,35,25,26,27,28,29,30,31,32');
+) ENGINE=INNODB DEFAULT CHARSET=UTF8 COLLATE=UTF8_GENERAL_CI;
+/* INSERT INTO admin_roles (name, remark, menu_ids) VALUES 
+('系统管理员', '后台用户管理', '1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,33,34,35,25,26,27,28,29,30,31,32'); */
 
 /** 前台用户 **/
 DROP TABLE IF EXISTS users;
@@ -115,7 +115,7 @@ CREATE TABLE IF NOT EXISTS users (
     remark VARCHAR(200) NOT NULL DEFAULT '' COMMENT '备注',
     PRIMARY KEY(id),
     INDEX(name)
-);
+) ENGINE=INNODB DEFAULT CHARSET=UTF8 COLLATE=UTF8_GENERAL_CI;
 INSERT INTO users (name, password, mail, created, updated) VALUES 
 ('user', md5('qwe123'), 'abc@gmail.com', UNIX_TIMESTAMP(), UNIX_TIMESTAMP());
 
@@ -130,7 +130,7 @@ CREATE TABLE IF NOT EXISTS user_levels (
     score_max INT UNSIGNED NOT NULL DEFAULT 0 COMMENT '最高积分',
     seq INT NOT NULL DEFAULT 0 COMMENT '排序',
     PRIMARY KEY(id)
-);
+) ENGINE=INNODB DEFAULT CHARSET=UTF8 COLLATE=UTF8_GENERAL_CI;
 INSERT INTO user_levels (name, remark) VALUES 
 ('VIP1', 'hahahaa'),
 ('VIP2', 'hahahaa');
@@ -146,7 +146,7 @@ CREATE TABLE IF NOT EXISTS watch_records (
     INDEX(user_id),
     INDEX(video_id),
     PRIMARY KEY(id)
-);
+) ENGINE=INNODB DEFAULT CHARSET=UTF8 COLLATE=UTF8_GENERAL_CI;
 INSERT INTO watch_records (user_id, user_name, video_id, created) VALUES 
 (1, 'user', 1, UNIX_TIMESTAMP());
 
@@ -158,7 +158,7 @@ CREATE TABLE IF NOT EXISTS video_categories (
     remark VARCHAR(100) NOT NULL DEFAULT '' COMMENT '备注',
     seq INT NOT NULL DEFAULT 0 COMMENT '排序',
     PRIMARY KEY(id)
-);
+) ENGINE=INNODB DEFAULT CHARSET=UTF8 COLLATE=UTF8_GENERAL_CI;
 INSERT INTO video_categories (name, remark) VALUES 
 ('AAA', 'aaa');
 
@@ -170,10 +170,9 @@ CREATE TABLE IF NOT EXISTS video_tags (
     remark VARCHAR(100) NOT NULL DEFAULT '' COMMENT '备注',
     seq INT NOT NULL DEFAULT 0 COMMENT '排序',
     PRIMARY KEY(id)
-);
+) ENGINE=INNODB ENGINE=INNODB DEFAULT CHARSET=UTF8 COLLATE=UTF8_GENERAL_CI;
 INSERT INTO video_tags (name, remark) VALUES 
 ('AAA', 'aaa');
-
 
 /** 视频 **/
 DROP TABLE IF EXISTS videos;
@@ -189,7 +188,7 @@ CREATE TABLE IF NOT EXISTS videos (
     updated INT UNSIGNED NOT NULL DEFAULT 0 COMMENT '修改時間',
     content TExT COMMENT '内容',
     PRIMARY KEY(id)
-);
+) ENGINE=INNODB DEFAULT CHARSET=UTF8 COLLATE=UTF8_GENERAL_CI;
 INSERT videos (title, remark, duration, created, updated) VALUES 
 ('aaaa', 'bbbb', 210, UNIX_TIMESTAMP(), UNIX_TIMESTAMP());
 
@@ -206,7 +205,7 @@ CREATE TABLE IF NOT EXISTS video_replies (
     state TINYINT UNSIGNED NOT NULL DEFAULT 0 COMMENT '狀態',
     created INT UNSIGNED NOT NULL DEFAULT 0 COMMENT '創建時間',
     PRIMARY KEY(id)
-);
+) ENGINE=INNODB DEFAULT CHARSET=UTF8 COLLATE=UTF8_GENERAL_CI;
 INSERT INTO video_replies (user_name, content, created) VALUES 
 ('user', 'aaaaaabbbbbcccc', UNIX_TIMESTAMP());
 
@@ -223,6 +222,6 @@ CREATE TABLE IF NOT EXISTS ads (
     is_blank TINYINT UNSIGNED NOT NULL DEFAULT 1 COMMENT '是否外链,0:否,1:是',
     seq INT NOT NULL DEFAULT 0 COMMENT '排序',
     PRIMARY KEY(id)
-);
+) ENGINE=INNODB DEFAULT CHARSET=UTF8 COLLATE=UTF8_GENERAL_CI;
 INSERT INTO ads (name, remark) VALUES 
 ('AAA', 'aaa');

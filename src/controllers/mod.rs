@@ -7,11 +7,11 @@ use crate::caches;
 use serde::ser::{Serialize};
 use actix_session::{Session};
 use crate::common::Acl;
-use regex::Regex;
+//use regex::Regex;
 
-lazy_static! { 
-    static ref NUMBERS: Regex = { Regex::new(r"^\d+$").unwrap() };
-}
+//lazy_static! { 
+//    static ref NUMBERS: Regex = { Regex::new(r"^\d+$").unwrap() };
+//}
 
 pub trait Controller { 
     

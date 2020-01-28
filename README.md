@@ -42,16 +42,16 @@ rust源代码
 
 ## 界面载图
 #### 登录界面
-![avatar](/image/login.png)
+![avatar](/public/static/images/login.png)
 
 #### 后台管理
-![avatar](/image/right.png)
+![avatar](/public/static/images/right.png)
 
 #### 菜单管理
-![avatar](/image/menus.png)
+![avatar](/public/static/images/menus.png)
 
 #### 角色管理
-![avatar](/image/roles.png)
+![avatar](/public/static/images/roles.png)
 
 ## 二次开发 & 技术交流
 请加入QQ群: 1036231916
@@ -105,4 +105,4 @@ cargo run --release
 
 当前正在创业当中, 期盼各位帮助支持
 
-![avatar](/image/wx.png) ![avatar](/image/tb.png)
+![avatar](/public/static/images/wx.png) ![avatar](/public/static/images/tb.png)

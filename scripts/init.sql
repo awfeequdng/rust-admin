@@ -117,7 +117,7 @@ CREATE TABLE IF NOT EXISTS users (
     INDEX(name)
 ) ENGINE=INNODB DEFAULT CHARSET=UTF8 COLLATE=UTF8_GENERAL_CI;
 INSERT INTO users (name, password, mail, created, updated) VALUES 
-('user', md5('qwe123'), 'abc@gmail.com', UNIX_TIMESTAMP(), UNIX_TIMESTAMP());
+('user', md5('qwe123'), 'user@gmail.com', UNIX_TIMESTAMP(), UNIX_TIMESTAMP());
 
 /** 用户等级 **/
 DROP TABLE IF EXISTS user_levels;
@@ -132,8 +132,11 @@ CREATE TABLE IF NOT EXISTS user_levels (
     PRIMARY KEY(id)
 ) ENGINE=INNODB DEFAULT CHARSET=UTF8 COLLATE=UTF8_GENERAL_CI;
 INSERT INTO user_levels (name, remark) VALUES 
-('VIP1', 'hahahaa'),
-('VIP2', 'hahahaa');
+('VIP', '基本级VIP'),
+('青铜VIP', '高等级VIP'),
+('白银VIP', '高等级VIP'),
+('黄金VIP', '高等级VIP'),
+('钻石VIP', '高等级VIP');
 
 /** 观看记录 **/
 DROP TABLE IF EXISTS watch_records;
@@ -160,7 +163,8 @@ CREATE TABLE IF NOT EXISTS video_categories (
     PRIMARY KEY(id)
 ) ENGINE=INNODB DEFAULT CHARSET=UTF8 COLLATE=UTF8_GENERAL_CI;
 INSERT INTO video_categories (name, remark) VALUES 
-('AAA', 'aaa');
+('电视剧', '电视剧'),
+('电影', '电影');
 
 /** 视频标签 **/
 DROP TABLE IF EXISTS video_tags;
@@ -172,7 +176,9 @@ CREATE TABLE IF NOT EXISTS video_tags (
     PRIMARY KEY(id)
 ) ENGINE=INNODB ENGINE=INNODB DEFAULT CHARSET=UTF8 COLLATE=UTF8_GENERAL_CI;
 INSERT INTO video_tags (name, remark) VALUES 
-('AAA', 'aaa');
+('国产', '国产'),
+('日韩', '日韩'),
+('欧美', '欧美');
 
 /** 视频 **/
 DROP TABLE IF EXISTS videos;
@@ -190,7 +196,7 @@ CREATE TABLE IF NOT EXISTS videos (
     PRIMARY KEY(id)
 ) ENGINE=INNODB DEFAULT CHARSET=UTF8 COLLATE=UTF8_GENERAL_CI;
 INSERT videos (title, remark, duration, created, updated) VALUES 
-('aaaa', 'bbbb', 210, UNIX_TIMESTAMP(), UNIX_TIMESTAMP());
+('头号玩家', '贫民窟小伙逆袭带领大军攻破世界头号游戏公司,迎娶白富美', 210, UNIX_TIMESTAMP(), UNIX_TIMESTAMP());
 
 /** 评论 **/
 DROP TABLE IF EXISTS video_replies;
@@ -207,7 +213,7 @@ CREATE TABLE IF NOT EXISTS video_replies (
     PRIMARY KEY(id)
 ) ENGINE=INNODB DEFAULT CHARSET=UTF8 COLLATE=UTF8_GENERAL_CI;
 INSERT INTO video_replies (user_name, content, created) VALUES 
-('user', 'aaaaaabbbbbcccc', UNIX_TIMESTAMP());
+('user', '可以, 这波666', UNIX_TIMESTAMP());
 
 /** 广告 **/
 DROP TABLE IF EXISTS ads;
@@ -224,4 +230,4 @@ CREATE TABLE IF NOT EXISTS ads (
     PRIMARY KEY(id)
 ) ENGINE=INNODB DEFAULT CHARSET=UTF8 COLLATE=UTF8_GENERAL_CI;
 INSERT INTO ads (name, remark) VALUES 
-('AAA', 'aaa');
+('脚气灵', '治脚气一抹就灵');

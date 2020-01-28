@@ -3,6 +3,7 @@ use std::default::Default;
 use std::fmt::Debug;
 use fluffy::{ db, DbRow, Pager, model::Model, cond_builder::CondBuilder };
 use serde::ser::Serialize;
+use actix_web::{HttpRequest};
 
 #[derive(Debug, Default)]
 pub struct DataGrid<M: Model + Serialize> { 
@@ -52,11 +53,12 @@ pub trait ModelBackend: Model {
     fn validate(_data: &HashMap<String, String>) -> Result<(), String>{ Ok(()) }
 
     /// 得到所有記錄-帶分頁信息
-    fn get_records(cond: Option<&CondBuilder>) -> DataGrid<Self::M> { 
+    fn get_records(request: &HttpRequest, cond: Option<&CondBuilder>) -> DataGrid<Self::M> { 
         let fields = Self::get_fields();
-        let query = query![
+        let mut query = query![
             fields => fields,
         ];
+        query.set_limit_offset(&request);
         let mut conn = db::get_conn();
         let rows = Self::M::fetch_rows(&mut conn, &query, cond);
         let mut rs: Vec<Self::M> = vec![];

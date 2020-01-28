@@ -46,9 +46,11 @@ impl Index {
 
     /// 用户登录
     pub async fn login(session: Session, post: Form<HashMap<String, String>>) -> HttpResponse { 
-        let s1 = random::rand_str(32); //用于生成默认的用户密码
-        let p1 = utils::get_password("qwe123", &s1); //默认密码qwe123
-        println!("UPDATE admins SET secret = '{}', password = '{}' WHERE id = 1", s1, p1);
+        // 用于生成默认用户/密码 - start
+        //let s1 = random::rand_str(32); //用于生成默认的用户密码
+        //let p1 = utils::get_password("qwe123", &s1); //默认密码qwe123
+        //println!("UPDATE admins SET secret = '{}', password = '{}' WHERE id = 1", s1, p1);
+        // 用于生成默认用户/密码 - end
         //session.remove("locked_time");
         //session.remove("failure_count");
         if let Ok(locked_time) = session.get::<usize>("locked_time") {  //如果session中记录的有锁定时间
@@ -179,6 +181,7 @@ impl Index {
                 role_id = n;
             }
         }
+
         let role_menus = &*ROLE_MENUS.lock().unwrap();
         let menus = role_menus.get(&role_id);
         let data = tmpl_data![

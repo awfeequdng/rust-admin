@@ -93,8 +93,8 @@ CREATE TABLE IF NOT EXISTS admin_roles (
     seq INT NOT NULL DEFAULT 0 COMMENT '排序',
     PRIMARY KEY(id)
 ) ENGINE=INNODB DEFAULT CHARSET=UTF8 COLLATE=UTF8_GENERAL_CI;
-/* INSERT INTO admin_roles (name, remark, menu_ids) VALUES 
-('系统管理员', '后台用户管理', '1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,33,34,35,25,26,27,28,29,30,31,32'); */
+INSERT INTO admin_roles (name, remark, menu_ids) VALUES 
+('系统管理员', '后台用户管理', '1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,33,34,35,25,26,27,28,29,30,31,32');
 
 /** 前台用户 **/
 DROP TABLE IF EXISTS users;

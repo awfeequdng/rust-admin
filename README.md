@@ -21,6 +21,11 @@ Tera: https://tera.netlify.com/docs/
 
 #### 基于Rust语言特性,有性能、安全保证,先天优于Go/Java/.Net/Php等带GC语言。
 
+## 环境要求
+#### rust: 1.40+
+#### Mysql: 5.6+
+#### Nginx: 1.10+
+
 ## 目录说明
 #### /public
 用于设置nginx对外的网站地址

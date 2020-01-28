@@ -32,9 +32,10 @@ use controllers::{
 
 #[actix_rt::main]
 async fn main() -> std::io::Result<()> {
-
-    std::env::set_var("RUST_LOG", "actix_web=info");
-    env_logger::init();
+    
+    // 正式环境可以去掉日志显示
+    std::env::set_var("RUST_LOG", "actix_web=info"); //正式环境可以注释此行 ***
+    env_logger::init(); //正式环境可以注释此行 ***
 
     let conn_string = config::get_conn_string();
     db::init_connections(&conn_string); //資料庫初始化
@@ -54,7 +55,7 @@ async fn main() -> std::io::Result<()> {
         App::new()
             .wrap(CookieSession::signed(&[0; 32]).secure(false))
             .data(tpl)
-            .wrap(middleware::Logger::default()) // enable logger
+            .wrap(middleware::Logger::default()) //正式环境可以注释此行 ***
             .service(web::resource("/test").to(Index::test))
             .service(get!("/", Index::index))
             .service(post!("/index/login", Index::login))

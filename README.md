@@ -1,15 +1,24 @@
 # 基于Rust的后台管理系统
 
 ## 功能特点
-1. 基于X-admin开发,无缝对接layui前端框架,易于修改。(X-Admin: http://x.xuebingsi.com/)
+#### 基于X-admin开发,无缝对接layui前端框架,易于修改。
 
-2. 基于actix-web开发,性能测试常年屠榜地位。(Actix框架: https://actix.rs/, 性能测试: https://www.techempower.com/benchmarks/)
+X-Admin: http://x.xuebingsi.com/
 
-3. MVC 设计模式,快速入门,方便上手。
+Layui: https://www.larryms.com/
 
-4. Tera 模板引擎,类django模板引擎,简化代码、模板开发。 (Tera: https://tera.netlify.com/docs/)
+#### 基于actix-web开发,性能测试常年屠榜地位。
 
-5. 基于Rust语言特性,有性能、安全保证,先天优于Go/Java/.Net/Php等带GC语言。
+Actix框架: https://actix.rs/
+性能测试: https://www.techempower.com/benchmarks/
+
+#### MVC 设计模式,快速入门,方便上手。
+
+#### Tera 模板引擎,类django模板引擎,简化代码、模板开发。 
+
+Tera: https://tera.netlify.com/docs/
+
+#### 基于Rust语言特性,有性能、安全保证,先天优于Go/Java/.Net/Php等带GC语言。
 
 ## 目录说明
 #### /image
@@ -31,16 +40,16 @@ rust源代码
 模板文件
 
 ## 界面载图
-1. 登录界面
+#### 登录界面
 ![avatar](/image/login.png)
 
-2. 后台管理
+#### 后台管理
 ![avatar](/image/right.png)
 
-3. 菜单管理
+#### 菜单管理
 ![avatar](/image/menus.png)
 
-4. 角色管理
+#### 角色管理
 ![avatar](/image/roles.png)
 
 ## 二次开发 & 技术交流
@@ -54,7 +63,7 @@ git clone https://gitee.com/houhanting/rust-admin.git
 cd rust-admin
 ```
 
-2. 创建数据库(Mysql)并入导入数据
+#### 创建数据库(Mysql)并入导入数据
 
 ```sql
 CREATE DATABASE rust_admin; /* 创建数据库 */
@@ -64,7 +73,7 @@ USE rust_admin; /* 选中数据库 */
 SOURCE scripts/init.sql; /* 导入初始化数据库(请依据实际路径) */
 ```
 
-3. 设置nginx代理
+#### 设置nginx代理
 
 设置并生成Nginx配置文件
 ```bash
@@ -81,7 +90,7 @@ vim nginx.conf #修改相应的域名、目录、代理地址、端口
 vim src/config/mod.rs
 ```
 
-4. 运行程序
+#### 运行程序
 
 ```bash
 cargo run

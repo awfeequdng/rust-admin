@@ -89,12 +89,12 @@ CREATE TABLE IF NOT EXISTS admin_roles (
     id INT UNSIGNED NOT NULL AUTO_INCREMENT,
     name VARCHAR(20) NOT NULL DEFAULT '' COMMENT '角色名称',
     remark VARCHAR(50) NOT NULL DEFAULT '' COMMENT '备注',
-    menu_ids JSON COMMENT '菜单编号',
+    menu_ids TEXT COMMENT '菜单编号',
     seq INT NOT NULL DEFAULT 0 COMMENT '排序',
     PRIMARY KEY(id)
 );
 INSERT INTO admin_roles (name, remark, menu_ids) VALUES 
-('系统管理员', '后台用户管理', '[{"id": 1, "menus": [{"id": 2}]}]');
+('系统管理员', '后台用户管理', '1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,33,34,35,25,26,27,28,29,30,31,32');
 
 /** 前台用户 **/
 DROP TABLE IF EXISTS users;
@@ -226,6 +226,3 @@ CREATE TABLE IF NOT EXISTS ads (
 );
 INSERT INTO ads (name, remark) VALUES 
 ('AAA', 'aaa');
-
-ALTER TABLE admin_roles change menu_ids menu_ids TEXT COMMENT '菜单编号';
-UPDATE admin_roles SET menu_ids = '1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,33,34,35,25,26,27,28,29,30,31,32' WHERE id = 1;

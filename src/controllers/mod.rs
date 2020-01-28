@@ -103,7 +103,7 @@ pub trait Controller {
             "pager" => &info.pager,
             "bread_path" => &bread_path,
         ];
-        let conds = dbg!(Self::get_query_cond());
+        let conds = Self::get_query_cond();
         for (key, sign) in &conds { 
             if sign == &"[]" || sign == &"[date]" {
                 let key1 = format!("{}_start", key);

@@ -1,3 +1,4 @@
+{% import "_macros/form.html" as form -%}
 <!DOCTYPE html>
 <html class="x-admin-sm">
     <head>
@@ -24,7 +25,7 @@
                     <input type="hidden" value="{{id}}" name="id" />
                     <div class="layui-form-item">
                         <label for="L_repass" class="layui-form-label"> </label>
-                        <button  class="layui-btn" lay-filter="add" lay-submit=""> {{ button_text }} </button>
+                        <button  class="layui-btn" lay-filter="save" lay-submit=""> {{ button_text }} </button>
                     </div>
                 </form>
             </div>
@@ -55,12 +56,12 @@ layui.use(['form', 'layer', 'jquery'], function() {
     form.verify(layui.validators);
 
     //监听提交
-    form.on('submit(edit)', function() {
+    form.on('submit(save)', function() {
         var action = "/{{ controller_name }}/save/{{id}}";
         var edit_form = $("#edit_form");
         $.ajax({
 			url: action,
-			type: "post",
+			type: "POST",
 			dataType: "json",
 			//data: JSON.stringify(data.field),
             data: edit_form.serializeArray(),

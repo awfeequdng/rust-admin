@@ -85,6 +85,8 @@ mod user_levels;
 mod watch_records;
 mod ads;
 mod index;
+mod navs;
+mod configs;
 
 pub use admins::Admins;
 pub use menus::{Menus, MainMenu, SubMenu};
@@ -98,3 +100,5 @@ pub use video_tags::VideoTags;
 pub use watch_records::WatchRecords;
 pub use ads::Ads;
 pub use index::Index;
+pub use navs::Navs;
+pub use configs::Configs;

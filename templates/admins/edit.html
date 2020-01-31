@@ -1,5 +1,4 @@
 {% extends "_layouts/edit.html" -%}
-{% import "_macros/form.html" as form -%}
 {% block body %}
 {{ form::input(name="name", title="用户名称", value=row.name) }}
 {{ form::password(name="password", title="登录密码") }}

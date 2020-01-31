@@ -1,8 +1,7 @@
 use std::collections::HashMap;
 use crate::validations::{Validator};
 
-pub struct Index { 
-}
+pub struct Index {}
 
 impl Index { 
 

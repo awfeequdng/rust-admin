@@ -28,6 +28,8 @@ use controllers::{
     user_levels::UserLevels,
     watch_records::WatchRecords,
     ads::Ads,
+    navs::Navs,
+    configs::Configs,
 };
 
 #[actix_rt::main]
@@ -81,32 +83,32 @@ async fn main() -> std::io::Result<()> {
             .service(get!("/menus/edit/{id}", Menus::edit))
             .service(post!("/menus/save/{id}", Menus::save))
             .service(get!("/menus/delete/{ids}", Menus::delete))
-            //users
+            //前台用户
             .service(get!("/users", Users::index))
             .service(get!("/users/edit/{id}", Users::edit))
             .service(post!("/users/save/{id}", Users::save))
             .service(get!("/users/delete/{ids}", Users::delete))
-            //分类
+            //视频分类
             .service(get!("/video_categories", VideoCategories::index))
             .service(get!("/video_categories/edit/{id}", VideoCategories::edit))
             .service(post!("/video_categories/save/{id}", VideoCategories::save))
             .service(get!("/video_categories/delete/{ids}", VideoCategories::delete))
-            //videos
+            //视频管理
             .service(get!("/videos", Videos::index))
             .service(get!("/videos/edit/{id}", Videos::edit))
             .service(post!("/videos/save/{id}", Videos::save))
             .service(get!("/videos/delete/{ids}", Videos::delete))
-            //
+            //视频标签
             .service(get!("/video_tags", VideoTags::index))
             .service(get!("/video_tags/edit/{id}", VideoTags::edit))
             .service(post!("/video_tags/save/{id}", VideoTags::save))
             .service(get!("/video_tags/delete/{ids}", VideoTags::delete))
-            //
+            //用户等级
             .service(get!("/user_levels", UserLevels::index))
             .service(get!("/user_levels/edit/{id}", UserLevels::edit))
             .service(get!("/user_levels/delete/{ids}", UserLevels::delete))
             .service(post!("/user_levels/save/{id}", UserLevels::save))
-            //
+            //观看记录
             .service(get!("/watch_records", WatchRecords::index))
             .service(get!("/watch_records/edit/{id}", WatchRecords::edit))
             .service(get!("/watch_records/delete/{ids}", WatchRecords::delete))
@@ -116,11 +118,20 @@ async fn main() -> std::io::Result<()> {
             .service(get!("/video_replies/edit/{id}", VideoReplies::edit))
             .service(post!("/video_replies/save/{id}", VideoReplies::save))
             .service(get!("/video_replies/delete/{ids}", VideoReplies::delete))
-            //ads
+            //广告管理
             .service(get!("/ads", Ads::index))
             .service(get!("/ads/edit/{id}", Ads::edit))
             .service(post!("/ads/save/{id}", Ads::save))
             .service(get!("/ads/delete/{ids}", Ads::delete))
+            //网站导航
+            .service(get!("/navs", Navs::index))
+            .service(get!("/navs/edit/{id}", Navs::edit))
+            .service(post!("/navs/save/{id}", Navs::save))
+            .service(get!("/navs/delete/{ids}", Navs::delete))
+            //网站设置
+            .service(get!("/configs/edit/{id}", Configs::edit))
+            .service(post!("/configs/save/{id}", Configs::save))
+
     })
     .bind(host_port)?
     .run()

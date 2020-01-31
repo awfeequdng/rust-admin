@@ -11,7 +11,7 @@ set @last_id = LAST_INSERT_ID();
 UPDATE admin_roles SET menu_ids = concat(menu_ids, ',', @last_id) WHERE id = 1;
 
 INSERT INTO menus (parent_id, name, level_id, state, url, is_show) VALUES 
-(@parent_id, '网站设置保存', 1, 1, '/configs/save/1', 1);
+(@parent_id, '网站设置保存', 1, 1, '/configs/save/1', 0);
 set @last_id = LAST_INSERT_ID();
 UPDATE admin_roles SET menu_ids = concat(menu_ids, ',', @last_id) WHERE id = 1;
 

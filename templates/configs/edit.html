@@ -1,0 +1,18 @@
+{% extends "_layouts/edit.html" -%}
+
+{% block body %}
+{{ form::input(name="site_name", title="网站名称", value=row.site_name) }}
+{{ form::input(name="site_url", title="网站网址", value=row.site_url, length=200) }}
+{{ form::input(name="seo_keyword", title="SEO说明", value=row.seo_keyword, length=200) }}
+{{ form::input(name="seo_desc", title="SEO描述", value=row.seo_desc, length=200) }}
+{{ form::input(name="copyright", title="版权信息", value=row.copyright, length=200) }}
+<script>
+layui.validators = { 
+    site_name: function(value) { 
+        if (value.length < 5) { 
+            return '昵称至少5个字符';
+        }
+    }
+};
+</script>
+{% endblock body -%}

@@ -1,11 +1,11 @@
 use std::collections::HashMap;
 use actix_web::{HttpResponse, web::Form, HttpRequest};
 use fluffy::{tmpl::Tpl, db, model::Model, datetime, utils, random, response,};
-use crate::models::{Index as ThisModel, Admins};
+use crate::models::{Index as ThisModel, Admins, OSSResult};
 use std::env;
 use actix_session::{Session};
 use crate::common::Acl;
-use crate::config::{LOGIN_ERROR_MAX, LOGIN_LOCKED_TIME};
+use crate::config::{LOGIN_ERROR_MAX, LOGIN_LOCKED_TIME, self};
 use crate::caches::admin_roles::ROLE_MENUS;
 
 //struct Login { 
@@ -246,9 +246,15 @@ impl Index {
         data.insert("my_version", &my_version);
         render!(tpl, "index/right.html", &data)
     }
-
+    
+    /// 得到oss上传图片的地址
     pub async fn oss_signed_url() -> HttpResponse { 
-        response::ok()
+        let info = config::get_oss_info();
+        let client = oss::OSSClient::new(&info.end_point, &info.access_key_id, &info.access_key_secret);
+        let key = "hello";
+        let url = client.generate_signed_put_url(&info.bucket, &key, 3600);
+        let result = OSSResult{url};
+        response::result(&result)
     }
 }
 

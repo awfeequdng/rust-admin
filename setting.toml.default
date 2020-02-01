@@ -8,3 +8,9 @@ name = "rust_admin"
 user = "rust_admin"
 password = "rust-x-lsl"
 port = 3306
+
+[oss]
+access_key_id = ""
+access_key_secret = ""
+end_point = ""
+bucket = ""

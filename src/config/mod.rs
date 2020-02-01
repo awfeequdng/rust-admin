@@ -1,29 +1,7 @@
-/// 地址
-pub const BIND_HOST: &str = "127.0.0.1";
-
-/// 端口
-pub const BIND_PORT: &str = "8081";
-
-// redis连接
-//pub const REDIS_CONN_STR: &str = "redis://127.0.0.1";
-
-/// 主機地址
-pub const MYSQL_DB_HOST: &str = "localhost";
-
-/// 資料庫名稱
-pub const MYSQL_DB_NAME: &str = "rust_admin";
-
-/// 資料庫用戶名稱
-pub const MYSQL_DB_USER: &str = "rust_admin";
-
-/// 資料庫登錄密碼
-pub const MYSQL_DB_PASS: &str = "rust-x-lsl";
-
-/// 資料庫連接端口
-pub const MYSQL_DB_PORT: &str = "3306";
-
-// 資料庫连接
-//pub const MYSQL_CONN_STR: &str = "mysql://rust_admin:rust-x-lsl@localhost:3306/rust_admin";
+use std::fs::File;
+use std::io::prelude::*;
+use serde_derive::Deserialize;
+use std::env;
 
 /// 最多允許登錄出錯次數
 pub const LOGIN_ERROR_MAX: usize = 1000;
@@ -31,7 +9,54 @@ pub const LOGIN_ERROR_MAX: usize = 1000;
 /// 登录失败后锁定时间
 pub const LOGIN_LOCKED_TIME: usize = 3600;
 
-/// 資料庫連接字符串
+/// 绑定主机/端口
+#[derive(Deserialize, Default)]
+pub struct AppInfo { 
+    pub host: String,
+    pub port: usize,
+}
+
+/// 数据库连接信息
+#[derive(Deserialize, Default)]
+pub struct DbInfo { 
+    pub host: String,
+    pub name: String,
+    pub user: String,
+    pub password: String,
+    pub port: usize,
+}
+
+/// 系统配置信息
+#[derive(Deserialize, Default)]
+pub struct Setting { 
+    pub app: AppInfo,
+    pub database: DbInfo,
+}
+
+lazy_static! { 
+    pub static ref SETTING: Setting = { 
+        let current_dir = env::current_dir().unwrap();
+        let current_path = current_dir.to_str().unwrap();
+        let toml_file = dbg!(format!("{}/setting.toml", current_path));
+        let setting = Setting::default();
+        match File::open(&toml_file) { 
+            Ok(mut v) => { 
+                let mut content = String::new();
+                if let Ok(_) = v.read_to_string(&mut content) { 
+                    if let Ok(t) = toml::from_str::<Setting>(&content) { t } else { setting }
+                } else { setting }
+            },
+            Err(err) => { 
+                println!("读取文件失败: {}", err);
+                setting
+            }
+        }
+    };
+}
+
+/// 得到数据库连接字符串
 pub fn get_conn_string() -> String { 
-    format!("mysql://{}:{}@{}:{}/{}", MYSQL_DB_USER, MYSQL_DB_PASS, MYSQL_DB_HOST, MYSQL_DB_PORT, MYSQL_DB_NAME)
+    let setting = &*SETTING;
+    let db = &setting.database;
+    format!("mysql://{}:{}@{}:{}/{}", db.user, db.password, db.host, db.port, db.name)
 }

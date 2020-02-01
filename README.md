@@ -21,6 +21,11 @@ Tera: https://tera.netlify.com/docs/
 
 #### 基于Rust语言特性,有性能、安全保证,先天优于Go/Java/.Net/Php等带GC语言。
 
+## 二次开发 & 技术交流
+#### QQ群: 1036231916
+#### 微信群请加: li_sen_88，备注: rust
+
+
 ## 环境要求
 rust: 1.40+
 Mysql: 5.6+
@@ -46,8 +51,6 @@ Nginx: 1.10+
 #### 角色管理
 ![avatar](/public/static/images/roles.png)
 
-## 二次开发 & 技术交流
-请加入QQ群: 1036231916
 
 ## 使用说明
 #### 下载代码

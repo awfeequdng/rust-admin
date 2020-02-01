@@ -39,9 +39,10 @@ async fn main() -> std::io::Result<()> {
     std::env::set_var("RUST_LOG", "actix_web=info"); //正式环境可以注释此行 ***
     env_logger::init(); //正式环境可以注释此行 ***
 
+    let setting = &*config::SETTING;
     let conn_string = config::get_conn_string();
     db::init_connections(&conn_string); //資料庫初始化
-    let host_port = &format!("{}:{}", config::BIND_HOST, config::BIND_PORT); //地址/端口
+    let host_port = &format!("{}:{}", &setting.app.host, &setting.app.port); //地址/端口
     println!("Started At: {}", host_port);
 
     //let table_fields = caches::TABLE_FIELDS.lock().unwrap();

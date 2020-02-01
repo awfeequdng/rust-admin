@@ -92,3 +92,18 @@
     </div>
 {% endmacro seq -%}
 
+{% macro file(name, title, value="") -%}
+    <div class="layui-form-item">
+        <label for="{{name}}" class="layui-form-label"> <span class="x-red">*</span> {{title}}: </label>
+        <div class="layui-input-inline">
+            <button type="button" class="layui-btn" id="{{name}}">
+                <i class="layui-icon">&#xe67c;</i>{{title}}
+            </button>
+            <!--<input style="width:95px" type="hidden" id="{{name}}" name="{{name}}" 
+                required="" {% if required %}lay-verify="{{name}}"{% endif %} autocomplete="off" class="layui-input" value="{{value}}" placeholder="请上传{{title}}" />-->
+        </div>
+        <div class="layui-form-mid layui-word-aux"> </div>
+    </div>
+{% endmacro file -%}
+
+

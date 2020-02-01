@@ -1,8 +1,10 @@
 {% extends "_layouts/edit.html" -%}
+
 {% block body %}
+<script type="text/javascript" src="/static/js/aliyun-oss-sdk.min.js"></script>
 {{ form::input(name="title", title="标题", value=row.title) }}
 {{ form::remark(value=row.remark) }}
-{{ form::input(name="cover_image", title="封面图片", value=row.cover_image, length=380) }}
+{{ form::file(name="cover_image", title="封面图片", value=row.cover_image, length=380) }}
 {{ form::input(name="duration", title="时长(秒)", value=row.duration, length=95) }}
 {{ form::seq(value=row.seq) }}
 {{ form::state(name="state", title="状态", value=row.state) }}
@@ -35,5 +37,50 @@ layui.validators = {
         }
     }
 };
+document.getElementById('cover_image').addEventListener('change', function (e) {
+    let file = e.target.files[0];
+    let storeAs = 'upload-file';
+    console.log(file.name + ' => ' + storeAs);
+    // OSS.urlib是sdk内部封装的发送请求的逻辑，开发者可以使用任何发送请求的库向`sts-server`发送请求
+    OSS.urllib.request("http://your_sts_server/", {method: 'GET'}, (err, response) => {
+        if (err) {
+            return alert(err);
+        }
+        try {
+            result = JSON.parse(response);
+        } catch (e) {
+            return alert('parse sts response info error: ' + e.message);
+        }
+        let client = new OSS({
+            accessKeyId: result.AccessKeyId,
+            accessKeySecret: result.AccessKeySecret,
+            stsToken: result.SecurityToken,
+            endpoint: '<oss endpoint>',
+            bucket: '<Your bucket name>'
+        });
+        //storeAs表示上传的object name , file表示上传的文件
+        client.multipartUpload(storeAs, file).then(function (result) {
+            console.log(result);
+        }).catch(function (err) {
+            console.log(err);
+        });
+    });
+});
+
+layui.use('upload', function() { 
+    var upload = layui.upload;
+
+    //执行实例
+    var uploadInst = upload.render({
+        elem: '#cover_image',//绑定元素
+        url: '/upload/', //上传接口
+        done: function(res){
+            //上传完毕回调
+        },
+        error: function(){
+            //请求异常回调
+        }
+    });
+});
 </script>
 {% endblock body -%}

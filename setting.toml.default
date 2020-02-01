@@ -8,11 +8,3 @@ name = "rust_admin"
 user = "rust_admin"
 password = "rust-x-lsl"
 port = 3306
-
-[oss]
-server_id = "127.0.0.1"
-
-[redis]
-host = ""
-auth = ""
-db = ""

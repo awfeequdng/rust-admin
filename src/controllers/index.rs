@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 use actix_web::{HttpResponse, web::Form, HttpRequest};
 use fluffy::{tmpl::Tpl, db, model::Model, datetime, utils, random, response,};
-use crate::models::{Index as ThisModel, Admins, OSSResult};
+use crate::models::{Index as ThisModel, Admins, OSSResult, OSSData};
 use std::env;
 use actix_session::{Session};
 use crate::common::Acl;
@@ -248,12 +248,38 @@ impl Index {
     }
     
     /// 得到oss上传图片的地址
+    /// ```
+    /// {
+	///     "code": 0,
+	///     "success": true,
+	///     "msg": "签名成功",
+	///     "data": {
+	/// 	    "accessid": "XXXXX",
+	/// 	    "host": "http://XXXXX.oss-cn-shanghai.aliyuncs.com",
+	/// 	    "policy": "XXXX==",
+	/// 	    "signature": "XXXX=",
+	/// 	    "expire": 1554851252
+	///     }
+    /// }
+    /// ```
     pub async fn oss_signed_url() -> HttpResponse { 
         let info = config::get_oss_info();
         let client = oss::OSSClient::new(&info.end_point, &info.access_key_id, &info.access_key_secret);
         let key = "hello";
-        let url = client.generate_signed_put_url(&info.bucket, &key, 3600);
-        let result = OSSResult{url};
+        let signature = client.generate_signed_put_url(&info.bucket, &key, 3600);
+        let data = OSSData { 
+            access_id: &info.access_key_id,
+            host: &info.end_point,
+            policy: "",
+            signature: &signature,
+            expire: 0,
+        };
+        let result = OSSResult{
+            code: 0,
+            success: true,
+            msg: "成功",
+            data,
+        };
         response::result(&result)
     }
 }

@@ -11,10 +11,35 @@ pub struct DataGrid<M: Model + Serialize> {
     pub pager: Pager,
 }
 
+//{
+//	"code": 0,
+//	"success": true,
+//	"msg": "签名成功",
+//	"data": {
+//		"accessid": "XXXXX",
+//		"host": "http://XXXXX.oss-cn-shanghai.aliyuncs.com",
+//		"policy": "XXXX==",
+//		"signature": "XXXX=",
+//		"expire": 1554851252
+//	}
+//}
+
+#[derive(Serialize)]
+pub struct OSSData<'a> { 
+    pub access_id: &'a str,
+    pub host: &'a str,
+    pub policy: &'a str,
+    pub signature: &'a str,
+    pub expire: u64,
+}
+
 /// oss返回的地址
 #[derive(Serialize)]
-pub struct OSSResult { 
-    pub url: String,
+pub struct OSSResult<'a> { 
+    pub code: usize,
+    pub success: bool,
+    pub msg: &'static str,
+    pub data: OSSData<'a>,
 }
 
 #[macro_export]

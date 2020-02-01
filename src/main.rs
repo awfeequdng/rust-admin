@@ -69,6 +69,7 @@ async fn main() -> std::io::Result<()> {
             .service(get!("/index/logout", Index::logout))
             .service(get!("/index/change_pwd", Index::change_pwd))
             .service(post!("/index/change_pwd_save", Index::change_pwd_save))
+            .service(get!("/index/oss_signed_url", Index::oss_signed_url))
             //后台用户
             .service(get!("/admins", Admins::index))
             .service(get!("/admins/edit/{id}", Admins::edit))

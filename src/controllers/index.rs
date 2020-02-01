@@ -246,5 +246,9 @@ impl Index {
         data.insert("my_version", &my_version);
         render!(tpl, "index/right.html", &data)
     }
+
+    pub async fn oss_signed_url() -> HttpResponse { 
+        response::ok()
+    }
 }
 

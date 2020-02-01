@@ -11,6 +11,12 @@ pub struct DataGrid<M: Model + Serialize> {
     pub pager: Pager,
 }
 
+/// oss返回的地址
+#[derive(Serialize)]
+pub struct OSSResult { 
+    pub url: String,
+}
+
 #[macro_export]
 macro_rules! get_fields {
     ($struct: ident, [$($field: ident => $type: ident,)+]) => {

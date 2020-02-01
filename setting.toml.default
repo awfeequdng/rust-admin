@@ -1,3 +1,7 @@
+[app]
+host = "127.0.0.1"
+port = 8081
+
 [database]
 host = "localhost"
 name = "rust_admin"
@@ -7,3 +11,8 @@ port = 3306
 
 [oss]
 server_id = "127.0.0.1"
+
+[redis]
+host = ""
+auth = ""
+db = ""

@@ -26,11 +26,20 @@ pub struct DbInfo {
     pub port: usize,
 }
 
+#[derive(Deserialize, Default)]
+pub struct OSS { 
+    pub access_key_id: String,
+    pub access_key_secret: String,
+    pub end_point: String,
+    pub bucket: String,
+}
+
 /// 系统配置信息
 #[derive(Deserialize, Default)]
 pub struct Setting { 
     pub app: AppInfo,
     pub database: DbInfo,
+    pub oss: OSS,
 }
 
 lazy_static! { 
@@ -59,4 +68,10 @@ pub fn get_conn_string() -> String {
     let setting = &*SETTING;
     let db = &setting.database;
     format!("mysql://{}:{}@{}:{}/{}", db.user, db.password, db.host, db.port, db.name)
+}
+
+/// 获取OSS信息
+pub fn get_oss_info<'a>() -> &'a OSS { 
+    let setting = &*SETTING;
+    &setting.oss
 }

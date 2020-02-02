@@ -266,13 +266,23 @@ impl Index {
         let info = config::get_oss_info();
         let client = oss::OSSClient::new(&info.end_point, &info.access_key_id, &info.access_key_secret);
         let key = "hello";
-        let signature = client.generate_signed_put_url(&info.bucket, &key, 3600);
+        let policy_url = client.generate_signed_put_url(&info.bucket, &key, 3600);
+        let query_arr = policy_url.split("&").collect::<Vec<&str>>();
+        let mut signature = String::new();
+        for query in query_arr { 
+            let kv = query.split("=").collect::<Vec<&str>>();
+            if kv.len() == 2 && kv[0] == "Signature" { 
+                signature = kv[1].to_owned();
+                break;
+            }
+        }
+        let now = datetime::timestamp();
         let data = OSSData { 
             access_id: &info.access_key_id,
             host: &info.end_point,
-            policy: &signature,
+            policy: &policy_url,
             signature: &signature,
-            expire: 0,
+            expire: now + 3600,
         };
         let result = OSSResult{
             code: 0,

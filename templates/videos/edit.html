@@ -46,17 +46,17 @@ layui.config({
     var aliossUploader = layui.aliossUploader;
     aliossUploader.render({
         elm:'#cover_image',
-        region:'{{end_point}}',
+        region:'{{region}}',
         bucket: '{{bucket}}',
         layerTitle: '上传数据文件',
-        accessidFiled : 'accessid',
+        accessidFiled : 'access_id',
         policyFiled : 'policy',
         signatureFiled : 'signature',
         //policyData:{},
         //policyHeader:{
         //    Authorization:layui.data('XXXXXX').Authorization
         //},
-        policyUrl:'https://www.XXXXXX.cn/pop/api/alioss/policy',
+        policyUrl:'/index/oss_signed_url',
         prefixPath:'coordtrans/',
         fileType:'images',
         multiple:false,

@@ -31,6 +31,7 @@ pub struct OSS {
     pub access_key_id: String,
     pub access_key_secret: String,
     pub end_point: String,
+    pub region: String,
     pub bucket: String,
 }
 

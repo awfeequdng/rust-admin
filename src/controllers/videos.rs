@@ -11,6 +11,7 @@ impl Controller for Videos {
     fn edit_after(data: &mut tera::Context) {
         let info = config::get_oss_info();
         data.insert("bucket", &info.bucket);
+        data.insert("region",  &info.region);
         data.insert("end_point", &info.end_point);
     }
 

@@ -270,7 +270,7 @@ impl Index {
         let data = OSSData { 
             access_id: &info.access_key_id,
             host: &info.end_point,
-            policy: "",
+            policy: &signature,
             signature: &signature,
             expire: 0,
         };
@@ -280,7 +280,7 @@ impl Index {
             msg: "成功",
             data,
         };
-        response::result(&result)
+        HttpResponse::Ok().json(result)
     }
 }
 

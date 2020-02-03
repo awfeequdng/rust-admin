@@ -25,6 +25,13 @@ pub struct DataGrid<M: Model + Serialize> {
 //}
 
 #[derive(Serialize)]
+pub struct UploadResult<'a> { 
+    pub code: usize, //错误代码, 0:表示成功
+    pub message: &'a str, //错误信息
+    pub path: &'a str, //上传的文件的路径
+}
+
+#[derive(Serialize)]
 pub struct OSSData<'a> { 
     pub access_id: &'a str,
     pub host: &'a str,

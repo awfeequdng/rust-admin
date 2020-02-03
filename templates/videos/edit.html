@@ -38,67 +38,67 @@ layui.validators = {
     }
 };
 
-layui.config({
-    base: '/static/layui-aliossUploader/examples/js/'
-}).extend({
-    aliossUploader: 'aliossUploader'
-}).use(['aliossUploader'], function() {
-    var aliossUploader = layui.aliossUploader;
-    aliossUploader.render({
-        elm:'#cover_image',
-        region:'{{region}}',
-        bucket: '{{bucket}}',
-        layerTitle: '上传数据文件',
-        accessidFiled : 'access_id',
-        policyFiled : 'policy',
-        signatureFiled : 'signature',
-        //policyData:{},
-        //policyHeader:{
-        //    Authorization:layui.data('XXXXXX').Authorization
-        //},
-        policyUrl:'/index/oss_signed_url',
-        prefixPath:'agent/',
-        fileType:'images',
-        multiple:false,
-        httpStr:'http',
-        allUploaded:function(res){
-            layer.msg(JSON.stringify(res));
-        },
-        policyFailed:function(res){
-            layer.msg(JSON.stringify(res));
-        }
-    });
-    //aliossUploader.render({
-    //    elm:'#uploadMore',
-    //    region:'oss-cn-shanghai',
-    //    bucket: 'XXXXXX',
-    //    layerTitle:'上传文件到阿里云OSS',
-    //    accessidFiled : 'accessid',
-    //    policyFiled : 'policy',
-    //    signatureFiled : 'signature',
-    //    codeFiled:'code',
-    //    codeStatus:0,
-    //    policyMethod:'GET',
-    //    policyData:{},
-    //    policyHeader:{
-    //        Authorization:layui.data('XXXXXX').Authorization
-    //    },
-    //    policyUrl:'https://www.XXXXXX.cn/pop/api/alioss/policy',
-    //    httpStr:'https',
-    //    layerArea:['800px','500px'],
-    //    prefixPath:'coordtrans/',
-    //    fileType:'images',
-    //    multiple:true,
-    //    allUploaded:function(res){
-    //        layer.msg(JSON.stringify(res));
-    //    },
-    //    policyFailed:function(res){
-    //        layer.msg(JSON.stringify(res));
-    //    },
-    //    uploadRenderData:{
-    //        size:100
-    //    }
-    //});
-});
+//layui.config({
+//    base: '/static/layui-aliossUploader/examples/js/'
+//}).extend({
+//    aliossUploader: 'aliossUploader'
+//}).use(['aliossUploader'], function() {
+//    var aliossUploader = layui.aliossUploader;
+//    aliossUploader.render({
+//        elm:'#cover_image',
+//        region:'{{region}}',
+//        bucket: '{{bucket}}',
+//        layerTitle: '上传数据文件',
+//        accessidFiled : 'access_id',
+//        policyFiled : 'policy',
+//        signatureFiled : 'signature',
+//        //policyData:{},
+//        //policyHeader:{
+//        //    Authorization:layui.data('XXXXXX').Authorization
+//        //},
+//        policyUrl:'/index/oss_signed_url',
+//        prefixPath:'agent/',
+//        fileType:'images',
+//        multiple:false,
+//        httpStr:'http',
+//        allUploaded:function(res){
+//            layer.msg(JSON.stringify(res));
+//        },
+//        policyFailed:function(res){
+//            layer.msg(JSON.stringify(res));
+//        }
+//    });
+//    //aliossUploader.render({
+//    //    elm:'#uploadMore',
+//    //    region:'oss-cn-shanghai',
+//    //    bucket: 'XXXXXX',
+//    //    layerTitle:'上传文件到阿里云OSS',
+//    //    accessidFiled : 'accessid',
+//    //    policyFiled : 'policy',
+//    //    signatureFiled : 'signature',
+//    //    codeFiled:'code',
+//    //    codeStatus:0,
+//    //    policyMethod:'GET',
+//    //    policyData:{},
+//    //    policyHeader:{
+//    //        Authorization:layui.data('XXXXXX').Authorization
+//    //    },
+//    //    policyUrl:'https://www.XXXXXX.cn/pop/api/alioss/policy',
+//    //    httpStr:'https',
+//    //    layerArea:['800px','500px'],
+//    //    prefixPath:'coordtrans/',
+//    //    fileType:'images',
+//    //    multiple:true,
+//    //    allUploaded:function(res){
+//    //        layer.msg(JSON.stringify(res));
+//    //    },
+//    //    policyFailed:function(res){
+//    //        layer.msg(JSON.stringify(res));
+//    //    },
+//    //    uploadRenderData:{
+//    //        size:100
+//    //    }
+//    //});
+//});
 </script>
 {% endblock body -%}

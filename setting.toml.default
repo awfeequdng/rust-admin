@@ -12,5 +12,6 @@ port = 3306
 [oss]
 access_key_id = ""
 access_key_secret = ""
+region = ""
 end_point = ""
 bucket = ""

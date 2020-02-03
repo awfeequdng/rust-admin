@@ -5,7 +5,6 @@
 use actix_web::{App, HttpServer, middleware, web};
 use fluffy::{db};
 use actix_session::{CookieSession};
-//use std::collections::HashMap;
 use actix_files::Files;
 
 mod config;
@@ -33,8 +32,6 @@ use controllers::{
     navs::Navs,
     configs::Configs,
 };
-
-//include!(concat!(env!("OUT_DIR"), "/generated.rs"));
 
 #[actix_rt::main]
 async fn main() -> std::io::Result<()> {
@@ -65,7 +62,6 @@ async fn main() -> std::io::Result<()> {
             .wrap(CookieSession::signed(&[0; 32]).secure(false))
             .data(tpl)
             .wrap(middleware::Logger::default()) //正式环境可以注释此行 ***
-            //.service(actix_web_static_files::ResourceFiles::new("/static", generated,))
             .service(Files::new("/static", "public/static/"))
             .service(web::resource("/test").to(Index::test))
             .service(get!("/", Index::index))

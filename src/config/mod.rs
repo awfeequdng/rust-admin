@@ -26,6 +26,7 @@ pub struct DbInfo {
     pub port: usize,
 }
 
+/// oss配置信息
 #[derive(Deserialize, Default)]
 pub struct OSS { 
     pub access_key_id: String,

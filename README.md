@@ -27,16 +27,15 @@ Tera: https://tera.netlify.com/docs/
 
 
 ## 环境要求
-rust: 1.40+
-Mysql: 5.6+
-Nginx: 1.10+
+rust: 1.40+ / Mysql: 5.6+ / Nginx: 1.0+ (可选)
 
 ## 目录说明
-#### /public 用于设置nginx对外的网站地址
+#### /public/static 用于设置nginx对外的网站地址
 #### /scripts 用于初始化的sql脚本
 #### /src rust源代码
-#### /src/config/mod.rs 系统配置文件
+#### /setting.toml.default 默认的配置文件, 请将复制为 setting.toml 并加入忽略
 #### /templates 模板文件
+#### /nginx.conf.default 设置nginx为前端代理的配置文件 (可选)
 
 ## 界面载图
 #### 登录界面
@@ -101,6 +100,6 @@ cargo run --release
 
 ## 捐助支持
 
-当前正在创业当中, 期盼各位帮助支持
+欢迎各位朋友互相交流, 共同推进rust在中国的发展, 感谢支持:
 
 ![avatar](/public/static/images/wx.png) ![avatar](/public/static/images/tb.png)

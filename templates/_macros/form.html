@@ -94,16 +94,30 @@
 
 {% macro file(name, title, value="") -%}
     <div class="layui-form-item">
-        <label for="{{name}}" class="layui-form-label"> <span class="x-red">*</span> {{title}}: </label>
+        <label for="{{name}}_el" class="layui-form-label"> <span class="x-red">*</span> {{title}}: </label>
         <div class="layui-input-inline">
-            <button type="button" class="layui-btn" id="{{name}}">
+            <button type="button" class="layui-btn" id="{{name}}_el">
                 <i class="layui-icon">&#xe67c;</i>{{title}}
             </button>
-            <!--<input style="width:95px" type="hidden" id="{{name}}" name="{{name}}" 
-                required="" {% if required %}lay-verify="{{name}}"{% endif %} autocomplete="off" class="layui-input" value="{{value}}" placeholder="请上传{{title}}" />-->
+            <input  type="hidden" id="{{name}}" name="{{name}}" class="layui-input" value="{{value}}" />
         </div>
         <div class="layui-form-mid layui-word-aux"> </div>
     </div>
+    <script>
+    layui.use(['upload', 'jquery'], function(){
+        var upload = layui.upload, $ = layui.jquery;
+        var uploadInst = upload.render({ //执行实例
+            elem: '#{{name}}_el', //绑定元素
+            url: '/index/upload', //上传接口
+            done: function(res){ //上传完毕回调
+                if (res.code == 0) { 
+                    $("#{{name}}").val(res.path);
+                }
+            },
+            error: function() { }
+        });
+    });
+    </script>
 {% endmacro file -%}
 
 

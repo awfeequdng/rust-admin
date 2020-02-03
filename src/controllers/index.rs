@@ -1,12 +1,15 @@
 use std::collections::HashMap;
-use actix_web::{HttpResponse, web::Form, HttpRequest};
+use actix_web::{HttpResponse, web::Form, HttpRequest, web};
 use fluffy::{tmpl::Tpl, db, model::Model, datetime, utils, random, response,};
-use crate::models::{Index as ThisModel, Admins, OSSResult, OSSData};
+use crate::models::{Index as ThisModel, Admins, OSSResult, OSSData, UploadResult};
 use std::env;
 use actix_session::{Session};
 use crate::common::Acl;
 use crate::config::{LOGIN_ERROR_MAX, LOGIN_LOCKED_TIME, self};
 use crate::caches::admin_roles::ROLE_MENUS;
+use actix_multipart::Multipart;
+use futures::StreamExt;
+use std::io::Write;
 
 //struct Login { 
 //    pub ip: String,
@@ -291,6 +294,34 @@ impl Index {
             data,
         };
         HttpResponse::Ok().json(result)
+    }
+
+    /// 上传文件
+    pub async fn upload(mut payload: Multipart) -> HttpResponse { 
+        let upload_result = |code: usize, message: &str, path: &str| { 
+            let result = UploadResult{code, message, path};
+            HttpResponse::Ok().json(result)
+        };
+        let upload_error = |code: usize, message: &str| {  //上传成功返回
+            upload_result(code, message, "")
+        };
+        let upload_success = |path: &str| {  //上传失败返回
+            upload_result(0, "", path)
+        };
+        while let Some(item) = payload.next().await { 
+            let mut field = if let Ok(v) = item { v } else { return upload_error(401, "获取上传文件失败"); };
+            let content_type = if let Some(v) = field.content_disposition() { v } else { return upload_error(402, "获取上传文件信息错误"); };
+            let file_name = if let Some(v) = content_type.get_filename() { v } else { return upload_error(403, "获取上传文件名称失败"); };
+            let file_url = format!("/upload/{}", file_name);
+            let file_path = dbg!(format!("./public/upload/{}", file_name));
+            let mut f = if let Ok(v) = web::block(|| std::fs::File::create(file_path)).await { v } else { return upload_error(405, "创建临时文件失败"); };
+            while let Some(chunk) = field.next().await { 
+                let data = if let Ok(v) = chunk { v } else { return upload_error(406, "读取文件信息失败"); };
+                f = if let Ok(v) = web::block(move || f.write_all(&data).map(|_| f)).await { v } else { return upload_error(408, "保存文件信息失败"); };
+            }
+            return upload_success(&file_url);
+        }
+        upload_error(4409, "上传文件失败")
     }
 }
 

@@ -62,7 +62,8 @@ async fn main() -> std::io::Result<()> {
             .wrap(CookieSession::signed(&[0; 32]).secure(false))
             .data(tpl)
             .wrap(middleware::Logger::default()) //正式环境可以注释此行 ***
-            .service(Files::new("/static", "public/static/"))
+            .service(Files::new("/static", "public/static/")) //静态文件目录
+            .service(Files::new("/upload", "public/upload/")) //上传文件目录
             .service(web::resource("/test").to(Index::test))
             .service(get!("/", Index::index))
             .service(post!("/index/login", Index::login))
@@ -74,6 +75,7 @@ async fn main() -> std::io::Result<()> {
             .service(get!("/index/change_pwd", Index::change_pwd))
             .service(post!("/index/change_pwd_save", Index::change_pwd_save))
             .service(get!("/index/oss_signed_url", Index::oss_signed_url))
+            .service(post!("/index/upload", Index::upload))
             //后台用户
             .service(get!("/admins", Admins::index))
             .service(get!("/admins/edit/{id}", Admins::edit))

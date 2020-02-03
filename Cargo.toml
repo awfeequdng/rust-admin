@@ -3,7 +3,7 @@ name = "rust-admin"
 version = "1.1.1"
 authors = ["Han <hanting.hou@gmail.com>"]
 edition = "2018"
-build = "build.rs"
+#build = "build.rs"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
@@ -24,10 +24,11 @@ actix-session = "0.3.0"
 sys-info = "0.5"
 toml = "0.5"
 oss = "0.2"
-actix-web-static-files = "0.3"
+actix-files = "0.2"
+#actix-web-static-files = "0.3"
 
-[build-dependencies]
-actix-web-static-files = "0.3"
+#[build-dependencies]
+#actix-web-static-files = "0.3"
 
 [dependencies.fluffy]
 git = "https://github.com/houhanting/fluffy.git" 

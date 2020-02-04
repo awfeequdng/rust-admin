@@ -9,7 +9,8 @@ impl Controller for Videos {
     type M = ThisModel;
 
     fn edit_after(data: &mut tera::Context) {
-        let info = config::get_oss_info();
+        let setting = &*config::SETTING;
+        let info = &setting.oss;
         data.insert("bucket", &info.bucket);
         data.insert("region",  &info.region);
         data.insert("end_point", &info.end_point);

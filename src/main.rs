@@ -41,9 +41,10 @@ async fn main() -> std::io::Result<()> {
     env_logger::init(); //正式环境可以注释此行 ***
 
     let setting = &*config::SETTING;
+    let info = &setting.app;
     let conn_string = config::get_conn_string();
     db::init_connections(&conn_string); //資料庫初始化
-    let host_port = &format!("{}:{}", &setting.app.host, &setting.app.port); //地址/端口
+    let host_port = &format!("{}:{}", &info.host, &info.port); //地址/端口
     println!("Started At: {}", host_port);
 
     //let table_fields = caches::TABLE_FIELDS.lock().unwrap();

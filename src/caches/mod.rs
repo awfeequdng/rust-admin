@@ -11,7 +11,8 @@ lazy_static! {
     pub static ref TABLE_FIELDS: Mutex<HashMap<String, Vec<String>>> = {
         let mut conn = db::get_conn();
         let setting = &*config::SETTING;
-        let table_fields = Db::get_table_fields(&mut conn, &setting.database.name);
+        let info = &setting.database;
+        let table_fields = Db::get_table_fields(&mut conn, &info.name);
         Mutex::new(table_fields)
     };
 }

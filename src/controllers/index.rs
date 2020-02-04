@@ -266,7 +266,8 @@ impl Index {
     /// }
     /// ```
     pub async fn oss_signed_url() -> HttpResponse { 
-        let info = config::get_oss_info();
+        let setting = &*config::SETTING;
+        let info = &setting.oss;
         let client = oss::OSSClient::new(&info.end_point, &info.access_key_id, &info.access_key_secret);
         let key = "hello";
         let policy_url = client.generate_signed_put_url(&info.bucket, &key, 3600);

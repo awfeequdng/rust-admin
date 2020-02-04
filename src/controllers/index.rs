@@ -334,8 +334,9 @@ impl Index {
                 return upload_error(4012, "上传文件目录不存在");
             }
             let (year, month_, day_) = datetime::date();
-            let month = if month_ > 9 { month_.to_string() } else { format!("0{}", month_) }; //前面补零
-            let day = if day_ > 9 { day_.to_string() } else { format!("0{}", day_) }; //同上
+            let month = if month_ > 9 { month_.to_string() } else { format!("0{}", month_) }; //前面补零: 月
+            let day = if day_ > 9 { day_.to_string() } else { format!("0{}", day_) }; //前面补零: 日
+            // 对目录(年)进行判断
             let save_year = format!("{}/{}", save_path.display(), year);
             let save_year_path = Path::new(&save_year);
             if !save_year_path.is_dir() { 
@@ -343,6 +344,7 @@ impl Index {
                     return upload_error(line!(), "创建目录(year)失败");
                 }
             }
+            // 对目录(月)进行判断
             let save_month = format!("{}/{}", save_year_path.display(), month);
             let save_month_path = Path::new(&save_month);
             if !save_month_path.is_dir() { 
@@ -350,6 +352,7 @@ impl Index {
                     return upload_error(line!(), "创建目录(month)失败");
                 }
             }
+            // 对目录(日)进行判断
             let save_day = format!("{}/{}", save_month_path.display(), day);
             let save_day_path = Path::new(&save_day);
             if !save_day_path.is_dir() { 
@@ -358,7 +361,7 @@ impl Index {
                 }
             }
             let save_file_name = format!("{}.{}", random::rand_str(16), file_ext); //要保存的文件鋁名称
-            let save_file_path = dbg!(format!("{}/{}", save_day_path.display(), save_file_name)); //保存的文件路径
+            let save_file_path = format!("{}/{}", save_day_path.display(), save_file_name); //保存的文件路径
 
             //let content_type = if let Some(v) = field.content_disposition() { v } else { return upload_error(402, "获取上传文件信息错误"); };
             //let file_name = if let Some(v) = content_type.get_filename() { v } else { return upload_error(403, "获取上传文件名称失败"); };

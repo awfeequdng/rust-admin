@@ -23,7 +23,7 @@
 {% macro remark(value="", required=false) -%}
     <div class="layui-form-item">
         <label for="remark" class="layui-form-label"> {% if required %}<span class="x-red">*</span>{% endif %} 备注: </label>
-        <div class="layui-input-inline">
+        <div class="layui-input-block">
             <textarea class="layui-textarea" placeholder="请输入备注" id="remark" name="remark" {% if required %}lay-verify="{{name}}"{% endif %}>{{value}}</textarea>
         </div>
         <div class="layui-form-mid layui-word-aux"> </div>
@@ -33,7 +33,7 @@
 {% macro textarea(name, title, value="", required=false) -%}
     <div class="layui-form-item">
         <label for="{{name}}" class="layui-form-label"> {% if required %}<span class="x-red">*</span>{% endif %} 备注: </label>
-        <div class="layui-input-inline">
+        <div class="layui-input-block">
             <textarea class="layui-textarea" placeholder="请输入{{title}}" id="{{name}}" name="{{name}}" {% if required %}lay-verify="{{name}}"{% endif %}>{{value}}</textarea>
         </div>
         <div class="layui-form-mid layui-word-aux"> </div>

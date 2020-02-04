@@ -1,12 +1,13 @@
 use std::collections::HashMap;
 use std::fmt::Debug;
-use fluffy::{ tmpl::Tpl, response, model::Model, model::Db, data_set::DataSet, db, cond_builder::CondBuilder, datetime,};
+use fluffy::{ tmpl::Tpl, response, model::Model, model::Db, data_set::DataSet, db, cond_builder::CondBuilder, datetime};
 use crate::models::ModelBackend;
 use actix_web::{HttpResponse, web::{Path, Form}, HttpRequest};
 use crate::caches;
 use serde::ser::{Serialize};
 use actix_session::{Session};
 use crate::common::Acl;
+use percent_encoding::{percent_decode};
 //use regex::Regex;
 
 //lazy_static! { 
@@ -34,7 +35,8 @@ pub trait Controller {
             let field = c.0;
             let sign = c.1;
             if let Some(value) = queries.get(field) {
-                let real_value = value.trim();
+                let value_bytes = value.trim().as_bytes();
+                let real_value = if let Ok(v) = percent_decode(value_bytes).decode_utf8() { v } else { continue; };
                 if real_value == "" { 
                     continue;
                 }
@@ -121,7 +123,9 @@ pub trait Controller {
             //        continue;
             //    } 
             //}
-            data.insert(key.to_owned(), &value.to_string());
+            let value_bytes = value.as_bytes();
+            let real_value = if let Ok(v) = percent_decode(value_bytes).decode_utf8() { v } else { continue; };
+            data.insert(key.to_owned(), &real_value);
         }
         Self::index_after(&mut data);
         let view_file = &format!("{}/index.html", controller_name);

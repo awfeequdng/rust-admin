@@ -20,16 +20,25 @@
     </div>
 {% endmacro number -%}
 
-{% macro remark(value="", required=false, length=380) -%}
+{% macro remark(value="", required=false) -%}
     <div class="layui-form-item">
         <label for="remark" class="layui-form-label"> {% if required %}<span class="x-red">*</span>{% endif %} 备注: </label>
         <div class="layui-input-inline">
-            <input style="width: {{length}}px" type="text" id="remark" name="remark" required="" {% if required %}lay-verify="{{name}}"{% endif %} 
-                placeholder="请输入备注" autocomplete="off" class="layui-input" value="{{ value }}" />
+            <textarea class="layui-textarea" placeholder="请输入备注" id="remark" name="remark" {% if required %}lay-verify="{{name}}"{% endif %}>{{value}}</textarea>
         </div>
         <div class="layui-form-mid layui-word-aux"> </div>
     </div>
 {% endmacro remark -%}
+
+{% macro textarea(name, title, value="", required=false) -%}
+    <div class="layui-form-item">
+        <label for="{{name}}" class="layui-form-label"> {% if required %}<span class="x-red">*</span>{% endif %} 备注: </label>
+        <div class="layui-input-inline">
+            <textarea class="layui-textarea" placeholder="请输入{{title}}" id="{{name}}" name="{{name}}" {% if required %}lay-verify="{{name}}"{% endif %}>{{value}}</textarea>
+        </div>
+        <div class="layui-form-mid layui-word-aux"> </div>
+    </div>
+{% endmacro textarea -%}
 
 {% macro password(name, title, required=true, note="") -%}
     <div class="layui-form-item">

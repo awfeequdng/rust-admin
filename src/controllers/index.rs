@@ -299,8 +299,13 @@ impl Index {
         HttpResponse::Ok().json(result)
     }
 
+    /// 上传文件: 图片
+    pub async fn upload_images(payload: Multipart) -> HttpResponse { 
+       Self::upload_files(&config::UPLOAD_IMAGE_TYPES, payload).await
+    }
+
     /// 上传文件
-    pub async fn upload(mut payload: Multipart) -> HttpResponse { 
+    async fn upload_files(file_types: &[&str],  mut payload: Multipart) -> HttpResponse { 
         let upload_result = |code: u32, message: &str, path: &str| { 
             let result = UploadResult{code: code as usize, message, path};
             HttpResponse::Ok().json(result)
@@ -319,7 +324,7 @@ impl Index {
             let file_type = mime.type_().as_str();
             let file_ext = mime.subtype().as_str();
             let file_mine = format!("{}/{}", file_type, file_ext);
-            if !config::UPLOAD_IMAGE_TYPES.contains(&file_mine.as_str()) { 
+            if !file_types.contains(&file_mine.as_str()) { 
                 return upload_error(4011, "上传的不是合法的图片文件");
             }
 

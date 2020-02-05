@@ -35,7 +35,7 @@
             <td>{{r.id}}</td>
             <td>{{r.title}}</td>
             <td>{{r.remark}}</td>
-            <td>{{r.cover_image}}</td>
+            <td><a href="#" link="{{r.cover_image}}" class="record-img" style="color: blue">点击查看</a></td>
             <td>{{r.duration}}</td>
             <td>{{r.seq}}</td>
             <td>{{r.state|state_name}}</td>
@@ -47,4 +47,14 @@
         </tbody>
     </thead>
     </table>
+<script>
+layui.use(['jquery'], function() { 
+    var $ = layui.jquery;
+    $(".record-img").click(function() { // 显示图片
+        var that = $(this);
+        var img_url = that.attr("link");
+        xadmin.open('图片路径: ' + img_url, img_url);
+    });
+});
+</script>
 {% endblock content -%}

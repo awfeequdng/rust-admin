@@ -32,7 +32,7 @@
 
 {% macro textarea(name, title, value="", required=false) -%}
     <div class="layui-form-item">
-        <label for="{{name}}" class="layui-form-label"> {% if required %}<span class="x-red">*</span>{% endif %} 备注: </label>
+        <label for="{{name}}" class="layui-form-label"> {% if required %}<span class="x-red">*</span>{% endif %} {{title}}: </label>
         <div class="layui-input-block">
             <textarea class="layui-textarea" placeholder="请输入{{title}}" id="{{name}}" name="{{name}}" {% if required %}lay-verify="{{name}}"{% endif %}>{{value}}</textarea>
         </div>

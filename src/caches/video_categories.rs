@@ -1,9 +1,10 @@
+use std::collections::HashMap;
 use std::sync::Mutex;
 use fluffy::{db, model::Model};
-use crate::models::{VideoCategories, VideoCategoryCacheItem as Item};
+use crate::models::{VideoCategories};
 
 lazy_static! { 
-    pub static ref VIDEO_CATEGORIES: Mutex<Vec<Item>> = { 
+    pub static ref VIDEO_CATEGORIES: Mutex<HashMap<usize, String>> = { 
         let rows = get_cache_items();
         Mutex::new(rows)
     };
@@ -18,16 +19,16 @@ fn refresh() {
 }
 
 /// 得到所有的视频分类
-fn get_cache_items() -> Vec<Item> { 
+fn get_cache_items() -> HashMap<usize, String> { 
     let mut conn = db::get_conn();
     let query = query![
         fields => "id, name",
     ];
-    let mut list = vec![];
+    let mut list = HashMap::new();
     let rows = VideoCategories::fetch_rows(&mut conn, &query, None);
     for r in rows { 
         let (id, name): (usize, String) = from_row!(r);
-        list.push(Item{ id, name});
+        list.insert(id, name);
     }
     list
 }

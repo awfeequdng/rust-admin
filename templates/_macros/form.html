@@ -82,7 +82,7 @@
         <div class="layui-input-inline">
             <select name="{{name}}" lay-verify="required">
                 {% for key, val in data %}
-                <option value="{{key}}" {% if value == val %}selected="selected"{% endif %}>{{val}}</option>
+                <option value="{{key}}" {% if key == value %}selected="selected"{% endif %}>{{val}}-{{value}}-{{key}}</option>
                 {% endfor -%}
             </select>
         </div>
@@ -129,17 +129,33 @@
     </script>
 {% endmacro file -%}
 
-{% macro checkbox(name, title, list, value="") -%}
+{% macro checkboxes(name, title, data, value="") -%}
 <div class="layui-form-item">
     <label for="{{name}}" class="layui-form-label"> <span class="x-red">*</span>{{title}}: </label>
     <div class="layui-input-inline" style="width: 380px;">
-        {% set checkbox_ids = "," ~ value ~ "," %}
-        {% for item in list -%}
-        {% set checkbox_id = "," ~ item.id ~ "," %}
-        <input type="checkbox" class="check_{{name}}" name="check_{{name}}_{{item.id}}" value="{{item.id}}" {% if check_id is containing(check_ids) %}checked="checked"{% endif %} />
+        {% set check_ids = "," ~ value ~ "," %}
+        {% for key, val in data -%}
+        {% set check_id = "," ~ key ~ "," %}
+        <input type="checkbox" class="check_{{name}}" name="check_{{name}}_{{key}}" value="{{key}}" title="{{val}}" {% if check_ids is containing(check_id) %}checked="checked"{% endif %} />
         {% endfor -%}
     </div>
     <input type="hidden" value="{{value}}" name="{{name}}" id="{{name}}" />
     <div class="layui-form-mid layui-word-aux"> </div>
 </div>
-{% endmacro checkbox -%}
+<script>
+layui.use(['jquery', 'form'], function() { 
+    var $ = layui.jquery, form = layui.form;
+    form.on('checkbox', function(obj) { 
+        var ids = new Array();
+        $(".check_{{name}}").each(function() { 
+            var that = $(this);
+            var checked = that.is(":checked");
+            if (checked) { 
+                ids.push(that.val());
+            }
+        });
+        $("#{{name}}").val(ids.toString());
+    });
+});
+</script>
+{% endmacro checkboxes -%}

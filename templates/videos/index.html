@@ -9,7 +9,7 @@
 {% endblock search -%}
 
 {% block options -%}
-{{option::delete_all()}} {{option::add(height=600)}}
+{{option::delete_all()}} {{option::add(height=550)}}
 {% endblock options -%}
 
 {% block content -%}
@@ -41,7 +41,7 @@
             <td>{{r.state|state_name}}</td>
             <td>{{r.created|date(format="%Y-%m-%d %H:%M")}}</td>
             <td>{{r.updated|date(format="%Y-%m-%d %H:%M")}}</td>
-            <td class="td-manage"> {{option::update(id=r.id, height=500)}} | {{option::delete(id=r.id)}} </td>
+            <td class="td-manage"> {{option::update(id=r.id, height=550)}} | {{option::delete(id=r.id)}} </td>
         </tr>
         {% endfor -%}
         </tbody>

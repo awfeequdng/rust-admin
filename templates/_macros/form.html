@@ -129,4 +129,17 @@
     </script>
 {% endmacro file -%}
 
-
+{% macro checkbox(name, title, list, value="") -%}
+<div class="layui-form-item">
+    <label for="{{name}}" class="layui-form-label"> <span class="x-red">*</span>{{title}}: </label>
+    <div class="layui-input-inline" style="width: 380px;">
+        {% set checkbox_ids = "," ~ value ~ "," %}
+        {% for item in list -%}
+        {% set checkbox_id = "," ~ item.id ~ "," %}
+        <input type="checkbox" class="check_{{name}}" name="check_{{name}}_{{item.id}}" value="{{item.id}}" {% if check_id is containing(check_ids) %}checked="checked"{% endif %} />
+        {% endfor -%}
+    </div>
+    <input type="hidden" value="{{value}}" name="{{name}}" id="{{name}}" />
+    <div class="layui-form-mid layui-word-aux"> </div>
+</div>
+{% endmacro checkbox -%}

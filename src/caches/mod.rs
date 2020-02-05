@@ -20,3 +20,5 @@ lazy_static! {
 pub mod menus;
 pub mod admin_roles;
 pub mod ads;
+pub mod video_categories;
+pub mod video_tags;

@@ -12,6 +12,12 @@ pub struct VideoTags {
     pub seq: isize,
 }
 
+#[derive(Default, Debug, Serialize)]
+pub struct VideoTagCacheItem { 
+    pub id: usize,
+    pub name: String,
+}
+
 impl Model for VideoTags { 
     fn get_table_name() -> &'static str { "video_tags" }
 }

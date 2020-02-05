@@ -12,6 +12,12 @@ pub struct VideoCategories {
     pub seq: isize,
 }
 
+#[derive(Default, Debug, Serialize)]
+pub struct VideoCategoryCacheItem { 
+    pub id: usize,
+    pub name: String,
+}
+
 impl Model for VideoCategories { 
     fn get_table_name() -> &'static str { "video_categories" }
 }

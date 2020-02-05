@@ -32,7 +32,7 @@ pub const LOGIN_ERROR_MAX: usize = 1000;
 pub const LOGIN_LOCKED_TIME: usize = 3600;
 
 /// 允许上传的图片类型
-pub const UPLOAD_IMAGE_TYPES: [&'static str; 5] = ["image/jpg", "image/png", "image/jpeg", "image/bmp", "image/gif"];
+pub const UPLOAD_IMAGE_TYPES: [&'static str; 6] = ["image/jpg", "image/png", "image/jpeg", "image/bmp", "image/gif", "image/webp"];
 
 /// 绑定主机/端口
 #[derive(Deserialize, Default, Debug)]

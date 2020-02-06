@@ -4,6 +4,7 @@
 <script type="text/javascript" src="/static/js/aliyun-oss-sdk.min.js"></script>
 {{ form::input(name="title", title="标题/名称", value=row.title) }}
 {{ form::textarea(name="remark", title="备注/副题", value=row.remark) }}
+{{ form::list(name="author_id", title="视频作者", data=authors, value=row.author_id) }}
 {{ form::list(name="category_id", title="视频分类", data=categories, value=row.category_id) }}
 {{ form::checkboxes(name="tag_ids", title="视频标签", data=tags, value=row.tag_ids) }}
 {{ form::file(name="cover_image", title="封面图片", value=row.cover_image, length=380) }}

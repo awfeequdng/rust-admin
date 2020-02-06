@@ -11,10 +11,8 @@ lazy_static! {
 }
 
 /// 刷新缓存
-#[allow(dead_code)]
-fn refresh() { 
+pub fn refresh() { 
     let mut list = VIDEO_TAGS.lock().unwrap();
-    //(*list).clear();
     *list = get_cache_items();
 }
 
@@ -33,3 +31,5 @@ fn get_cache_items() -> HashMap<usize, String> {
     }
     list
 }
+
+

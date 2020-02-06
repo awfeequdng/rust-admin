@@ -25,7 +25,6 @@
             <th>时长(秒)</th>
             <th>排序</th>
             <th>状态</th>
-            <th>添加时间</th>
             <th>最后更新</th>
             <th>操作</th>
         </tr>
@@ -41,7 +40,6 @@
             <td>{{r.duration}}</td>
             <td>{{r.seq}}</td>
             <td>{{r.state|state_name}}</td>
-            <td>{{r.created|date(format="%Y-%m-%d %H:%M")}}</td>
             <td>{{r.updated|date(format="%Y-%m-%d %H:%M")}}</td>
             <td class="td-manage"> {{option::update(id=r.id, height=550)}} | {{option::delete(id=r.id)}} </td>
         </tr>

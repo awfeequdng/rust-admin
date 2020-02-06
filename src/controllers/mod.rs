@@ -155,7 +155,7 @@ pub trait Controller {
         let button_text = if is_update { "保存记录" } else { "添加记录" };
         let mut data = tmpl_data![
             "controller_name" => controller_name,
-            "row" => dbg!(&row),
+            "row" => &row,
             "button_text" => button_text,
             "id" => &id,
         ];

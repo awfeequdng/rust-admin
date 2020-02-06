@@ -15,10 +15,10 @@ pub struct Videos {
     pub state: u32,
     pub created: u32, 
     pub updated: u32,
-    pub content: String,
     pub category_id: usize,
     pub tag_ids: String,
     pub author_id: usize,
+    pub url: String,
 }
 
 impl Model for Videos { 
@@ -33,13 +33,14 @@ impl ModelBackend for Videos {
         title => String,
         remark => String,
         cover_image => String,
-        duration => u32,
+        url => String,
+        tag_ids => String,
         seq => isize,
+        duration => u32,
         state => u32,
-        created => u32,
+        //created => u32,
         updated => u32,
         category_id => usize,
-        tag_ids => String,
         author_id => usize,
     ]);
 

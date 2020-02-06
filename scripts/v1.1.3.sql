@@ -1,17 +1,14 @@
-ALTER TABLE videos ADD COLUMN category_id INT UNSIGNED DEFAULT 0 COMMENT '分类编号';
-ALTER TABLE videos ADD COLUMN tag_ids VARCHAR(500) NOT NULL DEFAULT '' COMMENT '标签编号';
-
 /** 视频作者 **/
 DROP TABLE IF EXISTS video_authors;
 CREATE TABLE IF NOT EXISTS video_authors (
     id INT UNSIGNED NOT NULL AUTO_INCREMENT,
     name VARCHAR(20) NOT NULL DEFAULT '' COMMENT '名称',
-    remark VARCHAR(100) NOT NULL DEFAULT '' COMMENT '备注',
+    remark VARCHAR(500) NOT NULL DEFAULT '' COMMENT '备注',
     seq INT NOT NULL DEFAULT 0 COMMENT '排序',
     PRIMARY KEY(id)
 ) ENGINE=INNODB ENGINE=INNODB DEFAULT CHARSET=UTF8 COLLATE=UTF8_GENERAL_CI;
 INSERT INTO video_authors (name, remark) VALUES 
-('默认', '本站默认作者');
+('默认', '默认');
 
 /** 添加菜单选项 **/
 set @parent_id = 2; /* 内容管理 */

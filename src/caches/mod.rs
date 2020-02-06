@@ -22,3 +22,4 @@ pub mod admin_roles;
 pub mod ads;
 pub mod video_categories;
 pub mod video_tags;
+pub mod video_authors;

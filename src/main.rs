@@ -31,6 +31,7 @@ use controllers::{
     ads::Ads,
     navs::Navs,
     configs::Configs,
+    video_authors::VideoAuthors,
 };
 
 #[actix_rt::main]
@@ -112,6 +113,11 @@ async fn main() -> std::io::Result<()> {
             .service(get!("/video_tags/edit/{id}", VideoTags::edit))
             .service(post!("/video_tags/save/{id}", VideoTags::save))
             .service(get!("/video_tags/delete/{ids}", VideoTags::delete))
+            //视频作者
+            .service(get!("/video_authors", VideoAuthors::index))
+            .service(get!("/video_authors/edit/{id}", VideoAuthors::edit))
+            .service(post!("/video_authors/save/{id}", VideoAuthors::save))
+            .service(get!("/video_authors/delete/{ids}", VideoAuthors::delete))
             //用户等级
             .service(get!("/user_levels", UserLevels::index))
             .service(get!("/user_levels/edit/{id}", UserLevels::edit))

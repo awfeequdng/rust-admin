@@ -125,6 +125,7 @@ mod ads;
 mod index;
 mod navs;
 mod configs;
+mod video_authors;
 
 pub use admins::Admins;
 pub use menus::{Menus, MainMenu, SubMenu};
@@ -140,3 +141,4 @@ pub use ads::Ads;
 pub use index::Index;
 pub use navs::Navs;
 pub use configs::Configs;
+pub use video_authors::VideoAuthors;

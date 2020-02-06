@@ -260,3 +260,4 @@ pub mod watch_records;
 pub mod ads;
 pub mod navs;
 pub mod configs;
+pub mod video_authors;

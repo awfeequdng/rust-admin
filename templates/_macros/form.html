@@ -82,7 +82,8 @@
         <div class="layui-input-inline">
             <select name="{{name}}" lay-verify="required">
                 {% for key, val in data %}
-                <option value="{{key}}" {% if key == value %}selected="selected"{% endif %}>{{val}}-{{value}}-{{key}}</option>
+                {% set val_id = "" ~ value -%}
+                <option value="{{key}}" {% if val_id == key %}selected="selected"{% endif %}>{{val}}</option>
                 {% endfor -%}
             </select>
         </div>

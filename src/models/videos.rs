@@ -16,7 +16,7 @@ pub struct Videos {
     pub created: u32, 
     pub updated: u32,
     pub content: String,
-    pub category_id: usize,
+    pub category_id: isize,
     pub tag_ids: String,
 }
 
@@ -37,7 +37,7 @@ impl ModelBackend for Videos {
         state => u32,
         created => u32,
         updated => u32,
-        category_id => usize,
+        category_id => isize,
         tag_ids => String,
     ]);
 

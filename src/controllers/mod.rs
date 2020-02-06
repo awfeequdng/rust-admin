@@ -190,6 +190,7 @@ pub trait Controller {
         let mut conn = db::get_conn();
         let id = Self::M::create(&mut conn, &data);
         if id > 0 { 
+            Self::save_after();
             return response::ok();
         } 
         response::error("增加記錄失敗")
@@ -216,6 +217,7 @@ pub trait Controller {
         let cond = cond![ "id" => &id, ];
         let id = Self::M::update(&mut conn, &data, &cond);
         if id > 0 { 
+            Self::save_after();
             return response::ok();
         } 
         response::error("修改記錄失敗")

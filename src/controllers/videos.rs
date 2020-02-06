@@ -1,7 +1,7 @@
 use crate::models::Videos as ThisModel;
 use super::Controller;
 use crate::config;
-use crate::caches::{video_categories, video_tags};
+use crate::caches::{video_categories, video_tags, video_authors};
 
 pub struct Videos { }
 
@@ -21,6 +21,9 @@ impl Controller for Videos {
 
         let tags = &*video_tags::VIDEO_TAGS;
         data.insert("tags", &tags);
+
+        let authors = &*video_authors::VIDEO_AUTHORS;
+        data.insert("authors", &authors);
     }
 
     fn get_query_cond() -> Vec<(&'static str, &'static str)> { 

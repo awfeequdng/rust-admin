@@ -83,6 +83,7 @@ INSERT INTO menus (parent_id, name, level_id, state, url, is_show) VALUES
 (2, '广告管理编辑', 1, 1, '/ads/edit/\\d+|/ads/save/\\d+', 0),
 (2, '广告管理删除', 1, 1, '/ads/delete/\\d+', 0);
 
+
 /** 角色管理 **/
 DROP TABLE IF EXISTS admin_roles;
 CREATE TABLE IF NOT EXISTS admin_roles (

@@ -32,3 +32,5 @@ pub fn yes_no<'r, 's>(val: &'r Value, _data: &'s HashMap<String, Value>) -> Resu
 pub mod menus;
 pub mod admin_roles;
 pub mod ads;
+pub mod video_tags;
+pub mod video_authors;

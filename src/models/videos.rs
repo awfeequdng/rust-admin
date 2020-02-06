@@ -16,8 +16,9 @@ pub struct Videos {
     pub created: u32, 
     pub updated: u32,
     pub content: String,
-    pub category_id: isize,
+    pub category_id: usize,
     pub tag_ids: String,
+    pub author_id: usize,
 }
 
 impl Model for Videos { 
@@ -37,8 +38,9 @@ impl ModelBackend for Videos {
         state => u32,
         created => u32,
         updated => u32,
-        category_id => isize,
+        category_id => usize,
         tag_ids => String,
+        author_id => usize,
     ]);
 
     fn validate(data: &HashMap<String, String>) -> Result<(), String> { 

@@ -57,6 +57,8 @@ async fn main() -> std::io::Result<()> {
         tpl.register_filter("yes_no", filters::yes_no);
         tpl.register_filter("admin_role", filters::admin_roles::role_name);
         tpl.register_filter("position_name", filters::ads::position_name);
+        tpl.register_filter("tag_name", filters::video_tags::tag_name);
+        tpl.register_filter("author_name", filters::video_authors::author_name);
 
         //let generated = generate();
         
